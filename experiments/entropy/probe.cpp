@@ -1,6 +1,12 @@
 #include "rans.hpp"
 #ifdef CNG_MATCH
-#ifdef CNG_SPLIT_MATCH
+#if defined(CNG_EVENT_PARTITIONED)
+#include "match_event_partitioned.hpp"
+#elif defined(CNG_EVENT_COMPACT)
+#include "match_event_compact_backend.hpp"
+#elif defined(CNG_EVENT_BACKEND)
+#include "match_event_backend.hpp"
+#elif defined(CNG_SPLIT_MATCH)
 #include "match_split.hpp"
 #else
 #include "match_huffman.hpp"

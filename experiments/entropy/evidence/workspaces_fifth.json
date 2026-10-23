@@ -1,0 +1,43 @@
+{
+  "scope": "Compiler sizeof caller workspaces; excludes input/output, coder stack, and harness.",
+  "variants": {
+    "baseline": {
+      "encoder_bytes": 459792,
+      "decoder_bytes": 131088,
+      "block_bytes": 131072,
+      "binary_sha256": "033324fdbdc51ff81df511e3ff517ef17c3a10faa89b13f768d2677a3f18eaba"
+    },
+    "event_backend": {
+      "encoder_bytes": 2076920,
+      "decoder_bytes": 655364,
+      "block_bytes": 131072,
+      "binary_sha256": "516e5733f57ddee44b5f9c6462225cd333e8ad2ddba6c6af9c796346e74dd1ed"
+    },
+    "event_small": {
+      "encoder_bytes": 1066600,
+      "decoder_bytes": 327692,
+      "block_bytes": 131072,
+      "binary_sha256": "c0677a580310268e3f2441a939d0c43e414dc8ccc61b8061e47ef5c8d695e39e"
+    },
+    "event_large": {
+      "encoder_bytes": 2066024,
+      "decoder_bytes": 655372,
+      "block_bytes": 262144,
+      "binary_sha256": "ab676ec7b862dbe5698b9a3629b81ae7162b380fb7e64fc4f6605187fb78a0b7"
+    },
+    "event_partitioned": {
+      "encoder_bytes": 2066536,
+      "decoder_bytes": 655372,
+      "block_bytes": 262144,
+      "binary_sha256": "100867ce5d38430724afba57a9d40de5cf10090b312ed6ac3fd5d3140124a4dc"
+    }
+  },
+  "source_sha256": {
+    "workspace_info.cpp": "ae694b7a139445cf8ad78960910747ffa81809e2d56b879b385fc6d59dd5d2c3",
+    "match_huffman.hpp": "c7df5304da1f5f24eddd8ca27c382479eea2c4e6f5e32df18c63329629e729c2",
+    "match_event_backend.hpp": "3c44ba38e78f1539fbfaa18326c740c610bcca0a54d4ffb8f32c8f8a95b398ad",
+    "match_event_compact_backend.hpp": "30f9e5a27119b1bfb772b28f44334f5c271f2be8d87ed8d3b09f8fa5fcde509d",
+    "match_event_partitioned.hpp": "6b1cd7c9e7473349c273cd79fc6d655c20e57637f2dcbe44ffc09d2d5f5c83f2",
+    "match_events_bounded.hpp": "d2db162e267744f27024cecf717947009446195d242ab44854488532555abe97"
+  }
+}

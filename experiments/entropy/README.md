@@ -2,8 +2,9 @@
 
 This page records the first round. Continue with [direct events and paired
 Huffman coding](SECOND_ROUND.md), then [repetition and match cost](THIRD_ROUND.md)
-and [short matches and compact descriptions](FOURTH_ROUND.md) for the latest
-evidence, diagnostic replay and remaining work.
+[short matches and compact descriptions](FOURTH_ROUND.md), and
+[independent event parsing](FIFTH_ROUND.md) for the latest evidence and remaining
+work.
 
 The first experiment does **not** justify replacing Zstandard in the released
 codec. It establishes an independent coder, identifies the work it is missing,
