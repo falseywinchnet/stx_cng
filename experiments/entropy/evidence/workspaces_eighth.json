@@ -1,0 +1,22 @@
+{
+  "source_sha256": {
+    "experiments/entropy/workspace_info.cpp": "eb113cc9678a32195339f87c0f8ef4ea11ea6c17222fe65059bdd57bd3543973",
+    "experiments/entropy/match_candidates.hpp": "6f9a56518dcba0997316c0648bc480b39f737c6d2f5dce1fe7af730999fc3659",
+    "experiments/entropy/match_tagged.hpp": "f8d5375a02bb4ef453b6707b56eabe8969861fc9f90243a0c7abe86c020e041c",
+    "experiments/entropy/CMakeLists.txt": "d318f82d08ee6d2527857dbd3009e04d9ba2ab31d9eb60cccca72a8e76ecca04"
+  },
+  "workspaces": {
+    "two_candidates": {
+      "encoder_bytes": 525328,
+      "decoder_bytes": 131088,
+      "block_bytes": 131072,
+      "binary_sha256": "5b1a6611ea777986ff840252dac5ba0481d324aae91c9920f980eae1ab4de609"
+    },
+    "tagged": {
+      "encoder_bytes": 656400,
+      "decoder_bytes": 131088,
+      "block_bytes": 131072,
+      "binary_sha256": "9f4fbd0b56c54d86d226894b65b8534757acb7ec649f892660acdd583c75c1d4"
+    }
+  }
+}

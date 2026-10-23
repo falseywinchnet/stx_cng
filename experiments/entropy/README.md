@@ -177,3 +177,8 @@ The seventh round removes stored Huffman padding and simplifies short packets.
 It produces smaller or equal sizes on every retained frame and supplies the next
 candidate, while the full replacement remains unproven. See
 [SEVENTH_ROUND.md](SEVENTH_ROUND.md).
+
+The eighth round tests bounded candidate retention and exact prefix records.
+The tagged two-candidate index improves several structured cases while recovering
+most of the added search cost. See [EIGHTH_ROUND.md](EIGHTH_ROUND.md) for the next
+candidate, memory tradeoff and remaining gaps.

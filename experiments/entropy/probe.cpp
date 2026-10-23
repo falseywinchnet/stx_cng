@@ -1,6 +1,10 @@
 #include "rans.hpp"
 #ifdef CNG_MATCH
-#if defined(CNG_EVENT_PARTITIONED)
+#if defined(CNG_TAGGED)
+#include "match_tagged.hpp"
+#elif defined(CNG_CANDIDATES)
+#include "match_candidates.hpp"
+#elif defined(CNG_EVENT_PARTITIONED)
 #include "match_event_partitioned.hpp"
 #elif defined(CNG_EVENT_COMPACT)
 #include "match_event_compact_backend.hpp"
