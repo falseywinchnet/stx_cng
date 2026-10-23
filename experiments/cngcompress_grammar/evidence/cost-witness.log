@@ -1,0 +1,4 @@
+Fixed valid Huffman table: byte 0 length 1, byte 1 length 9
+Same-distance match costs: length 8 = 11 bits; length 9 = 19 bits
+Equal predecessor costs satisfy the covered-position premise, but the later length-8 match wins at their common endpoint.
+PASS: width-only dominance does not transfer, even with fixed code lengths

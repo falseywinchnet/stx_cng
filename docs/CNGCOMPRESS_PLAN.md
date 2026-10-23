@@ -67,3 +67,15 @@ decoder time at essentially equal size. Do not promote it. Prefix-width integers
 separated controls and the adjacent-query cost review remain outstanding; after
 those, compare the selected candidate with the released Zstandard decoder at
 complete-image scope to resolve the owner's conditional delivery requirement.
+
+The independent grammar trials are now measured at complete-frame scope. Prefix
+integers preserve LEB widths; splitting retains one Huffman table. Initial,
+repeat and explicit-width-reader runs show only sub-percent aggregate decode
+changes, while all variants add bytes and encode work. Splitting also adds
+131,088 bytes of encoder workspace and a literal copy. Retain the original
+grammar. The adjacent-query review demonstrates why zxc's width-only static
+cost dominance does not transfer to our Huffman-coded byte costs, and observes
+that the current greedy matcher already skips committed-match interiors. No
+parser change is selected. Next: fresh complete-image comparison of the retained
+candidate against the released Zstandard implementation, then resolve the
+conditional standalone/integration/publication step from that evidence.

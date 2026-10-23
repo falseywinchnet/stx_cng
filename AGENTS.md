@@ -128,3 +128,12 @@ small-input wins. Continue independent control-grammar experiments. The owner
 made standalone packaging, CNG integration and upload conditional on beating the
 current Zstandard-based decoder; resolve that condition with complete-image
 measurements, not primitive or packet timings.
+
+`experiments/cngcompress_grammar` tests prefix-width integers and separated control
+bytes independently and together, with the matcher and compact Huffman coder
+fixed. Three frame runs show sub-percent decode changes and small size/encode
+regressions; split controls add workspace and copying. Keep the original grammar.
+Its fixed-table cost witness rejects transferring zxc's width-only dominance
+premise to our byte-Huffman costs; it is not a complete input counterexample to
+zxc's differently priced parser. The next gate is complete-image comparison with
+the released Zstandard codec, not another packet-only acceptance claim.

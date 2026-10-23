@@ -1,0 +1,16 @@
+Compared 100 frames
+Compared 200 frames
+Compared 300 frames
+Compared 400 frames
+Compared 500 frames
+Compared 600 frames
+Compared 700 frames
+Compared 800 frames
+Compared 900 frames
+Compared 1000 frames
+Compared 1100 frames
+Compared 1200 frames
+Compared 1300 frames
+Compared 1400 frames
+PASS: 1413 frames, four grammars, five measured trials and warmup, exact inverses
+Baseline/prefix encoder bytes 656400 split encoder bytes 787488 decoder bytes 131088

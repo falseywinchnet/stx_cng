@@ -1,0 +1,2 @@
+PASS: 20 frames, four grammars, five measured trials and warmup, exact inverses
+Baseline/prefix encoder bytes 656400 split encoder bytes 787488 decoder bytes 131088
