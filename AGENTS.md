@@ -72,3 +72,15 @@ declare it an overall win. `experiments/parser_review` reviews the sibling's MTF
 continuation result, reproduces its native rANS order witness, and verifies exact
 Huffman packet counting on 2,953 retained packets. That count is a next-parser
 research building block, not a measured parser speed improvement.
+
+`experiments/parse_edits` records a bounded single-match-removal negative result:
+54,192 alternatives save only 0.005% of retained entropy-frame bytes. Do not
+promote that search or mistake its checked diagnostic timing for production work.
+`experiments/length_limited` replaces rounded Huffman populations with an exact
+package-merge construction for overlong trees. Its 222-image candidate saves
+109,611 bytes versus the preceding combined encoder, with no larger complete
+image in that corpus. Read its measured size/encode/decode limits before extending
+it. The owner accepted a separate investigation into total packet cost (length
+table plus independently padded streams); that result is pending. Keep the
+Zstandard replacement goal open, especially frequent size regressions and decode
+parity. These remain private CNE experiments, not a public format revision.

@@ -1,0 +1,37 @@
+{
+  "optimality_checks": 11264,
+  "packet_checks": 2953,
+  "match_cases": 432,
+  "independent_inverses": 414,
+  "binary_sha256": {
+    ".build/length-limited/check": "165d2ef42b3bbe9d45a76e9d97a296e286b12c0433efc901cdbe4b345a934daf",
+    ".build/length-limited/bounds": "d14770f450ef359a153a1908e70696281751946074072efa5609b094a2625afe",
+    ".build/length-limited/cng_whole_probe": "57134c979ddbdec369ad309d085522503cb81fa56c6170130584e85796e87994",
+    ".build/length-limited/cng_direct_comparison": "1d116bdd88fe58bb93ae352aff7788a998d4bdee0000b14e721875b29e0c94e7"
+  },
+  "vectors_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "packet_bundle_sha256": "a285f12249afc6185721682423853d91cfc027609ac25a125fab86724c0228d4",
+  "source_sha256": {
+    "experiments/length_limited/huffman_exact.cpp": "95bd330340017b8a683f82516594cbef8355bedb7ae445aab36d0adc0ffd362b",
+    "experiments/length_limited/run.py": "f45d94d04e4fecc2f45655a0b3e28e915250660baa586a60e13325a001b6b917",
+    "experiments/length_limited/package_merge.hpp": "39cd75345885a595303844de7c0c2fe4a98db3954d47489ecf4cadc69140d2dc",
+    "experiments/length_limited/CMakeLists.txt": "d5bec4e3cc101200313e601f608bc0efdce10ac61b6026de0b4da45703817d44",
+    "experiments/length_limited/verify.py": "0e0d1cb2fae576ce2595e682a04880f6cc1e42f568323fb6816f3ab8e22b55b8",
+    "experiments/length_limited/check.cpp": "cc8f9ff75c39ffcfd6dc021771e599fcc6f21297f455d696984c5a570aa3b6cc",
+    "experiments/length_limited/compare.py": "13bc197d2e44673626c559b9583319c28399671b2bea10185422a27aa9245911",
+    "experiments/length_limited/build_comparison.sh": "2551d210dca3f5f757f1aeb6005887c1fe3cf0ef1da93ee7baef499e999f8649",
+    "experiments/whole_codec/match_bounded.cpp": "c1eee092381eb43561b66171bfc719d194264114829086e229385c644a8748bf",
+    "experiments/whole_codec/match_bounded.hpp": "acbbc861a21014fa2a80038bbe51f4b97b58721826496aaa4b632bfa9a4f892b",
+    "experiments/entropy_reduction/huffman_reduced.cpp": "f6fd4e3f2aa0a3fe8f2dedb0cb953bf339ebb759e16c52d2004c8bba41c9eefc",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0"
+  },
+  "evidence_sha256": {
+    "packets.csv.gz": "ceadae4268435616f9daf7eec29b479b4433fea62d8877ec04bbbed6b6c1e44c",
+    "corpus.json.gz": "e7c665a20e6cc13c46f80ff3529a3f38c6c072c8f5e1128669b5f18fbd1489a4",
+    "direct.json.gz": "ca5d9450145144adddbcb50a72afcdc118e4e6cf87ead8c853abd602cf574258"
+  },
+  "base_commit": "ffba85375a9018138cb891ba18f4989e7003d4cb",
+  "compiler": "non-Apple Clang 23.1.2, -O3 -DNDEBUG -std=c++20",
+  "execution_cpu": "Apple A18 Pro"
+}
