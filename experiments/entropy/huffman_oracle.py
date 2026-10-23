@@ -12,11 +12,40 @@ def inverse(packet):
     if mode == 4:
         assert len(packet) == 6 and size
         return bytes([packet[5]]) * size
-    assert mode == 7
+    assert mode in (7, 28)
     lengths = []
-    for value in packet[5:133]:
-        lengths.append(value & 15)
-        lengths.append(value >> 4)
+    table_end = 133
+    if mode == 7:
+        for value in packet[5:133]:
+            lengths.append(value & 15)
+            lengths.append(value >> 4)
+    else:
+        nibbles = []
+        for value in packet[5:133]:
+            nibbles.extend((value & 15, value >> 4))
+        cursor = 0
+        previous = 0
+        while len(lengths) < 256:
+            token = nibbles[cursor]
+            cursor += 1
+            if token <= 12:
+                lengths.append(token)
+                previous = token
+                continue
+            assert token in (14, 15)
+            count = nibbles[cursor]
+            cursor += 1
+            if token == 15:
+                count += 16 * nibbles[cursor]
+                cursor += 1
+                count += 19
+            else:
+                count += 3
+            lengths.extend([previous] * count)
+        assert len(lengths) == 256 and cursor <= 256
+        if cursor % 2:
+            assert nibbles[cursor] == 0
+        table_end = 5 + (cursor + 1) // 2
     counts = [0] * 13
     for length in lengths:
         if length:
@@ -31,8 +60,8 @@ def inverse(packet):
         if length:
             lookup[(length, next_code[length])] = symbol
             next_code[length] += 1
-    stream_sizes = struct.unpack_from('<4I', packet, 133)
-    position = 149
+    stream_sizes = struct.unpack_from('<4I', packet, table_end)
+    position = table_end + 16
     output = bytearray()
     for lane, stream_size in enumerate(stream_sizes):
         stream = packet[position:position + stream_size]

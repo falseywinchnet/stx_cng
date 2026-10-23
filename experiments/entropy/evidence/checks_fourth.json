@@ -1,0 +1,74 @@
+{
+  "scope": "Ordinary valid-input checks; no automated memory integrity review.",
+  "execution_cpu": "Apple A18 Pro",
+  "checks": [
+    {
+      "binary": "cng_entropy_checks_table",
+      "vectors": "table_vectors.bin",
+      "oracle": "match_oracle.py",
+      "native_cases": 432,
+      "independent_cases": 414,
+      "result": "PASS",
+      "binary_sha256": "6bda00f0edeafe42e1dfd8b2ff802c50f3641f60e870fae348179fccc663e7c5",
+      "vectors_sha256": "f8f1313e5408d8e6c5b50d3a90eb6db1457ad5acd4cfc333f28dc6fc17e71e06"
+    },
+    {
+      "binary": "cng_table_model_checks",
+      "vectors": "table_model_vectors.bin",
+      "oracle": "table_model_oracle.py",
+      "native_cases": 43434,
+      "independent_cases": 43434,
+      "result": "PASS",
+      "binary_sha256": "87072053b7adeae95794657feee29d1df84efd1abef1f6f5c63d2bc1ab047355",
+      "vectors_sha256": "a186b0b8c9a1c19efac97335380521e5bb17f09e9dc153843b2bc02b59d91dd9"
+    },
+    {
+      "binary": "cng_match_event_checks",
+      "vectors": "match_event_60_vectors.bin",
+      "oracle": "match_event_oracle.py",
+      "native_cases": 60,
+      "independent_cases": 60,
+      "result": "PASS",
+      "binary_sha256": "99efbd277c81b450c7cf5978a22f39559496451897556e3e4dddacd9325bc530",
+      "vectors_sha256": "47982814899d0e63b2e3d5f9f83536a86bc7a9cd4bca479356dca154311b2fc7"
+    },
+    {
+      "binary": "cng_match_event_packed_checks",
+      "vectors": "match_event_packed_60_vectors.bin",
+      "oracle": "match_event_oracle.py",
+      "native_cases": 60,
+      "independent_cases": 60,
+      "result": "PASS",
+      "binary_sha256": "ae635a19eb630cb585ec3c91994760e9aab8b0dd614663b59eb3eb9895737a3f",
+      "vectors_sha256": "743f6906eac6366d8ebc93dc11abf1d25ad90cbe675de2a22d31e232f6bda69e"
+    },
+    {
+      "binary": "cng_match_event_recent_checks",
+      "vectors": "match_event_recent_vectors.bin",
+      "oracle": "match_event_oracle.py",
+      "native_cases": 60,
+      "independent_cases": 60,
+      "result": "PASS",
+      "binary_sha256": "34ea1f90481d9bbddc1e87fed520ce59f54cd16f6667135f4ad84414e14d0d92",
+      "vectors_sha256": "e8f5db6662f6a0bd9e5a2ee9527661c3932fa1ac741095d8d54f3cfe381942e3"
+    }
+  ],
+  "source_sha256": {
+    "match_checks.cpp": "80539beef909329086549ceb61f1154ff99a45b448a807503d68b008139b90b8",
+    "match_history.cpp": "a7b3905d1d6e6c5383e670ff2136fc118d583d3328919a886f208928c925b504",
+    "match_huffman.hpp": "c7df5304da1f5f24eddd8ca27c382479eea2c4e6f5e32df18c63329629e729c2",
+    "match_oracle.py": "cebbdc741dd8116a404fe3ce9c68a19aa77eb38711f777dc35eb71ec54ab5d77",
+    "huffman_compact_table.cpp": "925901d62d2009a20a141175abacd97a3058ee4f716f52e7dfd380311769b860",
+    "huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "huffman_oracle.py": "e48470ef81d0c26e4e7745947966d0a37743e67b7382f23a39e2bdd68b6bfccf",
+    "rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0",
+    "table_model_checks.cpp": "05dec1f0f11dfc66825dbfc8127852a7bd56b4dbcaafc779566f79b19d2f2693",
+    "table_model_oracle.py": "6ba9792eb656e8d512f505987dd1f20a594644156896701a66c3c18160b7e569",
+    "match_event_checks.cpp": "ad355757d64ee1c8f082e57ad5b6b5acee3d3362b76634785e53cdcf544cd9d8",
+    "match_event_oracle.py": "09cc6839374e706b1d6e0ff6fca0e0b59186c52569b900068f5e9900a016d2e5",
+    "match_events.hpp": "b47a9bfd7e5d5e287facb454042ac0290187e7dcfd83af0f7e2e091e11896df7",
+    "match_events.cpp": "77511f47a60507205ee1df05472f63753a4fa435d80d0d351f61418946d5ffd8",
+    "match_events_packed.cpp": "a5909d73f40eb005fd87b5c92135f803baaa4e67861609c7bd2fc39170fa3ca2",
+    "match_events_recent.cpp": "a4c1d97003b2679d030cfe0c6de2db159dd2c07565b6a33065c8913e64933057"
+  }
+}
