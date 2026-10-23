@@ -98,3 +98,13 @@ packet-cost scorer and bounded length edits. Two passes save only 1,827 bytes fr
 167.7 MB of retained compressed packets and add material search work. Preserve it
 as a negative implementation experiment, retaining the exact objective and lower
 bound for future parser research. It is not part of the working encoder.
+
+`experiments/zxc_comparison` pins zxc 0.15.0 and records frame, noise/repetition,
+and equal-code Huffman comparisons. Level 7 decodes retained frames faster but
+encodes much slower and stores more bytes. PivCo with NEON wins the isolated
+layout comparison; disabling explicit SIMD loses badly. Preserve that portability
+limit, extra workspace and small-table overhead. The owner's intent includes
+selectively improving our codec from the reference's ideas, not only evaluating
+replacement. Keep the existing matcher and compact headers while investigating
+portable bulk merges and simpler control decoding; no new public modes or runtime
+dependency are implied. These are not whole-image comparison measurements.

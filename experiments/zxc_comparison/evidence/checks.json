@@ -1,0 +1,54 @@
+{
+  "execution_cpu": "Apple A18 Pro",
+  "build_host": "M4 selected with m4host/m4build",
+  "compiler": "non-Apple LLVM 23.1.2",
+  "zxc_commit": "2d29ab6fdf0e935781d287dd1ec2bf41d32a3df6",
+  "zstd_version": "1.5.7",
+  "frame_trials": 3,
+  "layout_trials": 7,
+  "memory_review_initiated": false,
+  "source_sha256": {
+    "experiments/zxc_comparison/verify_source.py": "5fce99a0cd8e851262bb16b530522f974553bc3868159e055fb7218ea13f2667",
+    "experiments/zxc_comparison/CMakeLists.txt": "bc538e985a3727b5544f4ef0dbdce669079a49c3ed02568126bca27e27602aa4",
+    "experiments/zxc_comparison/extract_controls.py": "27eaaad8e004632fbf1b5a4f68e48311fe7242586235ee02818b6032f0c1dc83",
+    "experiments/zxc_comparison/huffman_bridge.c": "124e09926478545491b659951b6780e51df167ecb13c393646c3196b634ef3c8",
+    "experiments/zxc_comparison/probe.cpp": "ff0b68375c0f1ab87a19e335c9d3e51bc0ea2538cf5a61aec8be6d38d0a43f66",
+    "experiments/zxc_comparison/README.md": "db43993e07528b2d3bc9817abfca2d2bba4aefa13b43fb1ddcc43a91143bdf7e",
+    "experiments/zxc_comparison/build.sh": "3416bd95ce43f604cc500df68d2933916dd696f65c4517853f2eeacb7b7564ba",
+    "experiments/zxc_comparison/pin.json": "ffdf40cc601aa53c8c9bd9688630528edde9f9db9fdfbc75c63fa7e4e4ecc4a4",
+    "experiments/zxc_comparison/huffman_bridge.h": "58b59b612ab07bc7c3668581babf6eaf489fbf91275d60afc260aa74ca5abbfb",
+    "experiments/zxc_comparison/huffman.cpp": "4da4272dd65361da5c2a8a1aabee375ba049b925122c83c9618917b42114404b",
+    "experiments/zxc_comparison/verify.py": "398eefe26758ed47a0d75bba42253ac86feec6646d8c46ec80cb5eae2907e376",
+    "experiments/whole_codec/match_bounded.cpp": "c1eee092381eb43561b66171bfc719d194264114829086e229385c644a8748bf",
+    "experiments/whole_codec/match_bounded.hpp": "acbbc861a21014fa2a80038bbe51f4b97b58721826496aaa4b632bfa9a4f892b",
+    "experiments/decode_tables/huffman_batch.cpp": "9e20bdb24444eb72621fb6efb2e4a1ad518312100f8972da1a2f436302c228de",
+    "experiments/length_limited/huffman_exact.cpp": "95bd330340017b8a683f82516594cbef8355bedb7ae445aab36d0adc0ffd362b",
+    "experiments/length_limited/package_merge.hpp": "39cd75345885a595303844de7c0c2fe4a98db3954d47489ecf4cadc69140d2dc",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0"
+  },
+  "evidence_sha256": {
+    "controls.log": "e96d96fde5177db1ab24b2b950436183daf5d54dba64e11effac25739fd4586f",
+    "frame_manifest.json.gz": "a67b479ee7990f5d4551220356e188122eb727f15f5bbde89489dd53902dedcc",
+    "huffman-no-intrinsics.csv.gz": "c2f2d1b8443b506a92712cef729f668e99816932b2334594bbf7bb0fd7a6cf94",
+    "run.log": "a09a697f69faa415ae888b5de02d428453e028bcebe8fab8ce0d976c9b4a33e1",
+    "packet_manifest.json.gz": "94d57d12a875c3dc6e9f53c7959f17c6cce961c14ef4f539e24f668121ee031a",
+    "huffman-no-intrinsics.log": "28c5c03001da67b7d12e293b4c8c1de5c13a0490f70f4453133ef076309f3730",
+    "huffman.csv.gz": "dca414f06b7a376cf3c53b4fdd4c5b689ddf179bce6697e0346ae270bce28c3b",
+    "huffman.log": "28c5c03001da67b7d12e293b4c8c1de5c13a0490f70f4453133ef076309f3730",
+    "frames.csv.gz": "87e09dde847471b38816e74d39367d9c927ec1759f47c17aaa63267554ed972e",
+    "controls.csv.gz": "7ce8d14df2606d326163e62e941f16aaffec66f50a011698f2772ff5ccd4080b",
+    "control_manifest.json.gz": "ad0d4ce17c95faca48e072307e8b557faa28218a4c27483432017e71e2571a05"
+  },
+  "binary_sha256": {
+    "compare": "379517112b083a1e0880e77b4b2e14b4ec3a31c72d5015e8dbc400de1697ba79",
+    "huffman": "bc2e53ffc25dcd2e6ce79cddb6eac8347dc7ca15b269f7ba01887dc56b577dab",
+    "huffman-no-intrinsics": "27c1d140cf274f43a4b4289fe5cd56e0c79e4b48375563f1b7927bb713962b27"
+  },
+  "completion_lines": {
+    "run.log": "PASS: 1413 frames, seven codecs, three measured trials and warmup, exact inverses",
+    "controls.log": "PASS: 20 frames, seven codecs, three measured trials and warmup, exact inverses",
+    "huffman.log": "PASS: 2953 common-code layout comparisons from 2953 packets",
+    "huffman-no-intrinsics.log": "PASS: 2953 common-code layout comparisons from 2953 packets"
+  }
+}

@@ -1,0 +1,7 @@
+PASS: 20 frames, seven codecs, three measured trials and warmup, exact inverses
+zxc level 1 static encoder bytes 1876672 static decoder bytes 1680512
+zxc level 3 static encoder bytes 1876672 static decoder bytes 1680512
+zxc level 5 static encoder bytes 1876672 static decoder bytes 1680512
+zxc level 6 static encoder bytes 6136768 static decoder bytes 1680512
+zxc level 7 static encoder bytes 6136768 static decoder bytes 1680512
+CNG encoder bytes 656400 decoder bytes 131088
