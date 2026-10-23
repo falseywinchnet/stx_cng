@@ -47,7 +47,7 @@ wire format. Build on the selected M4 host without installing dependencies:
 Serialize mirror sync and builds. Completed arm64 binaries may be copied back
 for A18 Pro measurements; record the execution CPU separately from the build
 host. The corpus runner refuses to overwrite reports. See
-`experiments/entropy/SECOND_ROUND.md` for the current candidate, preserved
+`experiments/entropy/THIRD_ROUND.md` for the current candidate, preserved
 negative results, exactness commands and the next algorithmic requirement.
 The study is not complete: small structured cases still lose severely and no
 whole-image replacement has passed the original goal. Never substitute corpus

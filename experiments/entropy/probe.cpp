@@ -1,4 +1,11 @@
 #include "rans.hpp"
+#ifdef CNG_MATCH
+#ifdef CNG_SPLIT_MATCH
+#include "match_split.hpp"
+#else
+#include "match_huffman.hpp"
+#endif
+#endif
 #ifdef CNG_EVENTS
 #include "events.hpp"
 #endif
@@ -125,6 +132,10 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
 #endif
     Bytes zstd(ZSTD_compressBound(raw.size()));
     Bytes decoded(raw.size());
+#ifdef CNG_MATCH
+    std::unique_ptr<cng_match_trial::EncodeWorkspace> match_encoder = std::make_unique<cng_match_trial::EncodeWorkspace>();
+    std::unique_ptr<cng_match_trial::DecodeWorkspace> match_decoder = std::make_unique<cng_match_trial::DecodeWorkspace>();
+#endif
     std::array<double, 7> own_encode{};
     std::array<double, 7> own_decode{};
     std::array<double, 7> zstd_encode{};
@@ -136,6 +147,9 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
             std::size_t kind = (trial + order) % 2;
             Clock::time_point start = Clock::now();
             if (kind == 0) {
+#ifdef CNG_MATCH
+                own_size = cng_match_trial::encode(raw, encoded, *match_encoder);
+#else
 #ifdef CNG_EVENTS
                 if (sequences) { own_size = cng_event_trial::encode(raw, encoded, event_scratch); } else
 #endif
@@ -146,6 +160,7 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
                 } else
 #endif
                 { own_size = cng_entropy_trial::encode(raw, encoded); }
+#endif
             }
             else {
                 zstd_size = ZSTD_compressCCtx(context.encoder, zstd.data(), zstd.size(), raw.data(), raw.size(), 3);
@@ -153,6 +168,9 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
             }
             Clock::time_point middle = Clock::now();
             if (kind == 0) {
+#ifdef CNG_MATCH
+                cng_match_trial::decode(std::span<const std::uint8_t>(encoded).first(own_size), decoded, *match_decoder);
+#else
 #ifdef CNG_EVENTS
                 if (sequences) { cng_event_trial::decode(std::span<const std::uint8_t>(encoded).first(own_size), decoded); } else
 #endif
@@ -169,6 +187,7 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
                 } else
 #endif
                 { cng_entropy_trial::decode(std::span<const std::uint8_t>(encoded).first(own_size), decoded); }
+#endif
             }
             else {
                 unpacked = ZSTD_decompressDCtx(context.decoder, decoded.data(), decoded.size(), zstd.data(), zstd_size);
