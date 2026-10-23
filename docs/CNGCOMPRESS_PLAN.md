@@ -42,40 +42,27 @@ experiment or benchmark win alone does not complete it.
 
 ## Current state
 
-The prior goal turn made progress: commit `68f28b9` pinned zxc and produced actual
-frame, noise/repetition and fixed-code layout measurements. Its NEON PivCo result
-is promising; the no-explicit-intrinsics result regresses. This motivates testing
-the primitive itself before assuming a portable implementation has the same gain.
+Steps 1–3 are measured and reviewed. The selected construction retains the
+bounded matcher, LEB128 interleaved tokens and compact exact-length Huffman table.
+Portable PivCo reconstruction loses at complete-packet scope. Prefix-width and
+separated-control trials produce only sub-percent decode changes while adding
+bytes/encode work; they are not selected. The adjacent-query cost review rejects
+transferring zxc's width-only dominance premise to fitted byte-Huffman costs.
 
-`experiments/cngcompress_bulk` now contains first-party portable merge candidates
-and a corpus-derived primitive comparison. This is step 2 in progress. It is not
-a complete entropy decoder and does not yet establish a replacement format.
-Prefix/control experiments, standalone packaging, integration and publication
-remain outstanding.
+`experiments/cngcompress_gate` verifies the current GitHub release and performs
+three fresh 222-image runs. The original candidate uses 7.2–8.3% less aggregate
+complete decode time; the selected short-table variant uses 8.0% less decode time
+and 0.84% fewer bytes. It preserves every candidate file byte. The short-table
+routine reduces a packed 64-glyph regression from 72–74 microseconds to
+19–25 microseconds per atlas. Both collection forms round-trip exactly through
+actual wrappers. Size regressions, composite timing variation and higher decoder
+workspace remain explicit in the gate report.
 
-The first primitive round is exact across 73,984 fixtures and 2,953 corpus
-preparations. Paired expansion takes 42.00% of the paired scalar merge time in
-the final run and produces common-width SIMD on both inspected targets. However,
-non-flat merges alone write 3.5333 bytes per source symbol. Full reconstruction,
-constant-child handling and flat decoding must be measured before selecting it.
-See the experiment README for all revisions, negative cases and traffic limits.
-
-The complete layout follow-up is now measured. It retains the compact table,
-uses n-byte decode scratch, collapses flat subtrees, and specializes constant
-children. The best tested complete variant takes 1.7145 times the current Huffman
-decoder time at essentially equal size. Do not promote it. Prefix-width integers,
-separated controls and the adjacent-query cost review remain outstanding; after
-those, compare the selected candidate with the released Zstandard decoder at
-complete-image scope to resolve the owner's conditional delivery requirement.
-
-The independent grammar trials are now measured at complete-frame scope. Prefix
-integers preserve LEB widths; splitting retains one Huffman table. Initial,
-repeat and explicit-width-reader runs show only sub-percent aggregate decode
-changes, while all variants add bytes and encode work. Splitting also adds
-131,088 bytes of encoder workspace and a literal copy. Retain the original
-grammar. The adjacent-query review demonstrates why zxc's width-only static
-cost dominance does not transfer to our Huffman-coded byte costs, and observes
-that the current greedy matcher already skips committed-match interiors. No
-parser change is selected. Next: fresh complete-image comparison of the retained
-candidate against the released Zstandard implementation, then resolve the
-conditional standalone/integration/publication step from that evidence.
+The owner's conditional performance threshold is met on the recorded corpus,
+not universally across images. Proceed with standalone **stx_cngcompress** using
+`experiments/cngcompress_gate/huffman_short.cpp` and the retained matcher as the
+engineering starting point. Steps 4–7 are still outstanding: public API and
+format/version contracts, standalone build/install/consumer evidence, final
+optimization checks, CNG integration with compatibility behavior, documentation
+and publication. This goal is active; the experimental wrapper is not shipping
+integration and the existing release remains unchanged.

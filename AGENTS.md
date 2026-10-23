@@ -137,3 +137,13 @@ Its fixed-table cost witness rejects transferring zxc's width-only dominance
 premise to our byte-Huffman costs; it is not a complete input counterexample to
 zxc's differently priced parser. The next gate is complete-image comparison with
 the released Zstandard codec, not another packet-only acceptance claim.
+
+`experiments/cngcompress_gate` records three complete 222-image comparisons with
+the current published main and actual packed/composite wrapper checks. The
+selected short-table variant retains bytes and reduces a small-glyph regression;
+its aggregate complete decode time is 0.919528 of release with size 0.991584.
+The owner's conditional performance threshold is met on this corpus. Proceed
+with standalone packaging and integration, preserving the documented individual
+regressions and memory limits. Use its `huffman_short.cpp` as the next engineering
+baseline; the original matcher and grammar remain selected. This experimental
+wrapper is not public integration and publication remains outstanding.
