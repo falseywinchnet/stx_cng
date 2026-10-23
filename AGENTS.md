@@ -108,3 +108,14 @@ selectively improving our codec from the reference's ideas, not only evaluating
 replacement. Keep the existing matcher and compact headers while investigating
 portable bulk merges and simpler control decoding; no new public modes or runtime
 dependency are implied. These are not whole-image comparison measurements.
+
+`experiments/cngcompress_bulk` isolates portable binary reconstruction merges at
+fixed 12-bit Huffman lengths. Its paired word expansion vectorizes at 128 bits
+on arm64 and strict SSE2, but the measured runs exclude complete decoder setup,
+flat decoding and constant-child specialization. Preserve the 3.53 merged bytes
+per symbol and source-level traffic accounting; kernel improvements do not yet
+establish a full-decoder gain. Read `docs/CNGCOMPRESS_PLAN.md` for the owner's
+full standalone stx_cngcompress, integration and publication objective. Keep it
+open until all deliverables are complete. The initial x86 assembly's default
+SSE4.1 target is recorded explicitly; only corrected later flags establish an
+SSE2 inspection target. No x86 execution or memory review is implied.

@@ -1,0 +1,67 @@
+{
+  "compiler": "non-Apple LLVM 23.1.2",
+  "build_host": "M4 selected with m4host/m4build",
+  "execution_cpu": "Apple A18 Pro",
+  "trials": 7,
+  "warmups": 1,
+  "memory_review_initiated": false,
+  "packet_bundle_sha256": "0bf8d491210db91befa13a5c5d613beb8562091ca338a223f21de8642f9c83e0",
+  "runs": [
+    {
+      "name": "first",
+      "merge_source": "merge_first.cpp",
+      "probe_source": "probe_first.cpp",
+      "binary_sha256": "7dc939b031c27c3c948e2d00a3b345862c474490f5400ded2394f94e0c8b20e1"
+    },
+    {
+      "name": "second",
+      "merge_source": "merge_second.cpp",
+      "probe_source": "probe.cpp",
+      "binary_sha256": "95dd6b9482b28a911c8107f36bb084deb73fedef516ae49d781d968d0c980a4e"
+    },
+    {
+      "name": "second-repeat",
+      "merge_source": "merge_second.cpp",
+      "probe_source": "probe.cpp",
+      "binary_sha256": "95dd6b9482b28a911c8107f36bb084deb73fedef516ae49d781d968d0c980a4e"
+    },
+    {
+      "name": "third",
+      "merge_source": "merge.cpp",
+      "probe_source": "probe.cpp",
+      "binary_sha256": "483ca4dc8b161630f522259efc3ce5932d48fbbc164fd4c3f0182c43c9c6f99c"
+    }
+  ],
+  "source_sha256": {
+    "experiments/cngcompress_bulk/merge.cpp": "0146f890a98385aebe47c3ed6b5b0973a7c60b2de0ef959deabcb62b8679f95d",
+    "experiments/cngcompress_bulk/probe.cpp": "1dc1e8310883e9ad9f0e0e870538851c6526f4fee604915052cfd7f96339f218",
+    "experiments/cngcompress_bulk/probe_first.cpp": "20de07f64b30dff539006655bad2b05e73f533642b75b8609886f43f7f5cd1c4",
+    "experiments/cngcompress_bulk/merge_second.cpp": "f7350c5e96658dcff0198baf330b1ecb29901adf5c1c3c51735a51f9f90f3b2c",
+    "experiments/cngcompress_bulk/merge_first.cpp": "2fd339854323f9ed94b2d322b6e4ee94e5d2a0c8391011671673e21b1b41d942",
+    "experiments/cngcompress_bulk/merge.hpp": "f65edf7ee923e6603ee5ed3143eb9f74c0b769983d1ab7c6b080745742e92f2e",
+    "experiments/cngcompress_bulk/build.sh": "e4bd78920bdba18f97fc47a96d56995711b90ebab2386d6a76c753860825ebb0",
+    "experiments/cngcompress_bulk/README.md": "7c9d45452e34580508af9ec48ab1bff10a8a95c7ff8220ce6c4c1018bb587174",
+    "experiments/cngcompress_bulk/verify.py": "c6cf1f91cf12e873525470c7499c6e276d7afb41ec98ed92937d448d2d2e06f2",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0",
+    "experiments/length_limited/package_merge.hpp": "39cd75345885a595303844de7c0c2fe4a98db3954d47489ecf4cadc69140d2dc",
+    "experiments/length_limited/huffman_exact.cpp": "95bd330340017b8a683f82516594cbef8355bedb7ae445aab36d0adc0ffd362b",
+    "experiments/decode_tables/huffman_batch.cpp": "9e20bdb24444eb72621fb6efb2e4a1ad518312100f8972da1a2f436302c228de"
+  },
+  "evidence_sha256": {
+    "merge-arm64.s.gz": "595443e056c601f05a350fefca3be638ff77a6b468d1398fbe6d63866d1fe994",
+    "merge-first-arm64.s.gz": "e8f23c28aadcc087c9e9c1ffd04a9bac245c008d7ad082109a6aa1f42017d1dc",
+    "merge-first-x86_64.s.gz": "e41e59d4ba0cd147655fac452043d24be879816ad35ed6ea17118a32fa0f1e72",
+    "merge-second-arm64.s.gz": "f3c6e835380da4528c493d039d0d2fa4bdd39ad63883c3c0bffdd67a790daf04",
+    "merge-second-x86_64.s.gz": "1bdad99c670e67214eb74d25aa4849114a314896b39b3bc915ceb3514793a908",
+    "merge-x86_64.s.gz": "c1c0197844364cfa5d4636ed5c1cebe68be0bce7d2f9417c30a7510f804472d3",
+    "merges-first.csv.gz": "93faeb6de5af0531be3bae6d9ab8ce9a64a90dff61ec7eb83ffa8e4036c97a83",
+    "merges-second-repeat.csv.gz": "d8598a84d775869534d1d4404e38a8db6e852da74232025cc91c23bbae6e106e",
+    "merges-second.csv.gz": "91b3b727a50bafc78deae03b4fcfa9fcfb3b4cfaa69b85221047c23ae0ebef97",
+    "merges-third.csv.gz": "3873866bf1d8cd5d2bddf68cb40fdbaba6c57fa9f2a6eea931acb9b929b20272",
+    "run-first.log": "bde5d50a2298f0d9482f90d2f77a4e6ea02b6c7c82e5b3e39df14365d680a591",
+    "run-second-repeat.log": "bde5d50a2298f0d9482f90d2f77a4e6ea02b6c7c82e5b3e39df14365d680a591",
+    "run-second.log": "bde5d50a2298f0d9482f90d2f77a4e6ea02b6c7c82e5b3e39df14365d680a591",
+    "run-third.log": "bde5d50a2298f0d9482f90d2f77a4e6ea02b6c7c82e5b3e39df14365d680a591"
+  }
+}
