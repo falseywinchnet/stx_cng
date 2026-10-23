@@ -1,4 +1,7 @@
 #include "rans.hpp"
+#ifdef CNG_EVENTS
+#include "events.hpp"
+#endif
 #ifdef CNG_SEQUENCE_RUNS
 #include "runs.hpp"
 #endif
@@ -116,7 +119,10 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
 #endif
     Bytes separated(own_capacity);
     Bytes restored_separated(own_capacity);
-    Bytes encoded(2 * own_capacity + 1024);
+    Bytes encoded(2 * own_capacity + 2048);
+#ifdef CNG_EVENTS
+    Bytes event_scratch(2 * raw.size() + 64);
+#endif
     Bytes zstd(ZSTD_compressBound(raw.size()));
     Bytes decoded(raw.size());
     std::array<double, 7> own_encode{};
@@ -130,6 +136,9 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
             std::size_t kind = (trial + order) % 2;
             Clock::time_point start = Clock::now();
             if (kind == 0) {
+#ifdef CNG_EVENTS
+                if (sequences) { own_size = cng_event_trial::encode(raw, encoded, event_scratch); } else
+#endif
 #ifdef CNG_SEQUENCE_RUNS
                 if (sequences) {
                     std::size_t separated_size = cng_entropy_trial::separate_runs(raw, separated);
@@ -144,6 +153,9 @@ void probe(std::span<const std::uint8_t> frame, bool sequences, std::size_t expe
             }
             Clock::time_point middle = Clock::now();
             if (kind == 0) {
+#ifdef CNG_EVENTS
+                if (sequences) { cng_event_trial::decode(std::span<const std::uint8_t>(encoded).first(own_size), decoded); } else
+#endif
 #ifdef CNG_SEQUENCE_RUNS
                 if (sequences) {
                     std::size_t separated_size = 0;

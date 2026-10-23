@@ -1,5 +1,8 @@
 # An in-house entropy backend for CNG
 
+This page records the first round. Continue with [direct events and paired
+Huffman coding](SECOND_ROUND.md) for the current evidence and remaining work.
+
 The first experiment does **not** justify replacing Zstandard in the released
 codec. It establishes an independent coder, identifies the work it is missing,
 and preserves three measured formulations. None changes the published format.

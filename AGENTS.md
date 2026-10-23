@@ -33,3 +33,22 @@ Preserve negative performance results and report complete-operation timings,
 not just kernel timings. Zstandard is pinned to 1.5.7 because the encoder uses
 its advanced context API. Recheck bytes, capacity and performance when changing
 that dependency. Keep dependency notices and the MIT license intact.
+
+## In-house entropy experiment
+
+This study is isolated in `experiments/entropy`; it does not change the release
+wire format. Build on the selected M4 host without installing dependencies:
+
+```sh
+/Users/ultimussecundai/.local/bin/m4build -- /opt/homebrew/bin/cmake -S experiments/entropy -B .build/entropy -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
+/Users/ultimussecundai/.local/bin/m4build -- /opt/homebrew/bin/cmake --build .build/entropy -j 4
+```
+
+Serialize mirror sync and builds. Completed arm64 binaries may be copied back
+for A18 Pro measurements; record the execution CPU separately from the build
+host. The corpus runner refuses to overwrite reports. See
+`experiments/entropy/SECOND_ROUND.md` for the current candidate, preserved
+negative results, exactness commands and the next algorithmic requirement.
+The study is not complete: small structured cases still lose severely and no
+whole-image replacement has passed the original goal. Never substitute corpus
+totals or entropy-only timings for that acceptance.

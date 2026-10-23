@@ -7,14 +7,14 @@ from pathlib import Path
 
 def summarize():
     root = Path(__file__).resolve().parent
-    for name in ('results', 'results_words', 'results_runs'):
-        report = json.loads(gzip.decompress((root / 'evidence' / (name + '.json.gz')).read_bytes()))
+    for evidence in sorted((root / 'evidence').glob('*.json.gz')):
+        name = evidence.name.removesuffix('.json.gz')
+        report = json.loads(gzip.decompress(evidence.read_bytes()))
         if not report['complete']:
             raise AssertionError('incomplete experiment')
         for original, expected in report['source_sha256'].items():
             filename = Path(original).name
-            candidates = (root / filename, root / 'byte_reference' / filename,
-                          root / 'word_reference' / filename)
+            candidates = root.rglob(filename)
             found = False
             for candidate in candidates:
                 if candidate.exists():
