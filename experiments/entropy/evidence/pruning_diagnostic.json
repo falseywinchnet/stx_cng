@@ -1,0 +1,2667 @@
+{
+  "source_sha256": {
+    "experiments/entropy/match_events.cpp": "77511f47a60507205ee1df05472f63753a4fa435d80d0d351f61418946d5ffd8",
+    "experiments/entropy/huffman_pricing.cpp": "c4f399001757e0afdee32f1d5e9b1e2baf0d5607180a048e4c486514020f4227",
+    "experiments/entropy/huffman_prices.hpp": "5d02d629ec948d8a79969e30a287e2c88554c6281ff9f4f90a991ed4e9a94b3b",
+    "experiments/entropy/match_replay_lengths.cpp": "8cd85a9c1933b4a9050ebe44022035b3c90dc054a6ebae21e723e4a2bc1a9f0a",
+    "experiments/entropy/huffman_depth.cpp": "1c0f7b9afb275f4ae845a833b368ef8a95baccc751064b71ce6f960a1c4b0230",
+    "experiments/entropy/match_repeat.cpp": "7925b7d7749f81df871b822353e847ac48352e9b6ff7fa730a41a3e52cfac15c",
+    "experiments/entropy/match_events_packed.cpp": "a5909d73f40eb005fd87b5c92135f803baaa4e67861609c7bd2fc39170fa3ca2",
+    "experiments/entropy/SECOND_ROUND.md": "095ab5679004f4d45197be99ebf1020c8d8c73bdf871236dade0f323734d12d7",
+    "experiments/entropy/blocked_checks.cpp": "4a3156d1d604456ba16923e2403a0ce55e7587194d2f8739e80ec822e0bd310f",
+    "experiments/entropy/match_huffman.cpp": "8ddd3db1f7d703cd752c51df8ecf989d8dc8235627621386902cd7998a656406",
+    "experiments/entropy/workspace_info.cpp": "ae694b7a139445cf8ad78960910747ffa81809e2d56b879b385fc6d59dd5d2c3",
+    "experiments/entropy/run.py": "1f64bd56a35c44dfa3a39b84167cddb91d9664faffbd3a18701b82d765e14109",
+    "experiments/entropy/CMakeLists.txt": "322b7b4b7c9a69253e2ed0ac4ac85c8afc290f93361b0f5096abe8864439c5ee",
+    "experiments/entropy/huffman_oracle.py": "e48470ef81d0c26e4e7745947966d0a37743e67b7382f23a39e2bdd68b6bfccf",
+    "experiments/entropy/pruning_diagnostic.cpp": "ea17ee1d6ede4224d8d8ca59d27389aedcfccd1430dc5850001919a26ccebaa9",
+    "experiments/entropy/runs.cpp": "6f58783ce21023420549d29e7e15417914fcffdacc87f6f09679362f5bbc5150",
+    "experiments/entropy/match_replay_events.cpp": "1480b3ef2503ea378e724fd8b404285dc683a6fe248cf32c4e31dac7f354194e",
+    "experiments/entropy/huffman_batched.cpp": "8faf1d6acf64759a193ba136bc03e55459c1410dc92c19a5203edfbc5f92b0eb",
+    "experiments/entropy/match_event_compact.cpp": "828697a9c903b660c6043c0f58006df7f1e5c28b5be4bbc55dc842416273d5a4",
+    "experiments/entropy/replay_packed.py": "5d32c221169d16ba9f2d15b7ed718f338380474b19022bec9320c161ac022f0c",
+    "experiments/entropy/match_events_bounded.hpp": "d2db162e267744f27024cecf717947009446195d242ab44854488532555abe97",
+    "experiments/entropy/match_word.cpp": "9d358c0c0ca26ecedad7ba90fcbd3373cd4a3d84a2c8652a7b7def595ecf1cef",
+    "experiments/entropy/diagnose_matches.py": "8de4c278367b1328413bf5c748182cd52a3b324ad9dcdbc71084637928f9522a",
+    "experiments/entropy/match_compact.cpp": "be95d6f80ab6a4882f9627081fb2063c6e48b0f879c4bb83c8b1092ce05a432a",
+    "experiments/entropy/checks.cpp": "69de9a4905c7974aebf62eba8115eee7bcef18caf8bc8570e87147ef6907b871",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/split_oracle.py": "69c1d305d8f61015550d6dcdc41e29b6265a7625ef7ff7cff539950e0b8001a3",
+    "experiments/entropy/probe.cpp": "ef0fa49cc93004f773db3d52cfbf8b5489ed093ae2e9d0e9730aab92c4df1beb",
+    "experiments/entropy/match_oracle.py": "cebbdc741dd8116a404fe3ce9c68a19aa77eb38711f777dc35eb71ec54ab5d77",
+    "experiments/entropy/table_model_checks.cpp": "05dec1f0f11dfc66825dbfc8127852a7bd56b4dbcaafc779566f79b19d2f2693",
+    "experiments/entropy/match_event_oracle.py": "09cc6839374e706b1d6e0ff6fca0e0b59186c52569b900068f5e9900a016d2e5",
+    "experiments/entropy/replay_events.py": "39d5e50faf590d5717d236aaea185cc6e07712119aedd6c02844274452169b51",
+    "experiments/entropy/blocked_oracle.py": "511a30f7536f9099e254782d0aeac6406b2c064d06b580bc049acbb76a700bbb",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0",
+    "experiments/entropy/event_backend_oracle.py": "7cfbd50babaae4b594bc18e39c0b5fbec9a7b17cc1b061e357e6f50d99710691",
+    "experiments/entropy/THIRD_ROUND.md": "375869804bb5a0c29afab066df5773d2de1c05c4aec8a48b39a6dcbe1cae6d87",
+    "experiments/entropy/match_event_partitioned.hpp": "6b1cd7c9e7473349c273cd79fc6d655c20e57637f2dcbe44ffc09d2d5f5c83f2",
+    "experiments/entropy/match_replay.cpp": "1e8f22250804f3860249ccf140fb1ab69dcc63a1f1f9872c32252638b560c391",
+    "experiments/entropy/match_event_backend.hpp": "3c44ba38e78f1539fbfaa18326c740c610bcca0a54d4ffb8f32c8f8a95b398ad",
+    "experiments/entropy/replay_matches.py": "44f9d772d69b149ba6fe7a84dbd35ba4d1c569d7bfcf34826aa6fea18b38ead1",
+    "experiments/entropy/FOURTH_ROUND.md": "3ebb5cadacf64a3028424c954acb5528983a6061131254eca9cf453f69e8afec",
+    "experiments/entropy/summarize.py": "d9c20f4e9ac3e6d8b2ef404fb7e6622ee379c79a31fdd1c47413ea3620a2e338",
+    "experiments/entropy/match_event_pruned.cpp": "9be92871f7e2437dd3d534b7b32ea58f7c2786f1e72cf41b7f594af260df3f2f",
+    "experiments/entropy/events.hpp": "6ace86096b97c48d059e0137695984bdd18ee9c89c6f206b19b1b602ab2d5c0d",
+    "experiments/entropy/match_split.hpp": "050d0867d873e8309b8bbef1fb52c480c26ca34bfa2f0244b0c7cddb7b4e753e",
+    "experiments/entropy/README.md": "b831999be023249824917bf92700bd3f8f6c54c4d74c6bcf02e8e9a4726c9576",
+    "experiments/entropy/huffman_blocked.cpp": "0de7e3d80eb1c570c24c68626bdcfec7f9dd9291bdb7216565d9b5faedc9655d",
+    "experiments/entropy/match_events_bounded.cpp": "01c3048fd73644a59fbf3593bf9a731abc6c1208a5bd07467c8bd1fea6ec706e",
+    "experiments/entropy/replay_account.py": "b48ff476881edf451cf0a4ea61762a52823e856b60846ef20343efbed0223c41",
+    "experiments/entropy/match_history.cpp": "a7b3905d1d6e6c5383e670ff2136fc118d583d3328919a886f208928c925b504",
+    "experiments/entropy/FIFTH_ROUND.md": "bb7cdd661de6ae5245d82db26b12b8320a841eb36671e0892763d3f98cf73222",
+    "experiments/entropy/huffman_kernel.cpp": "73ab0ff6780ded4d5d74ff0d73d2879fc3212208eff7db19b61ef7e09c2282a6",
+    "experiments/entropy/rans_split.cpp": "38809ddfdca94af4456268b55c8ef84a1d12c60b2fb97bb5611437b7b3c90b3c",
+    "experiments/entropy/huffman_compact_table.cpp": "925901d62d2009a20a141175abacd97a3058ee4f716f52e7dfd380311769b860",
+    "experiments/entropy/repeat_checks.cpp": "947f880e04b86b48ab7b4751af030daa2059262b041e359fb49aebdaf9331f3b",
+    "experiments/entropy/rans.cpp": "60d16500e43f26ae9a0eedd3c002d5f77973c391809a4e66230f57ed036ecae0",
+    "experiments/entropy/match_event_checks.cpp": "ad355757d64ee1c8f082e57ad5b6b5acee3d3362b76634785e53cdcf544cd9d8",
+    "experiments/entropy/match_event_partitioned.cpp": "c95e63622d69fa2fad7cb0140595ffd52039f1b4e82db83ec8e91f5cac74d180",
+    "experiments/entropy/match_event_backend.cpp": "87f6646cb0cdf4bd332295d9c5c69c2cf987547b32426ddfd59a02721579537c",
+    "experiments/entropy/replay_recent.py": "3d900326198b502e7588007c7bdbdd7a98218bbf9f278ca80399fecce641bd7e",
+    "experiments/entropy/huffman_depth_oracle.py": "f983c0c0d668758bcf5d34fd10bd82fe7191893093be8cff946218018769ab6f",
+    "experiments/entropy/events_oracle.py": "6974c39c31068a71584304d2ff79e49cf8fe2d3b4a00b83b1fd28a99a8bf07f3",
+    "experiments/entropy/match_event_compact_backend.hpp": "30f9e5a27119b1bfb772b28f44334f5c271f2be8d87ed8d3b09f8fa5fcde509d",
+    "experiments/entropy/match_sampled.cpp": "e5400c398a00f8e0dc3289fd7b6db782cea4ad8291086c30df202ec7b3e20d41",
+    "experiments/entropy/events.cpp": "fa9aa080bbb4eef086bcdbcb09e9be7d8d3863a7b9dfcd835833f589fb014923",
+    "experiments/entropy/match_split.cpp": "02e02be13c3281b0ceb8c0b3f6680b0406b8aa76cb4080fa8a1a831184fc2173",
+    "experiments/entropy/match_diagnostic.cpp": "11ed7baea5030a98bfa13af03c5aad8911ef58722a61600dc3983528dee754a6",
+    "experiments/entropy/match_event_bounded_checks.cpp": "597325aac9c44a9668d39ff5e1199e24b9c02409f360299917ce001fe8e9ec61",
+    "experiments/entropy/match_events.hpp": "b47a9bfd7e5d5e287facb454042ac0290187e7dcfd83af0f7e2e091e11896df7",
+    "experiments/entropy/match_events_recent.cpp": "a4c1d97003b2679d030cfe0c6de2db159dd2c07565b6a33065c8913e64933057",
+    "experiments/entropy/oracle.py": "aa73132479957fd0ce6bd1f6866b8c66344e5b96c96f3b993fef37d8b2759351",
+    "experiments/entropy/match_eight.cpp": "4ef31e2ff2de8c60ccccb3ca73f49a8f1750c7c7d50e0200d7f1586d3ec646e8",
+    "experiments/entropy/replay_table.py": "6ea91321a69f0209d72f33256c6da1b830817f2d027231dfa2bcb649c91b9c8b",
+    "experiments/entropy/huffman.cpp": "553c4bea45f5ef9ea342d777326960999d3a21011ad0bd6013c963f63eb0df4e",
+    "experiments/entropy/huffman_scalars.cpp": "6a26dcf8d9c8daa2b0944c5bcff9a99c3e3e684cf998ea10dc6c1b8de69829a9",
+    "experiments/entropy/verify_replay_evidence.py": "da1942323b0bf988986090b44b3f1ab248cb5d891f52c66c2392d28c3a970bd8",
+    "experiments/entropy/table_model_oracle.py": "6ba9792eb656e8d512f505987dd1f20a594644156896701a66c3c18160b7e569",
+    "experiments/entropy/match_event_eight.cpp": "033d90707f110efa4a6bdce47b796f3c7a2abb19fe4dea8db798eb42169e2aa8",
+    "experiments/entropy/match_huffman.hpp": "c7df5304da1f5f24eddd8ca27c382479eea2c4e6f5e32df18c63329629e729c2",
+    "experiments/entropy/match_priced.cpp": "15e951adf21bfa12d05dae57b84cb14455f141e6570e496a7077f5d3c59b976c",
+    "experiments/entropy/match_plain.cpp": "3f39236ef65efc2f10f43ea86e53193421af574b7d46f7aa55832f1f2b961869",
+    "experiments/entropy/replay_lengths.py": "cf2e65a73b234baf2bfc26c6d3ed1b2d688424f7092fd0bad5aed3fc1d0b1603",
+    "experiments/entropy/match_replay_account.cpp": "e69dc662ea2055b016a87769da4a130545bbf75d1207ae933be639a78e0d3ff5",
+    "experiments/entropy/runs.hpp": "12aba16d2600c6b26d10bd2de9e15c224da5a703de01bd9ed8a85741310e5744",
+    "experiments/entropy/events_checks.cpp": "d69b0b994b50f28fb1128a5d6814c9397ed636be0cc63a1c21df4c1c7d3c8869",
+    "experiments/entropy/verify_backend_evidence.py": "3d8fb6d26b4b2805e79f70a7563173b372555a1b2418e4385aace24e934bb099",
+    "experiments/entropy/match_checks.cpp": "8244bd0c7565409bbcd871047f3504a5570b6cac8b3c3a6957758ca326a791c7",
+    "experiments/entropy/huffman_restrict.cpp": "df6daffc04e831621fce349f9d708f5880ec32228e0252561231731875c471cc",
+    "experiments/entropy/rans_words.cpp": "72c81051cd9d5fbea7b5ce8599c608fe16b1d5ae7f620056a7aba2940e95c8a1"
+  },
+  "binaries": {
+    "pruned": "e549ce3adc9def78b8994faa548b5664fd9c6e19b4e314a77e720234c8392c5b",
+    "eight": "88d7fdb2ac618bd4254975b0e01d309b5c544cd6e3c829efa0083b3fff904ea8"
+  },
+  "images": [
+    {
+      "name": "smooth",
+      "input_sha256": "edb3aa645ab341ba86ed335cf0e9bc49e87e1ee206a3a6063c4fa1738aa2ddb0",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 55392,
+            "zstd_bytes": 4420,
+            "initial": {
+              "events": 1678,
+              "matches": 1678,
+              "literals": 2431,
+              "copied": 52961,
+              "length_counts": [
+                1073,
+                497,
+                85,
+                18,
+                1,
+                4
+              ]
+            },
+            "pruned": {
+              "events": 1657,
+              "matches": 1657,
+              "literals": 2494,
+              "copied": 52898,
+              "length_counts": [
+                1052,
+                497,
+                85,
+                18,
+                1,
+                4
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 19333,
+            "zstd_bytes": 7219,
+            "initial": {
+              "events": 4772,
+              "matches": 4771,
+              "literals": 1639,
+              "copied": 17694,
+              "length_counts": [
+                2991,
+                1688,
+                89,
+                2,
+                1,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 4673,
+              "matches": 4672,
+              "literals": 1955,
+              "copied": 17378,
+              "length_counts": [
+                2909,
+                1671,
+                89,
+                2,
+                1,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 55392,
+            "zstd_bytes": 4420,
+            "initial": {
+              "events": 138,
+              "matches": 138,
+              "literals": 7580,
+              "copied": 47812,
+              "length_counts": [
+                0,
+                0,
+                108,
+                24,
+                2,
+                4
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 19333,
+            "zstd_bytes": 7219,
+            "initial": {
+              "events": 281,
+              "matches": 280,
+              "literals": 16608,
+              "copied": 2725,
+              "length_counts": [
+                0,
+                0,
+                273,
+                6,
+                1,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "mixed_order_noise",
+      "input_sha256": "0318fd0a05c74159d890f0b0d0a256cdc31aecffba8bdefc3a9f9f50f11d4088",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 25908,
+            "zstd_bytes": 2539,
+            "initial": {
+              "events": 806,
+              "matches": 806,
+              "literals": 1545,
+              "copied": 24363,
+              "length_counts": [
+                425,
+                257,
+                38,
+                10,
+                30,
+                46
+              ]
+            },
+            "pruned": {
+              "events": 797,
+              "matches": 797,
+              "literals": 1572,
+              "copied": 24336,
+              "length_counts": [
+                416,
+                257,
+                38,
+                10,
+                30,
+                46
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 153902,
+            "zstd_bytes": 148318,
+            "initial": {
+              "events": 3024,
+              "matches": 3022,
+              "literals": 141162,
+              "copied": 12740,
+              "length_counts": [
+                1729,
+                1169,
+                83,
+                21,
+                20,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 3020,
+              "matches": 3018,
+              "literals": 141174,
+              "copied": 12728,
+              "length_counts": [
+                1725,
+                1169,
+                83,
+                21,
+                20,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 25908,
+            "zstd_bytes": 2539,
+            "initial": {
+              "events": 147,
+              "matches": 147,
+              "literals": 3804,
+              "copied": 22104,
+              "length_counts": [
+                0,
+                0,
+                59,
+                11,
+                30,
+                47
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 153902,
+            "zstd_bytes": 148318,
+            "initial": {
+              "events": 96,
+              "matches": 95,
+              "literals": 152462,
+              "copied": 1440,
+              "length_counts": [
+                0,
+                0,
+                70,
+                15,
+                10,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "kodim01",
+      "input_sha256": "66dbc12f1e64cc146ea85c7b2471e7f32202969d27d2a87becd1b169803f7898",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 15696,
+            "zstd_bytes": 3848,
+            "initial": {
+              "events": 995,
+              "matches": 995,
+              "literals": 2543,
+              "copied": 13153,
+              "length_counts": [
+                615,
+                309,
+                41,
+                14,
+                8,
+                8
+              ]
+            },
+            "pruned": {
+              "events": 812,
+              "matches": 812,
+              "literals": 3155,
+              "copied": 12541,
+              "length_counts": [
+                476,
+                265,
+                41,
+                14,
+                8,
+                8
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 652602,
+            "zstd_bytes": 501904,
+            "initial": {
+              "events": 102845,
+              "matches": 102840,
+              "literals": 334598,
+              "copied": 318004,
+              "length_counts": [
+                94551,
+                8279,
+                9,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 81266,
+              "matches": 81261,
+              "literals": 400494,
+              "copied": 252108,
+              "length_counts": [
+                74066,
+                7185,
+                9,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 3348,
+            "zstd_bytes": 854,
+            "initial": {
+              "events": 125,
+              "matches": 125,
+              "literals": 662,
+              "copied": 2686,
+              "length_counts": [
+                56,
+                53,
+                6,
+                2,
+                4,
+                4
+              ]
+            },
+            "pruned": {
+              "events": 99,
+              "matches": 99,
+              "literals": 762,
+              "copied": 2586,
+              "length_counts": [
+                38,
+                47,
+                4,
+                2,
+                4,
+                4
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 75647,
+            "zstd_bytes": 58828,
+            "initial": {
+              "events": 10753,
+              "matches": 10752,
+              "literals": 42075,
+              "copied": 33572,
+              "length_counts": [
+                9638,
+                1113,
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 9519,
+              "matches": 9518,
+              "literals": 45830,
+              "copied": 29817,
+              "length_counts": [
+                8454,
+                1063,
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 15696,
+            "zstd_bytes": 3848,
+            "initial": {
+              "events": 95,
+              "matches": 95,
+              "literals": 5555,
+              "copied": 10141,
+              "length_counts": [
+                0,
+                0,
+                62,
+                17,
+                8,
+                8
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 652602,
+            "zstd_bytes": 501904,
+            "initial": {
+              "events": 2,
+              "matches": 1,
+              "literals": 652594,
+              "copied": 8,
+              "length_counts": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 3348,
+            "zstd_bytes": 854,
+            "initial": {
+              "events": 26,
+              "matches": 26,
+              "literals": 1006,
+              "copied": 2342,
+              "length_counts": [
+                0,
+                0,
+                14,
+                4,
+                3,
+                5
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 75647,
+            "zstd_bytes": 58828,
+            "initial": {
+              "events": 0,
+              "matches": 0,
+              "literals": 75647,
+              "copied": 0,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "rectangle_on_gradient",
+      "input_sha256": "159acb57fd261fea6026e778cb7ae267c590c08bb3774d60effbce8a9254abc9",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 1932,
+            "zstd_bytes": 61,
+            "initial": {
+              "events": 13,
+              "matches": 13,
+              "literals": 16,
+              "copied": 1916,
+              "length_counts": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                12
+              ]
+            },
+            "pruned": {
+              "events": 12,
+              "matches": 12,
+              "literals": 19,
+              "copied": 1913,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                12
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 28912,
+            "zstd_bytes": 249,
+            "initial": {
+              "events": 85,
+              "matches": 84,
+              "literals": 79,
+              "copied": 28833,
+              "length_counts": [
+                13,
+                10,
+                10,
+                13,
+                21,
+                17
+              ]
+            },
+            "pruned": {
+              "events": 82,
+              "matches": 81,
+              "literals": 88,
+              "copied": 28824,
+              "length_counts": [
+                10,
+                10,
+                10,
+                13,
+                21,
+                17
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 1932,
+            "zstd_bytes": 61,
+            "initial": {
+              "events": 12,
+              "matches": 12,
+              "literals": 17,
+              "copied": 1915,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                12
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 28912,
+            "zstd_bytes": 249,
+            "initial": {
+              "events": 48,
+              "matches": 47,
+              "literals": 120,
+              "copied": 28792,
+              "length_counts": [
+                0,
+                0,
+                5,
+                12,
+                13,
+                17
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "large_smooth_rgba",
+      "input_sha256": "3204d971e7eedf2ab455f96a2fc2206b3a4a9c12d40306780c999a75c72dc42f",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 316224,
+            "zstd_bytes": 922,
+            "initial": {
+              "events": 551,
+              "matches": 551,
+              "literals": 43,
+              "copied": 316181,
+              "length_counts": [
+                49,
+                35,
+                13,
+                33,
+                155,
+                266
+              ]
+            },
+            "pruned": {
+              "events": 535,
+              "matches": 535,
+              "literals": 105,
+              "copied": 316119,
+              "length_counts": [
+                39,
+                29,
+                13,
+                33,
+                155,
+                266
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 346,
+            "zstd_bytes": 220,
+            "initial": {
+              "events": 46,
+              "matches": 46,
+              "literals": 150,
+              "copied": 196,
+              "length_counts": [
+                20,
+                22,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 45,
+              "matches": 45,
+              "literals": 153,
+              "copied": 193,
+              "length_counts": [
+                19,
+                22,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316200,
+            "zstd_bytes": 1150,
+            "initial": {
+              "events": 688,
+              "matches": 688,
+              "literals": 47,
+              "copied": 316153,
+              "length_counts": [
+                31,
+                35,
+                28,
+                53,
+                250,
+                291
+              ]
+            },
+            "pruned": {
+              "events": 677,
+              "matches": 677,
+              "literals": 103,
+              "copied": 316097,
+              "length_counts": [
+                31,
+                26,
+                26,
+                53,
+                250,
+                291
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 360,
+            "zstd_bytes": 227,
+            "initial": {
+              "events": 50,
+              "matches": 49,
+              "literals": 158,
+              "copied": 202,
+              "length_counts": [
+                28,
+                17,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 50,
+              "matches": 49,
+              "literals": 158,
+              "copied": 202,
+              "length_counts": [
+                28,
+                17,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316236,
+            "zstd_bytes": 969,
+            "initial": {
+              "events": 592,
+              "matches": 592,
+              "literals": 50,
+              "copied": 316186,
+              "length_counts": [
+                29,
+                15,
+                21,
+                75,
+                185,
+                267
+              ]
+            },
+            "pruned": {
+              "events": 587,
+              "matches": 587,
+              "literals": 66,
+              "copied": 316170,
+              "length_counts": [
+                25,
+                14,
+                21,
+                75,
+                185,
+                267
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 344,
+            "zstd_bytes": 207,
+            "initial": {
+              "events": 47,
+              "matches": 46,
+              "literals": 140,
+              "copied": 204,
+              "length_counts": [
+                26,
+                14,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 47,
+              "matches": 46,
+              "literals": 140,
+              "copied": 204,
+              "length_counts": [
+                26,
+                14,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317772,
+            "zstd_bytes": 958,
+            "initial": {
+              "events": 499,
+              "matches": 499,
+              "literals": 42,
+              "copied": 317730,
+              "length_counts": [
+                49,
+                23,
+                15,
+                21,
+                135,
+                256
+              ]
+            },
+            "pruned": {
+              "events": 482,
+              "matches": 482,
+              "literals": 102,
+              "copied": 317670,
+              "length_counts": [
+                38,
+                17,
+                15,
+                21,
+                135,
+                256
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 334,
+            "zstd_bytes": 198,
+            "initial": {
+              "events": 50,
+              "matches": 49,
+              "literals": 132,
+              "copied": 202,
+              "length_counts": [
+                28,
+                16,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 48,
+              "matches": 47,
+              "literals": 138,
+              "copied": 196,
+              "length_counts": [
+                26,
+                16,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317736,
+            "zstd_bytes": 1278,
+            "initial": {
+              "events": 664,
+              "matches": 664,
+              "literals": 42,
+              "copied": 317694,
+              "length_counts": [
+                2,
+                28,
+                21,
+                30,
+                292,
+                291
+              ]
+            },
+            "pruned": {
+              "events": 663,
+              "matches": 663,
+              "literals": 46,
+              "copied": 317690,
+              "length_counts": [
+                2,
+                27,
+                21,
+                30,
+                292,
+                291
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 372,
+            "zstd_bytes": 233,
+            "initial": {
+              "events": 50,
+              "matches": 49,
+              "literals": 169,
+              "copied": 203,
+              "length_counts": [
+                27,
+                16,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 50,
+              "matches": 49,
+              "literals": 169,
+              "copied": 203,
+              "length_counts": [
+                27,
+                16,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317712,
+            "zstd_bytes": 1183,
+            "initial": {
+              "events": 701,
+              "matches": 701,
+              "literals": 40,
+              "copied": 317672,
+              "length_counts": [
+                11,
+                67,
+                49,
+                53,
+                217,
+                304
+              ]
+            },
+            "pruned": {
+              "events": 692,
+              "matches": 692,
+              "literals": 84,
+              "copied": 317628,
+              "length_counts": [
+                8,
+                62,
+                48,
+                53,
+                217,
+                304
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 373,
+            "zstd_bytes": 243,
+            "initial": {
+              "events": 56,
+              "matches": 55,
+              "literals": 164,
+              "copied": 209,
+              "length_counts": [
+                38,
+                15,
+                2,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 56,
+              "matches": 55,
+              "literals": 164,
+              "copied": 209,
+              "length_counts": [
+                38,
+                15,
+                2,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316224,
+            "zstd_bytes": 1124,
+            "initial": {
+              "events": 576,
+              "matches": 576,
+              "literals": 41,
+              "copied": 316183,
+              "length_counts": [
+                14,
+                24,
+                31,
+                50,
+                200,
+                257
+              ]
+            },
+            "pruned": {
+              "events": 567,
+              "matches": 567,
+              "literals": 90,
+              "copied": 316134,
+              "length_counts": [
+                12,
+                19,
+                29,
+                50,
+                200,
+                257
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 331,
+            "zstd_bytes": 200,
+            "initial": {
+              "events": 42,
+              "matches": 41,
+              "literals": 131,
+              "copied": 200,
+              "length_counts": [
+                18,
+                19,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 42,
+              "matches": 41,
+              "literals": 131,
+              "copied": 200,
+              "length_counts": [
+                18,
+                19,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 314736,
+            "zstd_bytes": 1015,
+            "initial": {
+              "events": 620,
+              "matches": 620,
+              "literals": 41,
+              "copied": 314695,
+              "length_counts": [
+                7,
+                34,
+                28,
+                30,
+                235,
+                286
+              ]
+            },
+            "pruned": {
+              "events": 612,
+              "matches": 612,
+              "literals": 52669,
+              "copied": 262067,
+              "length_counts": [
+                5,
+                30,
+                27,
+                30,
+                235,
+                285
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 206,
+            "initial": {
+              "events": 48,
+              "matches": 47,
+              "literals": 122,
+              "copied": 202,
+              "length_counts": [
+                26,
+                16,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 48,
+              "matches": 47,
+              "literals": 122,
+              "copied": 202,
+              "length_counts": [
+                26,
+                16,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316188,
+            "zstd_bytes": 1272,
+            "initial": {
+              "events": 698,
+              "matches": 698,
+              "literals": 41,
+              "copied": 316147,
+              "length_counts": [
+                28,
+                22,
+                23,
+                73,
+                259,
+                293
+              ]
+            },
+            "pruned": {
+              "events": 698,
+              "matches": 698,
+              "literals": 41,
+              "copied": 316147,
+              "length_counts": [
+                28,
+                22,
+                23,
+                73,
+                259,
+                293
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 374,
+            "zstd_bytes": 249,
+            "initial": {
+              "events": 47,
+              "matches": 46,
+              "literals": 180,
+              "copied": 194,
+              "length_counts": [
+                21,
+                23,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 47,
+              "matches": 46,
+              "literals": 180,
+              "copied": 194,
+              "length_counts": [
+                21,
+                23,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316236,
+            "zstd_bytes": 1123,
+            "initial": {
+              "events": 614,
+              "matches": 614,
+              "literals": 41,
+              "copied": 316195,
+              "length_counts": [
+                28,
+                31,
+                29,
+                49,
+                190,
+                287
+              ]
+            },
+            "pruned": {
+              "events": 607,
+              "matches": 607,
+              "literals": 76,
+              "copied": 316160,
+              "length_counts": [
+                27,
+                26,
+                28,
+                49,
+                190,
+                287
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 195,
+            "initial": {
+              "events": 41,
+              "matches": 40,
+              "literals": 128,
+              "copied": 196,
+              "length_counts": [
+                22,
+                12,
+                5,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 41,
+              "matches": 40,
+              "literals": 128,
+              "copied": 196,
+              "length_counts": [
+                22,
+                12,
+                5,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316248,
+            "zstd_bytes": 1054,
+            "initial": {
+              "events": 614,
+              "matches": 614,
+              "literals": 51,
+              "copied": 316197,
+              "length_counts": [
+                36,
+                21,
+                48,
+                54,
+                174,
+                281
+              ]
+            },
+            "pruned": {
+              "events": 603,
+              "matches": 603,
+              "literals": 88,
+              "copied": 316160,
+              "length_counts": [
+                29,
+                17,
+                48,
+                54,
+                174,
+                281
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 348,
+            "zstd_bytes": 207,
+            "initial": {
+              "events": 45,
+              "matches": 44,
+              "literals": 137,
+              "copied": 211,
+              "length_counts": [
+                19,
+                22,
+                2,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 44,
+              "matches": 43,
+              "literals": 140,
+              "copied": 208,
+              "length_counts": [
+                18,
+                22,
+                2,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317748,
+            "zstd_bytes": 1050,
+            "initial": {
+              "events": 569,
+              "matches": 569,
+              "literals": 42,
+              "copied": 317706,
+              "length_counts": [
+                27,
+                32,
+                14,
+                38,
+                196,
+                262
+              ]
+            },
+            "pruned": {
+              "events": 563,
+              "matches": 563,
+              "literals": 69,
+              "copied": 317679,
+              "length_counts": [
+                25,
+                28,
+                14,
+                38,
+                196,
+                262
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 347,
+            "zstd_bytes": 216,
+            "initial": {
+              "events": 50,
+              "matches": 49,
+              "literals": 147,
+              "copied": 200,
+              "length_counts": [
+                26,
+                20,
+                3,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 50,
+              "matches": 49,
+              "literals": 147,
+              "copied": 200,
+              "length_counts": [
+                26,
+                20,
+                3,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317760,
+            "zstd_bytes": 1033,
+            "initial": {
+              "events": 617,
+              "matches": 617,
+              "literals": 46,
+              "copied": 317714,
+              "length_counts": [
+                8,
+                15,
+                27,
+                33,
+                249,
+                285
+              ]
+            },
+            "pruned": {
+              "events": 614,
+              "matches": 614,
+              "literals": 55,
+              "copied": 317705,
+              "length_counts": [
+                5,
+                15,
+                27,
+                33,
+                249,
+                285
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 185,
+            "initial": {
+              "events": 47,
+              "matches": 46,
+              "literals": 117,
+              "copied": 207,
+              "length_counts": [
+                23,
+                19,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 47,
+              "matches": 46,
+              "literals": 117,
+              "copied": 207,
+              "length_counts": [
+                23,
+                19,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317772,
+            "zstd_bytes": 1155,
+            "initial": {
+              "events": 668,
+              "matches": 668,
+              "literals": 45,
+              "copied": 317727,
+              "length_counts": [
+                31,
+                42,
+                40,
+                43,
+                243,
+                269
+              ]
+            },
+            "pruned": {
+              "events": 658,
+              "matches": 658,
+              "literals": 78,
+              "copied": 317694,
+              "length_counts": [
+                24,
+                39,
+                40,
+                43,
+                243,
+                269
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 353,
+            "zstd_bytes": 214,
+            "initial": {
+              "events": 47,
+              "matches": 46,
+              "literals": 157,
+              "copied": 196,
+              "length_counts": [
+                21,
+                22,
+                3,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 47,
+              "matches": 46,
+              "literals": 157,
+              "copied": 196,
+              "length_counts": [
+                21,
+                22,
+                3,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316332,
+            "zstd_bytes": 896,
+            "initial": {
+              "events": 483,
+              "matches": 483,
+              "literals": 43,
+              "copied": 316289,
+              "length_counts": [
+                14,
+                27,
+                37,
+                23,
+                137,
+                245
+              ]
+            },
+            "pruned": {
+              "events": 473,
+              "matches": 473,
+              "literals": 89,
+              "copied": 316243,
+              "length_counts": [
+                10,
+                22,
+                36,
+                23,
+                137,
+                245
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 328,
+            "zstd_bytes": 185,
+            "initial": {
+              "events": 46,
+              "matches": 45,
+              "literals": 131,
+              "copied": 197,
+              "length_counts": [
+                23,
+                19,
+                2,
+                1,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 46,
+              "matches": 45,
+              "literals": 131,
+              "copied": 197,
+              "length_counts": [
+                23,
+                19,
+                2,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 314688,
+            "zstd_bytes": 1169,
+            "initial": {
+              "events": 684,
+              "matches": 684,
+              "literals": 43,
+              "copied": 314645,
+              "length_counts": [
+                11,
+                60,
+                53,
+                43,
+                217,
+                300
+              ]
+            },
+            "pruned": {
+              "events": 670,
+              "matches": 670,
+              "literals": 52647,
+              "copied": 262041,
+              "length_counts": [
+                6,
+                53,
+                52,
+                43,
+                217,
+                299
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 361,
+            "zstd_bytes": 236,
+            "initial": {
+              "events": 54,
+              "matches": 53,
+              "literals": 162,
+              "copied": 199,
+              "length_counts": [
+                33,
+                19,
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 54,
+              "matches": 53,
+              "literals": 162,
+              "copied": 199,
+              "length_counts": [
+                33,
+                19,
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 39924,
+            "zstd_bytes": 230,
+            "initial": {
+              "events": 65,
+              "matches": 65,
+              "literals": 35,
+              "copied": 39889,
+              "length_counts": [
+                0,
+                4,
+                0,
+                0,
+                17,
+                44
+              ]
+            },
+            "pruned": {
+              "events": 63,
+              "matches": 63,
+              "literals": 43,
+              "copied": 39881,
+              "length_counts": [
+                0,
+                2,
+                0,
+                0,
+                17,
+                44
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 43,
+            "zstd_bytes": 52,
+            "initial": {
+              "events": 3,
+              "matches": 2,
+              "literals": 37,
+              "copied": 6,
+              "length_counts": [
+                2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 3,
+              "matches": 2,
+              "literals": 37,
+              "copied": 6,
+              "length_counts": [
+                2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 316224,
+            "zstd_bytes": 922,
+            "initial": {
+              "events": 406,
+              "matches": 406,
+              "literals": 75,
+              "copied": 316149,
+              "length_counts": [
+                0,
+                0,
+                13,
+                35,
+                144,
+                214
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 346,
+            "zstd_bytes": 220,
+            "initial": {
+              "events": 4,
+              "matches": 3,
+              "literals": 319,
+              "copied": 27,
+              "length_counts": [
+                0,
+                0,
+                3,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316200,
+            "zstd_bytes": 1150,
+            "initial": {
+              "events": 576,
+              "matches": 576,
+              "literals": 80,
+              "copied": 316120,
+              "length_counts": [
+                0,
+                0,
+                25,
+                57,
+                252,
+                242
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 360,
+            "zstd_bytes": 227,
+            "initial": {
+              "events": 7,
+              "matches": 6,
+              "literals": 299,
+              "copied": 61,
+              "length_counts": [
+                0,
+                0,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316236,
+            "zstd_bytes": 969,
+            "initial": {
+              "events": 494,
+              "matches": 494,
+              "literals": 76,
+              "copied": 316160,
+              "length_counts": [
+                0,
+                0,
+                20,
+                79,
+                144,
+                251
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 344,
+            "zstd_bytes": 207,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 304,
+              "copied": 40,
+              "length_counts": [
+                0,
+                0,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317772,
+            "zstd_bytes": 958,
+            "initial": {
+              "events": 393,
+              "matches": 393,
+              "literals": 73,
+              "copied": 317699,
+              "length_counts": [
+                0,
+                0,
+                10,
+                23,
+                126,
+                234
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 334,
+            "zstd_bytes": 198,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 279,
+              "copied": 55,
+              "length_counts": [
+                0,
+                0,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317736,
+            "zstd_bytes": 1278,
+            "initial": {
+              "events": 629,
+              "matches": 629,
+              "literals": 81,
+              "copied": 317655,
+              "length_counts": [
+                0,
+                0,
+                21,
+                29,
+                273,
+                306
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 372,
+            "zstd_bytes": 233,
+            "initial": {
+              "events": 6,
+              "matches": 5,
+              "literals": 324,
+              "copied": 48,
+              "length_counts": [
+                0,
+                0,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317712,
+            "zstd_bytes": 1183,
+            "initial": {
+              "events": 504,
+              "matches": 504,
+              "literals": 116,
+              "copied": 317596,
+              "length_counts": [
+                0,
+                0,
+                34,
+                57,
+                178,
+                235
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 373,
+            "zstd_bytes": 243,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 338,
+              "copied": 35,
+              "length_counts": [
+                0,
+                0,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316224,
+            "zstd_bytes": 1124,
+            "initial": {
+              "events": 502,
+              "matches": 502,
+              "literals": 74,
+              "copied": 316150,
+              "length_counts": [
+                0,
+                0,
+                30,
+                56,
+                177,
+                239
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 331,
+            "zstd_bytes": 200,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 274,
+              "copied": 57,
+              "length_counts": [
+                0,
+                0,
+                3,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 314736,
+            "zstd_bytes": 1015,
+            "initial": {
+              "events": 521,
+              "matches": 521,
+              "literals": 79,
+              "copied": 314657,
+              "length_counts": [
+                0,
+                0,
+                24,
+                26,
+                215,
+                256
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 206,
+            "initial": {
+              "events": 7,
+              "matches": 6,
+              "literals": 267,
+              "copied": 57,
+              "length_counts": [
+                0,
+                0,
+                6,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316188,
+            "zstd_bytes": 1272,
+            "initial": {
+              "events": 601,
+              "matches": 601,
+              "literals": 82,
+              "copied": 316106,
+              "length_counts": [
+                0,
+                0,
+                19,
+                74,
+                244,
+                264
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 374,
+            "zstd_bytes": 249,
+            "initial": {
+              "events": 0,
+              "matches": 0,
+              "literals": 374,
+              "copied": 0,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316236,
+            "zstd_bytes": 1123,
+            "initial": {
+              "events": 514,
+              "matches": 514,
+              "literals": 112,
+              "copied": 316124,
+              "length_counts": [
+                0,
+                0,
+                25,
+                47,
+                195,
+                247
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 195,
+            "initial": {
+              "events": 6,
+              "matches": 5,
+              "literals": 255,
+              "copied": 69,
+              "length_counts": [
+                0,
+                0,
+                4,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316248,
+            "zstd_bytes": 1054,
+            "initial": {
+              "events": 504,
+              "matches": 504,
+              "literals": 79,
+              "copied": 316169,
+              "length_counts": [
+                0,
+                0,
+                46,
+                64,
+                145,
+                249
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 348,
+            "zstd_bytes": 207,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 305,
+              "copied": 43,
+              "length_counts": [
+                0,
+                0,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317748,
+            "zstd_bytes": 1050,
+            "initial": {
+              "events": 413,
+              "matches": 413,
+              "literals": 132,
+              "copied": 317616,
+              "length_counts": [
+                0,
+                0,
+                15,
+                35,
+                154,
+                209
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 347,
+            "zstd_bytes": 216,
+            "initial": {
+              "events": 6,
+              "matches": 5,
+              "literals": 298,
+              "copied": 49,
+              "length_counts": [
+                0,
+                0,
+                5,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317760,
+            "zstd_bytes": 1033,
+            "initial": {
+              "events": 574,
+              "matches": 574,
+              "literals": 53,
+              "copied": 317707,
+              "length_counts": [
+                0,
+                0,
+                27,
+                33,
+                230,
+                284
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 324,
+            "zstd_bytes": 185,
+            "initial": {
+              "events": 6,
+              "matches": 5,
+              "literals": 261,
+              "copied": 63,
+              "length_counts": [
+                0,
+                0,
+                4,
+                1,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 317772,
+            "zstd_bytes": 1155,
+            "initial": {
+              "events": 566,
+              "matches": 566,
+              "literals": 102,
+              "copied": 317670,
+              "length_counts": [
+                0,
+                0,
+                40,
+                41,
+                239,
+                246
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 353,
+            "zstd_bytes": 214,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 317,
+              "copied": 36,
+              "length_counts": [
+                0,
+                0,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 316332,
+            "zstd_bytes": 896,
+            "initial": {
+              "events": 376,
+              "matches": 375,
+              "literals": 83,
+              "copied": 316249,
+              "length_counts": [
+                0,
+                0,
+                31,
+                23,
+                114,
+                207
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 328,
+            "zstd_bytes": 185,
+            "initial": {
+              "events": 5,
+              "matches": 4,
+              "literals": 282,
+              "copied": 46,
+              "length_counts": [
+                0,
+                0,
+                4,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 314688,
+            "zstd_bytes": 1169,
+            "initial": {
+              "events": 527,
+              "matches": 527,
+              "literals": 145,
+              "copied": 314543,
+              "length_counts": [
+                0,
+                0,
+                26,
+                39,
+                193,
+                269
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 361,
+            "zstd_bytes": 236,
+            "initial": {
+              "events": 0,
+              "matches": 0,
+              "literals": 361,
+              "copied": 0,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "sequences",
+            "raw_bytes": 39924,
+            "zstd_bytes": 230,
+            "initial": {
+              "events": 62,
+              "matches": 62,
+              "literals": 39,
+              "copied": 39885,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                17,
+                45
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 43,
+            "zstd_bytes": 52,
+            "initial": {
+              "events": 0,
+              "matches": 0,
+              "literals": 43,
+              "copied": 0,
+              "length_counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "composite_control_states",
+      "input_sha256": "5f5f7bc469f5d29768cdbd720d29e7551db806cef082d4490d0ccbaa5f448bc5",
+      "pruned": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 20352,
+            "zstd_bytes": 715,
+            "initial": {
+              "events": 401,
+              "matches": 401,
+              "literals": 263,
+              "copied": 20089,
+              "length_counts": [
+                86,
+                213,
+                46,
+                27,
+                15,
+                14
+              ]
+            },
+            "pruned": {
+              "events": 345,
+              "matches": 345,
+              "literals": 487,
+              "copied": 19865,
+              "length_counts": [
+                58,
+                187,
+                44,
+                27,
+                15,
+                14
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 617,
+            "zstd_bytes": 295,
+            "initial": {
+              "events": 97,
+              "matches": 96,
+              "literals": 169,
+              "copied": 448,
+              "length_counts": [
+                48,
+                36,
+                11,
+                0,
+                1,
+                0
+              ]
+            },
+            "pruned": {
+              "events": 76,
+              "matches": 75,
+              "literals": 240,
+              "copied": 377,
+              "length_counts": [
+                33,
+                30,
+                11,
+                0,
+                1,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      },
+      "eight": {
+        "zstd_version": "1.5.7",
+        "frames": [
+          {
+            "kind": "sequences",
+            "raw_bytes": 20352,
+            "zstd_bytes": 715,
+            "initial": {
+              "events": 131,
+              "matches": 131,
+              "literals": 1095,
+              "copied": 19257,
+              "length_counts": [
+                0,
+                0,
+                78,
+                18,
+                19,
+                16
+              ]
+            },
+            "exact": true
+          },
+          {
+            "kind": "literals",
+            "raw_bytes": 617,
+            "zstd_bytes": 295,
+            "initial": {
+              "events": 8,
+              "matches": 7,
+              "literals": 548,
+              "copied": 69,
+              "length_counts": [
+                0,
+                0,
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "exact": true
+          }
+        ]
+      }
+    }
+  ]
+}

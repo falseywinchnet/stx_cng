@@ -167,3 +167,8 @@ rerun its measurements; the deterministic coder checks need no external images.
 to recover earlier source identities. They are provenance snapshots, not extra
 production implementations. `summarize.py` verifies every recorded source hash
 against the current files or those snapshots before presenting totals.
+
+The sixth round examines bounded bit-price pruning, event counts and eight-byte
+hash keys. None displaces the compact-table token baseline. See
+[SIXTH_ROUND.md](SIXTH_ROUND.md) for the preserved counterexamples, measurements
+and remaining parser requirement.
