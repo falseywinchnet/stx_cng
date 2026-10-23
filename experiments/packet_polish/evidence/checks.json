@@ -1,0 +1,38 @@
+{
+  "cpu": "Apple A18 Pro",
+  "compiler": "non-Apple LLVM 23.1.2 on selected M4 host",
+  "flags": "-O3 -DNDEBUG -std=c++20 -arch arm64 -Wall -Wextra -Wpedantic -Werror -DCNG_SHORT_STREAM=1 -DCNG_UNIFORM_PROOF=1 -DCNG_SPLIT_HISTOGRAM=1 -Iexperiments/entropy",
+  "sparse_scores": 30000,
+  "retained_packets": 2953,
+  "coded_packets": 2847,
+  "passes": [
+    0,
+    1,
+    2
+  ],
+  "map_bytes": 2056,
+  "lane_counts_bytes": 4096,
+  "patch_bytes": 16,
+  "source_sha256": {
+    "experiments/packet_polish/probe.cpp": "d8cc310bfdbd162670c95003b01fad50e50dac3b42b5f2c2a4430f91fcf0a1d2",
+    "experiments/packet_polish/README.md": "cf1f1f37df0c60233bb88b7c9a1f5def2c9036274d1981bdbde5a15f71c38aed",
+    "experiments/packet_polish/build.sh": "6cf5eed6f175f6d2c3d7171cbe14c1ca54379a196e3e1379d7c91797f7a1894f",
+    "experiments/packet_polish/polish.hpp": "36de1e9e0c568d8758b7ea30b2a1e6d003391b1f150d713634525777f6ec8ec8",
+    "experiments/packet_polish/verify.py": "e5107cb6323e1bb544e058a1b392d87c3250f00ff84ca8e95cd87e69f868405b",
+    "experiments/length_limited/huffman_exact.cpp": "95bd330340017b8a683f82516594cbef8355bedb7ae445aab36d0adc0ffd362b",
+    "experiments/length_limited/package_merge.hpp": "39cd75345885a595303844de7c0c2fe4a98db3954d47489ecf4cadc69140d2dc",
+    "experiments/entropy_reduction/huffman_reduced.cpp": "f6fd4e3f2aa0a3fe8f2dedb0cb953bf339ebb759e16c52d2004c8bba41c9eefc",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0"
+  },
+  "evidence_sha256": {
+    "packets.csv.gz": "20bcba19caa3b2b004c3d247eddf5793fa13cf3bf866a35430d5b7c921ac992f",
+    "packet_manifest.json.gz": "94d57d12a875c3dc6e9f53c7959f17c6cce961c14ef4f539e24f668121ee031a"
+  },
+  "sibling_reference_sha256": {
+    "/Users/ultimussecundai/Documents/Codex/2026-10-18/lo/outputs/huffman-packet-study/REPORT.md": "cdf2085251208477b695552e86c47039ad9f052436ef567e7b6ea47126159c00",
+    "/Users/ultimussecundai/Documents/Codex/2026-10-18/lo/outputs/huffman-packet-study/packet_polish.hpp": "bbf1cc026503e0a0c90ac3f2a46cc56d803cc6bbfc63c6f28352f4904e284534"
+  },
+  "binary_sha256": "2a5544b08bb0490cae75867d9a64c15d24779a902cf836b0a8bd8769b18b5442",
+  "memory_review_initiated": false
+}

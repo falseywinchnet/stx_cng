@@ -81,6 +81,20 @@ package-merge construction for overlong trees. Its 222-image candidate saves
 109,611 bytes versus the preceding combined encoder, with no larger complete
 image in that corpus. Read its measured size/encode/decode limits before extending
 it. The owner accepted a separate investigation into total packet cost (length
-table plus independently padded streams); that result is pending. Keep the
+table plus independently padded streams); that result is recorded in `experiments/packet_polish`. Keep the
 Zstandard replacement goal open, especially frequent size regressions and decode
 parity. These remain private CNE experiments, not a public format revision.
+
+`experiments/decode_tables` records a grouped Huffman reader. Complete-image and
+frame timings improve in aggregate, while separately linked packet timings
+regress; retain that discrepancy and the negative short-table/tail variants.
+Every emitted image remains byte-identical to the exact-length candidate. The
+owner accepts a small encode-time increase for a repeatable decode improvement
+with comparable or smaller files. Use that tradeoff rather than demanding every
+operation improve; preserve individual-case regressions and measurement limits.
+
+`experiments/packet_polish` independently rewrites and tests the sibling's exact
+packet-cost scorer and bounded length edits. Two passes save only 1,827 bytes from
+167.7 MB of retained compressed packets and add material search work. Preserve it
+as a negative implementation experiment, retaining the exact objective and lower
+bound for future parser research. It is not part of the working encoder.
