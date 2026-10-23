@@ -52,3 +52,10 @@ negative results, exactness commands and the next algorithmic requirement.
 The study is not complete: small structured cases still lose severely and no
 whole-image replacement has passed the original goal. Never substitute corpus
 totals or entropy-only timings for that acceptance.
+
+The isolated whole-image experiment is in `experiments/whole_codec`. Its private
+CNE signature is not a public format revision. See its README for build commands,
+complete-operation measurements, retained failures and evidence verification.
+The first 222-image pass is exact, but size regressions remain frequent and
+complete decoding is slightly slower overall. Preserve its recorded source
+versions when extending the study; published codec sources remain unchanged.

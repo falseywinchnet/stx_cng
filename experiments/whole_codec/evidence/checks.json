@@ -1,0 +1,18 @@
+{
+  "compiler": "Homebrew LLVM 23.1.2 (non-Apple)",
+  "build_host": "M4 Mac mini",
+  "execution_cpu": "Apple A18 Pro",
+  "flags": "-O3 -DNDEBUG -std=c++20 -arch arm64 -Wall -Wextra -Wpedantic -Werror",
+  "definitions": [
+    "CNG_SHORT_STREAM=1"
+  ],
+  "reference": "Zstandard 1.5.7 level 3; system zlib 1.2.12 CRC",
+  "native_cases": 432,
+  "independent_cases": 414,
+  "vectors_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "tagged_vectors_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "bounds_binary_sha256": "c7207bf9dabf0f93367b9b918a4ead03fc70a938620eea09052da0da944732c1",
+  "probe_binary_sha256": "c259623041423cd747477205a7218ce409f416405a375e8be06862e5f5565c28",
+  "report_sha256": "d4b55598033b650930189abf06c1b4e83f1752ea4fae2e5247b5ea3e0dae1cf6",
+  "note": "The exact-capacity native vectors equal the original tagged matcher vectors byte for byte. Source identities observed at corpus start are recorded in the report. CMake gained the bounds target after the probe build; its candidate target inputs and flags did not change."
+}
