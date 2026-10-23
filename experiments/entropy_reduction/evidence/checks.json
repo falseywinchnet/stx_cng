@@ -1,0 +1,49 @@
+{
+  "compiler": "Homebrew LLVM 23.1.2 (non-Apple)",
+  "execution_cpu": "Apple A18 Pro",
+  "build_host": "M4 Mac mini",
+  "flags": "-O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Werror",
+  "baseline_commit": "a173d87",
+  "variants": {
+    "uniform": {
+      "corpus_report_sha256": "e846f424887bc8ff3cf24f10d56421b4d6715a70ed67376013b36097b8498b81",
+      "kernel_report_sha256": "b690398cba495ecffeda697df603d63ebab4117e06e23bb4faff944a230c8ec8",
+      "kernel_binary_sha256": "1c755e15c31860dde50ef964bca010ffd8516dee95cc85e476597744fb356079",
+      "proof_binary_sha256": "2ef55ff9d6829fabda8eea011d336f7b9a8356f54b45b6988f7c0b1e99572d2c",
+      "native_identical_packets": 368,
+      "uniform_depth_cases": 128,
+      "kernel_source_sha256": "8dbbd4a044bd74035e5a5d8883fa7642430fdf0fc70ff9fcc58109dea809337f",
+      "definitions": [
+        "CNG_SHORT_STREAM=1",
+        "CNG_UNIFORM_PROOF=1"
+      ]
+    },
+    "histogram": {
+      "corpus_report_sha256": "e2b2dd3b942d8428be90ce854d57f2e5f46d5318e119c58868702a19a6a18521",
+      "kernel_report_sha256": "0b88f31c5be0da84897770d4c7ac769ca9efdd11e436107522a84f883748b3e4",
+      "kernel_binary_sha256": "845c35a9011e61e857bce58f0e39290fcf5a762954d566eb1d3d2b6d21669e9b",
+      "proof_binary_sha256": "d0a13cdd962724d4387092adabedd999c92396e485cfcafbc4c75b79992b7ef3",
+      "native_identical_packets": 368,
+      "uniform_depth_cases": 128,
+      "kernel_source_sha256": "8dbbd4a044bd74035e5a5d8883fa7642430fdf0fc70ff9fcc58109dea809337f",
+      "definitions": [
+        "CNG_SHORT_STREAM=1",
+        "CNG_SPLIT_HISTOGRAM=1"
+      ]
+    },
+    "combined": {
+      "corpus_report_sha256": "8b360e8babc043178c5e0efd212dddec4cd46d81522c209911dbae6093914999",
+      "kernel_report_sha256": "70c17d4d57b3c42e5c78e78f9439da845028ab2fa5db42c38391cf7364ef5a67",
+      "kernel_binary_sha256": "17319ded8b4560a98094a973beb05e6b5054cbfe53dc8579dde72e70c6880abe",
+      "proof_binary_sha256": "c25a27fa57ed5d5b4e8dce6677276a34c499014234d25ab24a80a440c79e441f",
+      "native_identical_packets": 368,
+      "uniform_depth_cases": 128,
+      "kernel_source_sha256": "8dbbd4a044bd74035e5a5d8883fa7642430fdf0fc70ff9fcc58109dea809337f",
+      "definitions": [
+        "CNG_SHORT_STREAM=1",
+        "CNG_UNIFORM_PROOF=1",
+        "CNG_SPLIT_HISTOGRAM=1"
+      ]
+    }
+  }
+}

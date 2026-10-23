@@ -59,3 +59,9 @@ complete-operation measurements, retained failures and evidence verification.
 The first 222-image pass is exact, but size regressions remain frequent and
 complete decoding is slightly slower overall. Preserve its recorded source
 versions when extending the study; published codec sources remain unchanged.
+
+`experiments/entropy_reduction` carries the next encoder candidate: an exact
+uniform-depth Huffman shortcut plus split frequency counting. All 222 emitted
+files match the preceding candidate byte for byte. Its README records isolated
+and complete-image measurements, short-input regressions and reproduction steps.
+Keep size and decoder gaps explicit; this is further progress, not acceptance.
