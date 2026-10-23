@@ -1,8 +1,9 @@
 # Building stx_cng
 
 The library requires CMake 3.21 or later, C and C++20 compilers, and zlib.
-The bundled standalone stx_cngcompress package supplies entropy coding. It builds a static library. No image toolkit, browser engine, Python runtime
-or platform graphics API is required.
+The bundled standalone stx_cngcompress package supplies entropy coding. Both
+build as static libraries. No image toolkit, browser engine, Python runtime or
+platform graphics API is required.
 
 ## Configure, build, test
 
@@ -24,7 +25,8 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-On another installation, set `CMAKE_PREFIX_PATH` to the dependency prefix. Zlib is located through
+On another installation, set `CMAKE_PREFIX_PATH` to the dependency prefix. Zlib
+is located through
 CMake's `FindZLIB`. This source release uses portable C++20, but the release
 verification described here was performed on macOS arm64; a source portability
 claim is not a completed Windows or Linux test result.
@@ -73,8 +75,9 @@ The bundled test exercises 40 RGB/RGBA image cases, including multi-band images,
 ramps, sharp steps, repeated patterns, noise and narrow dimensions. It checks both
 stream output and caller-supplied output, then round-trips both collection forms
 with mixed channel counts. It also checks explicit v2 rejection before
-pixel mutation. Version migration is described in [the format](FORMAT.md). Temporary fixtures are created in the test working
-directory and removed on success. A failed run leaves them available for
+pixel mutation. Version migration is described in [the format](FORMAT.md).
+Temporary fixtures are created in the test working directory and removed on
+success. A failed run leaves them available for
 inspection; remove that fixture directory before repeating the test.
 
 The larger 222-image verification corpus remains external. The source release

@@ -76,7 +76,15 @@ payload unchanged. Both collection forms and the relocated installed CNG
 consumer pass. The 64-glyph packed regression remains explicit. Detailed evidence
 is in `experiments/cngcompress_integration`.
 
-The standalone source has been exported to its own local Git repository, and
-CNG's bundled copy is recorded by commit and per-file hashes. Publication and
-remote verification are the remaining delivery steps. This goal stays active
-until those complete.
+Delivery is complete. The independent MIT package is public at
+[falseywinchnet/stx_cngcompress](https://github.com/falseywinchnet/stx_cngcompress),
+commit `444c8b7b830a48b5f9bf814283b9c54ca533b26b`. The public CNG integration is
+published on `falseywinchnet/stx_cng` main, implementation commit
+`81084be3115771010bc8f1a3809564531a69db07`. Both remote heads were read back and
+verified after pushing. CNG's bundled copy is pinned by commit and per-file
+hashes in `docs/CNGCOMPRESS_SOURCE.json`.
+
+The required investigation, package, integration and publication steps are
+finished. Remaining performance counterexamples and platform/review limits are
+documented outcomes, not claimed solved problems. No automated memory integrity
+review or Windows/Linux execution was performed in this programme.

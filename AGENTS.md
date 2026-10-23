@@ -171,4 +171,7 @@ relocated installed consumer. Run its verify.py, tools/check_evidence.py (frozen
 v2 identity), and experiments/cngcompress_package/verify.py for these checkpoints.
 Historical experiment verifiers that name the former production source layout
 must run at their original commits or 5515d34; do not rewrite their recorded
-hashes to claim current-source coverage. Publication remains to be verified.
+hashes to claim current-source coverage. The standalone package and public CNG
+integration are now published; docs/CNGCOMPRESS_PLAN.md records the verified
+implementation commits and completed delivery. Preserve the measured regressions
+and explicit compatibility boundary in any subsequent work.

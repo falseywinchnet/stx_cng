@@ -9,8 +9,9 @@ RGBA8 samples exactly, including the colour beneath transparent pixels. Repeated
 pixels and predictable structure become compact instructions; the remaining
 samples pass through a reversible colour transform and entropy coding.
 
-The reference implementation is **stx_cng**. Release candidate **0.2.0-rc1**, provides standalone images and two collection forms: complete images
-packed together, or one composite image decoded in full and sliced into its set.
+The reference implementation is **stx_cng**. Release candidate **0.2.0-rc1**
+provides standalone images and two collection forms: complete images packed
+together, or one composite image decoded in full and sliced into its set.
 
 [Format](docs/FORMAT.md) · [Build](docs/BUILDING.md) · [API](docs/API.md) ·
 [Collections](docs/COLLECTIONS.md) · [Measurements](docs/MEASUREMENTS.md) ·
@@ -22,7 +23,8 @@ CNG processes full-width bands within a 1 MiB source-byte budget. Within each
 band, the encoder looks for exact pixel matches and exact gradient prediction
 runs. The decoder reconstructs those runs directly. Unmatched pixels become
 modular gradient residuals, transformed into reversible mean/opponent colour
-coordinates, packed into four-bit planes, and compressed with the in-house **cngcompress** algorithm.
+coordinates, packed into four-bit planes, and compressed with the in-house
+**cngcompress** algorithm.
 
 When compressed literal data would cost more than its original samples, the band
 stores those samples directly. This is a fixed part of the format, not a family
@@ -51,7 +53,8 @@ buffer for direct decoding, and owned planes for decoded collections.
 
 Provide zlib and C/C++20 compilers. The independent stx_cngcompress package is
 included in the source tree at a [recorded commit](docs/CNGCOMPRESS_SOURCE.json).
-It is also available as [its own library](https://github.com/falseywinchnet/stx_cngcompress). CMake does not fetch dependencies.
+It is also available as [its own library](https://github.com/falseywinchnet/stx_cngcompress).
+CMake does not fetch dependencies.
 
 ```sh
 git clone https://github.com/falseywinchnet/stx_cng.git
