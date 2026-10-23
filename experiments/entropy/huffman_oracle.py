@@ -12,7 +12,7 @@ def inverse(packet):
     if mode == 4:
         assert len(packet) == 6 and size
         return bytes([packet[5]]) * size
-    assert mode in (7, 28)
+    assert mode in (7, 28, 35, 36)
     lengths = []
     table_end = 133
     if mode == 7:
@@ -60,15 +60,21 @@ def inverse(packet):
         if length:
             lookup[(length, next_code[length])] = symbol
             next_code[length] += 1
-    stream_sizes = struct.unpack_from('<4I', packet, table_end)
-    position = table_end + 16
+    lanes = 1 if mode == 36 and size <= 1024 else 4
+    if mode in (35, 36):
+        stream_sizes = list(struct.unpack_from('<' + str(lanes - 1) + 'I', packet, table_end))
+        position = table_end + 4 * (lanes - 1)
+        stream_sizes.append(len(packet) - position - sum(stream_sizes))
+    else:
+        stream_sizes = struct.unpack_from('<4I', packet, table_end)
+        position = table_end + 16
     output = bytearray()
     for lane, stream_size in enumerate(stream_sizes):
         stream = packet[position:position + stream_size]
         position += stream_size
-        count = size // 4
-        if lane == 3:
-            count += size % 4
+        count = size // lanes
+        if lane + 1 == lanes:
+            count += size % lanes
         bit = 0
         for index in range(count):
             code = 0
@@ -80,7 +86,7 @@ def inverse(packet):
                     break
             else:
                 raise AssertionError('unrecognized code')
-        assert (bit + 7) // 8 + 8 == stream_size
+        assert (bit + 7) // 8 + (0 if mode in (35, 36) else 8) == stream_size
         for padding in range(bit, 8 * stream_size):
             assert ((stream[padding // 8] >> (padding % 8)) & 1) == 0
     assert position == len(packet) and len(output) == size

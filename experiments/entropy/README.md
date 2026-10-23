@@ -172,3 +172,8 @@ The sixth round examines bounded bit-price pruning, event counts and eight-byte
 hash keys. None displaces the compact-table token baseline. See
 [SIXTH_ROUND.md](SIXTH_ROUND.md) for the preserved counterexamples, measurements
 and remaining parser requirement.
+
+The seventh round removes stored Huffman padding and simplifies short packets.
+It produces smaller or equal sizes on every retained frame and supplies the next
+candidate, while the full replacement remains unproven. See
+[SEVENTH_ROUND.md](SEVENTH_ROUND.md).
