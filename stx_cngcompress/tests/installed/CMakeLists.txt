@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.20)
+project(cngcompress_installed LANGUAGES C CXX)
+find_package(stx_cngcompress 0.1 CONFIG REQUIRED)
+add_executable(installed main.c)
+set_target_properties(installed PROPERTIES C_STANDARD 99 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF LINKER_LANGUAGE CXX)
+target_link_libraries(installed PRIVATE stx_cngcompress::stx_cngcompress)
+enable_testing()
+add_test(NAME installed_c_consumer COMMAND installed)

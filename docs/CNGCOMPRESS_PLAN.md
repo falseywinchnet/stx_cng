@@ -61,8 +61,14 @@ workspace remain explicit in the gate report.
 The owner's conditional performance threshold is met on the recorded corpus,
 not universally across images. Proceed with standalone **stx_cngcompress** using
 `experiments/cngcompress_gate/huffman_short.cpp` and the retained matcher as the
-engineering starting point. Steps 4–7 are still outstanding: public API and
-format/version contracts, standalone build/install/consumer evidence, final
-optimization checks, CNG integration with compatibility behavior, documentation
-and publication. This goal is active; the experimental wrapper is not shipping
-integration and the existing release remains unchanged.
+engineering starting point. The staged `stx_cngcompress/` package now supplies
+the C ABI, bounded-frame specification, reusable handles, independent build and
+relocatable installation. `experiments/cngcompress_package` records 432 ordinary
+API cases, a C99 installed consumer, and byte identity for 414 known-raw vectors
+plus 1,413 retained frames. Common-width assembly is retained. This completes the
+initial standalone engineering checkpoint; it does not complete delivery.
+
+Steps 6–7 and the final integrated performance check remain: CNG integration with
+explicit version compatibility, current documentation/evidence, independent
+repository export and publication. This goal is active; the experimental wrapper
+is not shipping integration and the existing release remains unchanged.

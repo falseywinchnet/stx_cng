@@ -1,0 +1,27 @@
+UpdateCTestConfiguration  from :/Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package/DartConfiguration.tcl
+Test project /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: cngcompress_roundtrip
+
+1: Test command: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package/cngcompress_roundtrip
+1: Working Directory: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package
+1: Test timeout computed to be: 10000000
+1: PASS: 432 public frame cases; failure contracts, golden empty frame and independent concurrent contexts
+1/2 Test #1: cngcompress_roundtrip ............   Passed    0.30 sec
+test 2
+    Start 2: cngcompress_c_consumer
+
+2: Test command: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package/cngcompress_c_consumer
+2: Working Directory: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-package
+2: Test timeout computed to be: 10000000
+2/2 Test #2: cngcompress_c_consumer ...........   Passed    0.20 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.50 sec

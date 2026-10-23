@@ -1,0 +1,2 @@
+PASS: 414 known-raw vectors and 1413 retained frames, public encode byte identity and exact decode
+Public handles: 656400 encoder bytes; 131088 decoder bytes

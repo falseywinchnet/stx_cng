@@ -1,0 +1,19 @@
+UpdateCTestConfiguration  from :/Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-final-v2-installed/DartConfiguration.tcl
+Test project /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-final-v2-installed
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: installed_c_consumer
+
+1: Test command: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-final-v2-installed/installed
+1: Working Directory: /Users/joshuahkuttenkuler/Developer/CodexBuilds/stx_cng-53af80450603/.build/cngcompress-final-v2-installed
+1: Test timeout computed to be: 10000000
+1/1 Test #1: installed_c_consumer .............   Passed    0.37 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.37 sec

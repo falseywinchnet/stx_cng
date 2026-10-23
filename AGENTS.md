@@ -147,3 +147,11 @@ with standalone packaging and integration, preserving the documented individual
 regressions and memory limits. Use its `huffman_short.cpp` as the next engineering
 baseline; the original matcher and grammar remain selected. This experimental
 wrapper is not public integration and publication remains outstanding.
+
+`stx_cngcompress/` is the staged standalone package; it builds without parent
+sources or external compression dependencies. `experiments/cngcompress_package`
+records the C ABI, relocated installed consumer, 432 ordinary cases and 1,827
+frame identities. Its source/evidence verifier pins this checkpoint. This does
+not constitute public CNG integration or publication. Continue the programme
+with explicit format compatibility and a measured integrated build; preserve the
+historical release and experiment evidence when production sources change.

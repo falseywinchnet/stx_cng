@@ -1,0 +1,45 @@
+{
+  "source_sha256": {
+    "stx_cngcompress/.gitignore": "c89c375acd25032ac5fdf98cfb85406288b4cbfa3569818058fef6850f54ea4b",
+    "stx_cngcompress/AGENTS.md": "6b453902baa9ef4a2794401172be4d85ad2cb84dd129e6f6423c3ffa1ad15ccd",
+    "stx_cngcompress/CMakeLists.txt": "addc81ae4d8a1c52e49266ec212dd4c07bcb322ae047881e4d9e9bd5fd54c27b",
+    "stx_cngcompress/LICENSE": "3db56fe025958b56bc7969f9f61787ace2b3106187789976c83ae9c6a6174a0b",
+    "stx_cngcompress/README.md": "b109e1cc3b984a6c5b2cb0acec3f15dc3078d9938c11a321669f5d84b554fc35",
+    "stx_cngcompress/cmake/stx_cngcompressConfig.cmake.in": "3bee490ec0d4940b049e22e025aef3cd09a184972c31ed3fadf93a5a2614fd64",
+    "stx_cngcompress/docs/FORMAT.md": "d8a795e3882c13ac2e38b768ef7adb9e9341014ebae771dfbe2f2456835e7826",
+    "stx_cngcompress/docs/PROGRAMMING_HOUSE_STYLE.md": "eeb54196949737c55a4d57748bc3825d6e66b81d842baf22b0d3b991e05afc69",
+    "stx_cngcompress/include/stx_cngcompress.h": "922338d47d3adeddbe85364833fe728d775f71952920d6e8fba71ee32c4de84a",
+    "stx_cngcompress/src/api.cpp": "84ad30ff836ce6b78e39ab57a2ee352457131b1439531470ce0997940ebf20a4",
+    "stx_cngcompress/src/huffman.cpp": "f118f3e57c0418737bad2dab2e690a5029bed2c518a89aa55dcc10bb0829b66f",
+    "stx_cngcompress/src/huffman.hpp": "58816ae1b79998c58c125d6f2e7741a85da88e0ec3428e5fa426249e44106154",
+    "stx_cngcompress/src/limits.hpp": "17f4ae3e523d2fe8d95cb2b17bf15cc228835a689a75b51a87a2d1d1710b18ee",
+    "stx_cngcompress/src/match.cpp": "c0615e975c6c5bac91da2d74c95cd5080b38e9f75bcaff238660c9ed7e9188c3",
+    "stx_cngcompress/src/match.hpp": "f88df343c7447338893b61df7122633fc79c7d037e5af8e9cfeb26c1e71d4f8e",
+    "stx_cngcompress/src/package_merge.hpp": "0fae7ee83d3a2930997f82283d27b4ec13870af4b664ce13305967b28a1f8d53",
+    "stx_cngcompress/tests/installed/CMakeLists.txt": "213c05e99b8e05a8f79bfd95feed0dc074e757c1489d6e634552f3398369bfa2",
+    "stx_cngcompress/tests/installed/main.c": "9d39482ae122a740d797d333fe7c982dc188196eaa4441b4dabaac0fb00a9d25",
+    "stx_cngcompress/tests/roundtrip.cpp": "3e4a54a656ee684d92017f53dc5dd66db574cfe07a72ac8b53048055a48319a4",
+    "experiments/cngcompress_package/check.sh": "1456cf6c906e132b8ff6128ed60e1dae5f531609b18d3e4eedc29c7a45d87883",
+    "experiments/cngcompress_package/verify_frames.cpp": "f9b4eeebd08020267fe53a140ca34a49f3ee83cb9dd49d08209448c3d2726ee6"
+  },
+  "evidence_sha256": {
+    "huffman-arm64.s.gz": "15167aedb3af808239f8b56bb9c0efb8aa87aa67138c868c20fa24ca1d437efb",
+    "huffman-x86_64.s.gz": "ca9f88e70dc51e1da1b4d946de9b317b87b17016f1001f0ee3a0fcdcab0c603f",
+    "identity.log": "045c76b6f8192468fe1e06f9f1b52d5126a705e7fbec3dc2f57ff71acc7840d7",
+    "installed-final-v2.log": "31e193485daecf3110a2665891402bc137e75ac564a1b926ec07f2bb575840c6",
+    "installed-libraries.log": "a3a26108b5701c1302dc079424f6c297281f95e709d9a97b71b874771edc25fd",
+    "match-arm64.s.gz": "565af00133d14adbb251caad2cd29568c3106e8b6e50224e98b193edc419fef7",
+    "match-x86_64.s.gz": "a6dc65aa89e3d7464e5f57c08c8a6857f15249a43f9861caa6dfe7584d522341",
+    "tests-final-v2.log": "fbe30a64795c46c63f987610a1acad4842a1fa64f707ebbd27bed0133466fa0a"
+  },
+  "binary_sha256": {
+    "verify-frames": "76c7423f83cf66df8c4a2a064217c9e42682f98d7f52b30288a6d78fc861bf81",
+    "libstx_cngcompress.a": "b9659c9b111952f306bead3979e7a3ed97acb9d6d5eb0097008c1d511d7e16a0"
+  },
+  "vector_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "frames_sha256": "8142a02980f6e9b78ee9cd0af648044c067e74692c1290dea29bed0dc2fcf7d5",
+  "compiler": "Non-Apple LLVM 23.1.2",
+  "build_host": "Apple M4",
+  "identity_host": "Apple A18 Pro",
+  "review": "Ordinary deterministic verification only; no automated memory integrity review."
+}

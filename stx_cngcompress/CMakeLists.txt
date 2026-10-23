@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.21)
+project(stx_cngcompress VERSION 0.1.0 LANGUAGES C CXX)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+option(STX_CNGCOMPRESS_BUILD_TESTS "Build ordinary deterministic tests" ${PROJECT_IS_TOP_LEVEL})
+add_library(stx_cngcompress STATIC src/api.cpp src/match.cpp src/huffman.cpp)
+add_library(stx_cngcompress::stx_cngcompress ALIAS stx_cngcompress)
+target_compile_features(stx_cngcompress PRIVATE cxx_std_20)
+set_target_properties(stx_cngcompress PROPERTIES CXX_EXTENSIONS OFF POSITION_INDEPENDENT_CODE ON)
+target_include_directories(stx_cngcompress PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+if(MSVC)
+    target_compile_options(stx_cngcompress PRIVATE /W4 /WX)
+else()
+    target_compile_options(stx_cngcompress PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+if(STX_CNGCOMPRESS_BUILD_TESTS)
+    enable_testing()
+    find_package(Threads REQUIRED)
+    add_executable(cngcompress_roundtrip tests/roundtrip.cpp)
+    target_compile_features(cngcompress_roundtrip PRIVATE cxx_std_20)
+    target_link_libraries(cngcompress_roundtrip PRIVATE stx_cngcompress Threads::Threads)
+    add_test(NAME cngcompress_roundtrip COMMAND cngcompress_roundtrip)
+    add_executable(cngcompress_c_consumer tests/installed/main.c)
+    set_target_properties(cngcompress_c_consumer PROPERTIES C_STANDARD 99 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF LINKER_LANGUAGE CXX)
+    target_link_libraries(cngcompress_c_consumer PRIVATE stx_cngcompress)
+    add_test(NAME cngcompress_c_consumer COMMAND cngcompress_c_consumer)
+endif()
+install(TARGETS stx_cngcompress EXPORT stx_cngcompressTargets ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(FILES include/stx_cngcompress.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/stx_cngcompress)
+install(EXPORT stx_cngcompressTargets NAMESPACE stx_cngcompress:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/stx_cngcompress)
+configure_package_config_file(cmake/stx_cngcompressConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/stx_cngcompressConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/stx_cngcompress)
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/stx_cngcompressConfigVersion.cmake
+    VERSION ${PROJECT_VERSION} COMPATIBILITY SameMinorVersion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/stx_cngcompressConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/stx_cngcompressConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/stx_cngcompress)
