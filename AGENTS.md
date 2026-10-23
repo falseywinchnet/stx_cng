@@ -119,3 +119,12 @@ full standalone stx_cngcompress, integration and publication objective. Keep it
 open until all deliverables are complete. The initial x86 assembly's default
 SSE4.1 target is recorded explicitly; only corrected later flags establish an
 SSE2 inspection target. No x86 execution or memory review is implied.
+
+`experiments/cngcompress_layout` measures the complete bottom-up decoder with
+fixed code lengths, compact tables, flat unpacking and direct constant merges.
+The packed-constant variant still takes 1.7145 times the current Huffman decoder
+time; preserve this negative result and do not promote the layout based on its
+small-input wins. Continue independent control-grammar experiments. The owner
+made standalone packaging, CNG integration and upload conditional on beating the
+current Zstandard-based decoder; resolve that condition with complete-image
+measurements, not primitive or packet timings.

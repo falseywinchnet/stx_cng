@@ -2,7 +2,10 @@
 
 The owner named the in-house method **cngcompress**. The requested deliverable is
 a standalone **stx_cngcompress** library, comparable in role to zlib, integrated
-into stx_cng and then published. This document tracks the full objective; an
+into stx_cng and then published **if the measured result beats the current
+Zstandard-based decoder**. The owner made that final delivery conditional; it is
+not required if the completed investigation fails that comparison. This document
+tracks the full objective; an
 experiment or benchmark win alone does not complete it.
 
 ## Required work and evidence
@@ -56,3 +59,11 @@ the final run and produces common-width SIMD on both inspected targets. However,
 non-flat merges alone write 3.5333 bytes per source symbol. Full reconstruction,
 constant-child handling and flat decoding must be measured before selecting it.
 See the experiment README for all revisions, negative cases and traffic limits.
+
+The complete layout follow-up is now measured. It retains the compact table,
+uses n-byte decode scratch, collapses flat subtrees, and specializes constant
+children. The best tested complete variant takes 1.7145 times the current Huffman
+decoder time at essentially equal size. Do not promote it. Prefix-width integers,
+separated controls and the adjacent-query cost review remain outstanding; after
+those, compare the selected candidate with the released Zstandard decoder at
+complete-image scope to resolve the owner's conditional delivery requirement.

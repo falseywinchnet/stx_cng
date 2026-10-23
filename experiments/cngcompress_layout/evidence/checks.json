@@ -1,0 +1,52 @@
+{
+  "compiler": "non-Apple LLVM 23.1.2",
+  "build_host": "M4 selected with m4host/m4build",
+  "execution_cpu": "Apple A18 Pro",
+  "trials": 7,
+  "warmups": 1,
+  "memory_review_initiated": false,
+  "packet_bundle_sha256": "0bf8d491210db91befa13a5c5d613beb8562091ca338a223f21de8642f9c83e0",
+  "runs": [
+    "layout-first",
+    "layout-second"
+  ],
+  "first_source": "layout_first.cpp",
+  "second_source": "layout.cpp + constant.cpp",
+  "binary_sha256": {
+    "probe-first": "788d4f294d0a8938e666cf33b33e58a2b05ac15a7c2c3e6a1247c9e913bca753",
+    "probe": "c29d0ffbb094b601202798a33b7b89f72a78b78117387b0c47dd40ad4d938b5c",
+    "constant-test": "6304f3cc9d9a176f252d7017ed7618c4cf94b850a96b38e4f6a5515a41fc9ae8"
+  },
+  "source_sha256": {
+    "experiments/cngcompress_layout/layout_first.cpp": "cfa1dbf89198130edf7f34c2faaf99b142a6d1aef810fc6d6f378796de2528ca",
+    "experiments/cngcompress_layout/probe.cpp": "f95c30875853eaacf041201a141a7cd7745a6534d1db2975c62baddd0588198a",
+    "experiments/cngcompress_layout/constant_test.cpp": "24d1a69cd4d436173bb7f59161bada67abfa4a621ac1bcde58d8540fa929bee7",
+    "experiments/cngcompress_layout/layout.cpp": "b7a923028628ef3ff0f72a7ecbab5e314f862da6e8e74902e344f7990b722b1a",
+    "experiments/cngcompress_layout/constant.cpp": "5e489b134eefc0a4144e6ad1d2dd4b2ea7cb32cc708b908bd3b9d7d0671e3724",
+    "experiments/cngcompress_layout/constant.hpp": "364c497a9ea75c68447484f1ae9254779305c7d294c1807f879ed27dfc69ec2d",
+    "experiments/cngcompress_layout/layout.hpp": "a263e6366f416b04438aa840aac5ec6f0dcc13f5401e3812f04ae3e3fdd371ef",
+    "experiments/cngcompress_layout/build.sh": "78165f70346269135855f2eaf6aedd5fc5a734497bc37adb1ae36d1c52be6c1b",
+    "experiments/cngcompress_layout/README.md": "a190bde8cacd33af0f791e86b23661988d51f831d53eb527c40d1771f911df48",
+    "experiments/cngcompress_layout/verify.py": "c10904d71ebd598d8d9f890857c7ee1340a1cdbfa0630a6cc0e4861423461282",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0",
+    "experiments/length_limited/package_merge.hpp": "39cd75345885a595303844de7c0c2fe4a98db3954d47489ecf4cadc69140d2dc",
+    "experiments/length_limited/huffman_exact.cpp": "95bd330340017b8a683f82516594cbef8355bedb7ae445aab36d0adc0ffd362b",
+    "experiments/decode_tables/huffman_batch.cpp": "9e20bdb24444eb72621fb6efb2e4a1ad518312100f8972da1a2f436302c228de",
+    "experiments/cngcompress_bulk/merge.cpp": "0146f890a98385aebe47c3ed6b5b0973a7c60b2de0ef959deabcb62b8679f95d",
+    "experiments/cngcompress_bulk/merge.hpp": "f65edf7ee923e6603ee5ed3143eb9f74c0b769983d1ab7c6b080745742e92f2e"
+  },
+  "evidence_sha256": {
+    "constant-arm64.s.gz": "e382ee29c9e0e2f547568b4a6b75980485bee64e899306e82bbcbc94b9906c5e",
+    "constant-test.log": "c5890d618045b2c22cbe988edbefe7bc0560f3a8b6a7d0c862a27dfb54780c8d",
+    "constant-x86_64.s.gz": "80ef832d64945ac2697471130cd1fc067c2c74d72e31198efbeae4ee2745258f",
+    "layout-arm64.s.gz": "3f709b81bebbeb8803585e8aa6be62dfbf04b078f417ce65a63ddf155b3b7859",
+    "layout-first-arm64.s.gz": "f3a50c880addb2afe0b2297a45303a0ec546d54092b67b48c367f280886ee07a",
+    "layout-first-x86_64.s.gz": "83efb3a455582ce0674e8d04f723678b3bc06c49cfc1cb49c61c264ce1427526",
+    "layout-first.csv.gz": "7b6c90cd5709ee29eb61d048913ea81051d5ede0412e4c61e30fe3594b34e3cd",
+    "layout-first.log": "556e36a4046a6073d7d99356de30f8e934f442128749bc96d84f4ce63f5e3d65",
+    "layout-second.csv.gz": "e5e275c3ba0275cb9a01030c46a9c7f227f4d87b7502c65cf87f7ef506cf8a57",
+    "layout-second.log": "556e36a4046a6073d7d99356de30f8e934f442128749bc96d84f4ce63f5e3d65",
+    "layout-x86_64.s.gz": "194d218351abf0038b6e19678574e71a6ebeba1de1c9233e71e5e4764edf3098"
+  }
+}
