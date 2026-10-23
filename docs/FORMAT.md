@@ -1,11 +1,12 @@
 # CNG format reference
 
-**Release:** 0.1.0-rc1 · **Standalone schema:** CSP v2 · **Collection schema:** SHDR v0
+**Release:** 0.2.0-rc1 · **Standalone schema:** CSP v3 · **Collection schema:** SHDR v0
 
 This document describes the bytes implemented by this release. CNG means
 **Computational Network Graphics**. The standalone `CSP` signature is retained
-from development to preserve compatibility with existing files; a CNG collection
-has the `CNG` signature. This release does not silently rewrite either signature.
+from development; a CNG collection has the `CNG` signature. CHDR distinguishes
+the entropy grammar version. Retaining a signature does not make v2 and v3
+payloads interchangeable; see the compatibility boundary below.
 
 The format is lossless for interleaved RGB8 and RGBA8 samples. It carries neither
 colour-profile metadata nor an implicit conversion to a different colour space.
@@ -43,7 +44,7 @@ The payload is exactly 16 bytes.
 
 | Offset | Bytes | Value |
 | --- | ---: | --- |
-| 0 | 1 | Version: 2 |
+| 0 | 1 | Version: 3 |
 | 1 | 1 | Channels: 3 for RGB, 4 for RGBA |
 | 2 | 1 | Flags: 0 |
 | 3 | 1 | Reserved: 0 |
@@ -74,7 +75,7 @@ original row; above the first image row, that row is all zero.
 | 0 | 4 | Sequence count `N` |
 | 4 | 4 | Literal pixel count `L` |
 | 8 | 4 | Compressed sequence-frame length `S` |
-| 12 | S | Zstandard sequence frame |
+| 12 | S | cngcompress v1 sequence frame |
 | 12 + S | 1 | Literal coding: 0 stored, 1 compressed |
 | 13 + S | Remainder | Literal payload |
 
@@ -97,6 +98,12 @@ pixels and cannot exceed the number already produced in that band. Sequence
 counts, literal consumption and total output must agree exactly with the band.
 The reference decoder requires `1 <= N <= floor(band_pixels/4) + 1`.
 
+The cngcompress frame grammar is specified in
+[`stx_cngcompress/docs/FORMAT.md`](../stx_cngcompress/docs/FORMAT.md). It is an
+independent byte frame with a bounded eight-byte matcher and compact Huffman
+coding. Sequence and literal frames reset entropy history independently; the
+outer chunk CRC covers their bytes. No Zstandard frame is admitted in v3.
+
 ### Gradient prediction
 
 For each channel, prediction is `(left + above - upper_left) mod 256`.
@@ -114,7 +121,7 @@ literal-consumption order. Zero literals use this coding with an empty payload.
 
 ### Compressed literals: coding 1
 
-The literal payload is one Zstandard frame. After decompression, reverse-tail
+The literal payload is one cngcompress v1 frame. After decompression, reverse-tail
 run separation is inverted to obtain `2*C*ceil(L/2)` packed bytes. Those bytes
 contain paired nibbles of zigzag-mapped colour residuals.
 
@@ -192,7 +199,7 @@ canvas dimensions obey the standalone image limits.
 | 24 | 8 | Absolute offset of the IMAG chunk's length field |
 | 32 | 8 | Total IMAG chunk length, including its 12 framing bytes |
 
-Each `IMAG` payload is a complete standalone CSP v2 file, including its own
+Each `IMAG` payload is a complete standalone CSP v3 file, including its own
 signature and checksums. In packed form, each entry refers to its own contiguous
 IMAG chunk and has slice origin `(0,0)`. In composite form, all entries refer to
 one IMAG chunk. The reference layout has `x = 0` and consecutive vertical slices
@@ -217,3 +224,18 @@ Unknown flags, versions and chunks are rejected. Wider dimensions, metadata,
 preview layers and new sample types require deliberate format evolution.
 Encoder match-search choices may change without changing the instruction grammar;
 a decoder must implement the grammar, not depend on one encoder's greedy choices.
+
+Version 3 replaces v2's two Zstandard frame uses with cngcompress v1. All image
+transforms, instruction meanings, collection layouts and eight-byte signatures
+remain unchanged. Version 2 readers cannot read v3 payloads; v3 readers explicitly
+reject v2 at CHDR before emitting pixels. SHDR remains v0 because its directory
+and framing are unchanged; embedded images now carry CHDR v3. Older collections
+are rejected when their first embedded v2 image is reached.
+
+To migrate, decode using the 0.1.0-rc1 library and encode the exact raw samples
+using 0.2.0-rc1. For a collection, extract each original member with the old
+library, preserve its identity/dimensions/channels and collection form, then encode
+with the new library. This is pixel-preserving conversion, not a header edit.
+The frozen v2 sources in `experiments/release_v2` support reproduction and
+migration and are excluded from the production target. They require Zstandard
+1.5.7. A build that only consumes stx_cng has no Zstandard dependency.

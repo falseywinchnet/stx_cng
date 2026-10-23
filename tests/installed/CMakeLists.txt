@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.21)
+project(cng_installed_consumer LANGUAGES CXX)
+find_package(stx_cng 0.2 CONFIG REQUIRED)
+add_executable(installed ../roundtrip.cpp)
+target_link_libraries(installed PRIVATE stx_cng::stx_cng)
+enable_testing()
+add_test(NAME installed_cng_consumer COMMAND installed)

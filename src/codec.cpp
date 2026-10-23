@@ -5,13 +5,9 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <cstdlib>
 #include <cstring>
-#include <limits>
 #include <memory>
 #include <stdexcept>
-#define ZSTD_STATIC_LINKING_ONLY
-#include <zstd.h>
 #include <zlib.h>
 
 namespace stx_cng {
@@ -33,48 +29,8 @@ std::size_t validate(Dimensions dimensions) {
     require(rows > 0, "band row bound");
     return rows;
 }
-// Track every Zstandard allocation, including allocation headers. Context is
-// destroyed before its accounting record. No shared or process-global counters.
-struct AllocationCount {
-    std::size_t live = 0;
-    std::size_t peak = 0;
-};
-struct alignas(std::max_align_t) AllocationHeader {
-    std::size_t bytes;
-};
-void* allocate_context(void* opaque, std::size_t size) {
-    if (size > std::numeric_limits<std::size_t>::max() - sizeof(AllocationHeader)) { return nullptr; }
-    std::size_t total = size + sizeof(AllocationHeader);
-    void* memory = std::malloc(total);
-    if (memory == nullptr) { return nullptr; }
-    AllocationHeader* header = static_cast<AllocationHeader*>(memory);
-    (*header).bytes = total;
-    AllocationCount& count = *static_cast<AllocationCount*>(opaque);
-    count.live += total;
-    count.peak = std::max(count.peak, count.live);
-    void* result = header + 1;
-    return result;
-}
-void release_context(void* opaque, void* memory) {
-    if (memory == nullptr) { return; }
-    AllocationHeader* header = static_cast<AllocationHeader*>(memory) - 1;
-    AllocationCount& count = *static_cast<AllocationCount*>(opaque);
-    count.live -= (*header).bytes;
-    std::free(header);
-}
 using CompressionContext = stx_cng_detail::CompressionContext;
-struct DecompressionContext {
-    AllocationCount count;
-    ZSTD_DCtx* context;
-    DecompressionContext() : count{}, context(nullptr) {
-        ZSTD_customMem memory{allocate_context, release_context, &count};
-        context = ZSTD_createDCtx_advanced(memory);
-        require(context != nullptr, "decompression context");
-    }
-    ~DecompressionContext() { ZSTD_freeDCtx(context); }
-    DecompressionContext(const DecompressionContext&) = delete;
-    DecompressionContext& operator=(const DecompressionContext&) = delete;
-};
+using DecompressionContext = stx_cng_detail::DecompressionContext;
 
 int wrap(int value) {
     unsigned reduced = static_cast<unsigned>(value + 128) & 255U;
@@ -363,8 +319,8 @@ void encode(std::istream& source, std::ostream& destination, Dimensions dimensio
     std::size_t raw_sequence_capacity = sequence_capacity * 12;
     std::size_t packed_capacity = ((sample_capacity / dimensions.channels + 1) / 2) * 2 * dimensions.channels;
     std::size_t separated_capacity = 2 * packed_capacity + 4;
-    std::size_t work_capacity = std::max(raw_sequence_capacity, ZSTD_compressBound(separated_capacity));
-    std::size_t payload_capacity = 13 + ZSTD_compressBound(raw_sequence_capacity) + sample_capacity;
+    std::size_t work_capacity = std::max(raw_sequence_capacity, stx_cng_detail::entropy_bound(separated_capacity));
+    std::size_t payload_capacity = 13 + stx_cng_detail::entropy_bound(raw_sequence_capacity) + sample_capacity;
     std::unique_ptr<std::uint8_t[]> sample_owner = std::make_unique_for_overwrite<std::uint8_t[]>(sample_capacity);
     std::unique_ptr<std::uint8_t[]> previous_owner = std::make_unique_for_overwrite<std::uint8_t[]>(stride);
     std::unique_ptr<std::uint8_t[]> literal_owner = std::make_unique_for_overwrite<std::uint8_t[]>(sample_capacity);
@@ -385,7 +341,7 @@ void encode(std::istream& source, std::ostream& destination, Dimensions dimensio
     CompressionContext context;
     write_exact(destination, signature);
     std::array<std::uint8_t, 16> header{};
-    header[0] = 2;
+    header[0] = 3;
     header[1] = static_cast<std::uint8_t>(dimensions.channels);
     write_u32(header, 4, dimensions.width);
     write_u32(header, 8, dimensions.height);
@@ -401,8 +357,7 @@ void encode(std::istream& source, std::ostream& destination, Dimensions dimensio
         std::size_t raw_size = parsed.sequences * 12;
         pack_sequences(live, work.first(raw_size));
         Clock::time_point transformed = Clock::now();
-        std::size_t sequence_size = ZSTD_compressCCtx(context.context, payload.data() + 12, payload.size() - 12, work.data(), raw_size, 3);
-        require(ZSTD_isError(sequence_size) == 0, "sequence compression");
+        std::size_t sequence_size = context.compress(work.first(raw_size), payload.subspan(12));
         Clock::time_point sequence_end = Clock::now();
         std::span<std::uint8_t> selected = literals.first(parsed.literals * dimensions.channels);
         std::size_t packed_size = ((parsed.literals + 1) / 2) * 2 * dimensions.channels;
@@ -413,8 +368,7 @@ void encode(std::istream& source, std::ostream& destination, Dimensions dimensio
         Clock::time_point packed_at = Clock::now();
         std::size_t literal_size = 0;
         if (!selected.empty()) {
-            literal_size = ZSTD_compressCCtx(context.context, work.data(), work.size(), separated.data(), separated_size, 3);
-            require(ZSTD_isError(literal_size) == 0, "literal compression");
+            literal_size = context.compress(separated.first(separated_size), work);
         }
         Clock::time_point compressed_at = Clock::now();
         std::size_t literal_offset = 12 + sequence_size;
@@ -441,7 +395,7 @@ void encode(std::istream& source, std::ostream& destination, Dimensions dimensio
     finish_input(source);
     write_chunk(destination, {67, 69, 78, 68}, {});
     measurements.workspace_bytes = 2 * sample_capacity + stride + work_capacity + separated_capacity + payload_capacity;
-    measurements.workspace_bytes += sequence_capacity * sizeof(Sequence) + index.size_bytes() + context.workspace_bytes;
+    measurements.workspace_bytes += sequence_capacity * sizeof(Sequence) + index.size_bytes() + stx_cngcompress_encoder_bytes();
 }
 
 namespace {
@@ -454,7 +408,8 @@ Dimensions decode_body(std::istream& source, std::ostream* destination,
     require(identifier == signature, "CSP signature");
     std::array<std::uint8_t, 16> header{};
     require(read_chunk(source, {67, 72, 68, 82}, header) == header.size(), "CSP header extent");
-    require(header[0] == 2 && header[2] == 0 && header[3] == 0 && read_u32(header, 12) == budget, "CSP header fields");
+    require(header[0] == 3, "CSP version: this decoder requires v3; use the v2 release to migrate older images");
+    require(header[2] == 0 && header[3] == 0 && read_u32(header, 12) == budget, "CSP header fields");
     Dimensions dimensions{read_u32(header, 8), read_u32(header, 4), header[1]};
     std::size_t rows = validate(dimensions);
     std::size_t stride = dimensions.width * dimensions.channels;
@@ -467,7 +422,7 @@ Dimensions decode_body(std::istream& source, std::ostream* destination,
     std::size_t packed_capacity = ((sample_capacity / dimensions.channels + 1) / 2) * 2 * dimensions.channels;
     std::size_t work_capacity = std::max(raw_sequence_capacity, packed_capacity);
     std::size_t separated_capacity = 2 * packed_capacity + 4;
-    std::size_t payload_capacity = 13 + ZSTD_compressBound(raw_sequence_capacity) + sample_capacity;
+    std::size_t payload_capacity = 13 + stx_cng_detail::entropy_bound(raw_sequence_capacity) + sample_capacity;
     std::unique_ptr<std::uint8_t[]> sample_owner;
     if constexpr (!supplied_output) {
         sample_owner = std::make_unique_for_overwrite<std::uint8_t[]>(sample_capacity);
@@ -500,8 +455,8 @@ Dimensions decode_body(std::istream& source, std::ostream* destination,
         require(count >= 1 && count <= pixels / 4 + 1 && literal_count <= pixels
             && sequence_size <= payload_size - 13, "CSP band counts");
         Clock::time_point start = Clock::now();
-        std::size_t size = ZSTD_decompressDCtx(context.context, work.data(), count * 12, payload.data() + 12, sequence_size);
-        require(ZSTD_isError(size) == 0 && size == count * 12, "CSP sequence frame");
+        std::size_t size = context.decompress(payload.subspan(12, sequence_size), work.first(count * 12));
+        require(size == count * 12, "CSP sequence frame");
         Clock::time_point sequence_at = Clock::now();
         unpack_sequences(work.first(size), sequences.first(count));
         std::size_t literal_offset = 12 + sequence_size;
@@ -515,9 +470,7 @@ Dimensions decode_body(std::istream& source, std::ostream* destination,
         } else {
             require(payload[literal_offset] == 1, "CSP literal coding");
             std::size_t packed_size = ((literal_count + 1) / 2) * 2 * dimensions.channels;
-            std::size_t separated_size = ZSTD_decompressDCtx(context.context, separated.data(), 2 * packed_size + 4,
-                payload.data() + literal_offset + 1, literal_size);
-            require(ZSTD_isError(separated_size) == 0, "CSP literal frame");
+            std::size_t separated_size = context.decompress(payload.subspan(literal_offset + 1, literal_size), separated.first(2 * packed_size + 4));
             entropy_at = Clock::now();
             restore_runs(separated.first(separated_size), work.first(packed_size));
             if (dimensions.channels == 3) { unpack_literals<3>(work.first(packed_size), selected); }
@@ -544,7 +497,7 @@ Dimensions decode_body(std::istream& source, std::ostream* destination,
     require(read_chunk(source, {67, 69, 78, 68}, payload) == 0, "CSP end chunk");
     finish_input(source);
     measurements.workspace_bytes = sample_capacity + stride + work_capacity + separated_capacity + payload_capacity;
-    measurements.workspace_bytes += sequence_capacity * sizeof(Sequence) + context.count.peak;
+    measurements.workspace_bytes += sequence_capacity * sizeof(Sequence) + stx_cngcompress_decoder_bytes();
     if constexpr (!supplied_output) { measurements.workspace_bytes += sample_capacity; }
     return dimensions;
 }

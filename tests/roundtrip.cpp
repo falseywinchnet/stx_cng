@@ -39,6 +39,7 @@ void image_case(stx_cng::Dimensions dimensions, unsigned pattern) {
     stx_cng::encode(source, encoded, dimensions, measurements);
     require(measurements.workspace_bytes < 14001000, "encoder capacity ceiling");
     std::string packet = encoded.str();
+    require(packet.size() > 36 && static_cast<unsigned char>(packet[16]) == 3, "v3 version");
     std::istringstream stream(packet);
     std::ostringstream restored;
     stx_cng::Dimensions actual = stx_cng::decode(stream, restored, measurements);
@@ -51,6 +52,23 @@ void image_case(stx_cng::Dimensions dimensions, unsigned pattern) {
     for (std::size_t index = 0; index < raw.size(); ++index) {
         require(pixels[index] == static_cast<std::uint8_t>(raw[index]), "direct exact sample");
     }
+}
+void version_case() {
+    // Complete, CRC-valid v2 header: rejection must occur before pixel output.
+    const std::array<std::uint8_t, 36> legacy{137, 67, 83, 80, 13, 10, 26, 10, 0, 0, 0, 16, 67, 72, 68, 82, 2, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 0, 0, 94, 195, 157, 77};
+    std::string bytes(reinterpret_cast<const char*>(legacy.data()), legacy.size());
+    std::istringstream input(bytes);
+    std::array<std::uint8_t, 3> output{17, 23, 41};
+    stx_cng::Measurements measurements{};
+    bool rejected = false;
+    try {
+        stx_cng::Dimensions ignored = stx_cng::decode_into(input, output, measurements);
+        static_cast<void>(ignored);
+    } catch (const std::runtime_error& error) {
+        std::string message(error.what());
+        rejected = message.find("requires v3") != std::string::npos;
+    }
+    require(rejected && output[0] == 17 && output[1] == 23 && output[2] == 41, "v2 compatibility boundary");
 }
 void collection_cases(const std::filesystem::path& folder) {
     std::vector<stx_cng_collection::ImageSource> images;
@@ -92,9 +110,10 @@ int main() {
                 for (unsigned pattern = 0; pattern < 4; ++pattern) { image_case(dimensions, pattern); }
             }
         }
+        version_case();
         collection_cases(folder);
         std::filesystem::remove_all(folder);
-        std::cout << "PASS: 40 image cases, both decode interfaces, both collection forms\n";
+        std::cout << "PASS: 40 image cases, both decode interfaces, both collection forms, explicit v2 rejection\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

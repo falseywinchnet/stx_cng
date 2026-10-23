@@ -155,3 +155,20 @@ frame identities. Its source/evidence verifier pins this checkpoint. This does
 not constitute public CNG integration or publication. Continue the programme
 with explicit format compatibility and a measured integrated build; preserve the
 historical release and experiment evidence when production sources change.
+
+## Current public integration (supersedes historical progress notes)
+
+The production target is now CNG 0.2.0-rc1, CHDR v3 with cngcompress v1. It uses
+only the standalone package's C API, not private implementation headers. The
+bundled source identity is docs/CNGCOMPRESS_SOURCE.json. Zstandard is required
+only by the frozen v2 reference and historical experiments. Both eight-byte
+signatures and SHDR v0 are unchanged; v2 requires explicit decode/re-encode
+migration. Do not silently introduce a second runtime entropy backend.
+
+experiments/cngcompress_integration records two complete 222-image comparisons,
+both collection forms, public payload identity, capacity enumeration and the
+relocated installed consumer. Run its verify.py, tools/check_evidence.py (frozen
+v2 identity), and experiments/cngcompress_package/verify.py for these checkpoints.
+Historical experiment verifiers that name the former production source layout
+must run at their original commits or 5515d34; do not rewrite their recorded
+hashes to claim current-source coverage. Publication remains to be verified.

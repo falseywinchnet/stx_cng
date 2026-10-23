@@ -1,7 +1,7 @@
 # Building stx_cng
 
-The library requires CMake 3.20 or later, a C++20 compiler, Zstandard **1.5.7** and
-zlib. It builds a static library. No image toolkit, browser engine, Python runtime
+The library requires CMake 3.21 or later, C and C++20 compilers, and zlib.
+The bundled standalone stx_cngcompress package supplies entropy coding. It builds a static library. No image toolkit, browser engine, Python runtime
 or platform graphics API is required.
 
 ## Configure, build, test
@@ -24,23 +24,20 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-On another installation, set `CMAKE_PREFIX_PATH` to the dependency prefix or
-supply `ZSTD_INCLUDE_DIR` and `ZSTD_LIBRARY` explicitly. Zlib is located through
+On another installation, set `CMAKE_PREFIX_PATH` to the dependency prefix. Zlib is located through
 CMake's `FindZLIB`. This source release uses portable C++20, but the release
 verification described here was performed on macOS arm64; a source portability
 claim is not a completed Windows or Linux test result.
 
 ## Dependency contract
 
-The encoder uses Zstandard's advanced static-context API to give its entropy
-workspace one explicit owner and a capacity ceiling. CMake checks that the header
-version is 1.5.7; context construction also checks the runtime library version.
-Supply matching headers and library. Upgrading Zstandard requires another
-compatibility, capacity and performance check.
+The source includes the independent MIT `stx_cngcompress` package. CNG uses its
+public C interface and reusable encoder/decoder handles; no private compressor
+header is consumed. The package also builds and installs by itself.
 
-Zlib supplies CRC32. The image payload uses Zstandard, not zlib's DEFLATE
-compressor. Dependencies are linked externally and are not downloaded by this
-project. Their licenses remain separate from this repository's MIT license.
+Zlib supplies CRC32. It is linked externally and not downloaded. Zstandard is
+required only for the frozen v2 comparison/migration sources, which are excluded
+from the production build. It is not an installed dependency of CNG v3.
 
 ## Embed from source
 
@@ -59,17 +56,24 @@ to `OFF` when the embedding build does not need the bundled tests.
 cmake --install build --prefix /your/install/prefix
 ```
 
-Installation places `libstx_cng.a` (or the platform's static-library equivalent)
-and the `stx_cng/` public headers beneath the selected prefix. For manual
-integration, add that include directory and link the archive, Zstandard and zlib.
-This release does not install a `find_package(stx_cng)` configuration.
+Installation places both static libraries, public headers and relocatable CMake
+package configurations beneath the prefix. A consuming C++ project uses:
+
+```cmake
+find_package(stx_cng 0.2 CONFIG REQUIRED)
+target_link_libraries(my_application PRIVATE stx_cng::stx_cng)
+```
+
+For manual linking, use `libstx_cng`, `libstx_cngcompress`, zlib and the C++
+runtime. The standalone compressor itself needs only the C++ and system runtimes.
 
 ## What the tests establish
 
 The bundled test exercises 40 RGB/RGBA image cases, including multi-band images,
 ramps, sharp steps, repeated patterns, noise and narrow dimensions. It checks both
 stream output and caller-supplied output, then round-trips both collection forms
-with mixed channel counts. Temporary fixtures are created in the test working
+with mixed channel counts. It also checks explicit v2 rejection before
+pixel mutation. Version migration is described in [the format](FORMAT.md). Temporary fixtures are created in the test working
 directory and removed on success. A failed run leaves them available for
 inspection; remove that fixture directory before repeating the test.
 

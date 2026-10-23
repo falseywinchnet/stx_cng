@@ -1,7 +1,8 @@
 # Library interfaces
 
 The public interfaces use standard C++20 streams, spans and owned containers.
-Calls are synchronous. Arguments are borrowed only for the duration of the call;
+Calls implement CSP v3 and are synchronous. Version 2 requires explicit migration;
+see [compatibility](FORMAT.md#4-compatibility-boundary). Arguments are borrowed only for the duration of the call;
 the library retains no caller buffers or streams afterward.
 
 ## Standalone images

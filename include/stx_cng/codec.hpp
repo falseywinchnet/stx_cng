@@ -21,12 +21,13 @@ struct Measurements {
     double literal_seconds = 0.0;
     double reconstruction_seconds = 0.0;
 };
-// CSP v2, stored literals are original samples; compressed literals remain
+// CSP v3, stored literals are original samples; compressed literals remain
 // gradient residuals. Fixed 1 MiB bands; borrow distinct streams synchronously.
 // Encode reads exactly height*width*channels interleaved RGB8/RGBA8 bytes.
 // Errors throw and can leave partial stream output. Internal owners retain
 // neither a complete image nor a complete file. Workspace sums all owned
-// capacities and tracked Zstandard allocations; process RSS is separate.
+// capacities and the cngcompress handle; process RSS is separate.
+// Version 2 inputs are rejected before pixel output; use the v2 release to migrate.
 void encode(std::istream& source, std::ostream& destination,
             Dimensions dimensions, Measurements& measurements);
 [[nodiscard]] Dimensions decode(std::istream& source, std::ostream& destination,

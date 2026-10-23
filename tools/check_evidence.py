@@ -1,4 +1,4 @@
-"""Check the published implementation hashes and curated evidence totals."""
+"""Check the frozen v2 release hashes and curated historical evidence totals."""
 import hashlib
 import json
 from pathlib import Path
@@ -10,7 +10,7 @@ def run():
     if not report['complete']:
         raise AssertionError('incomplete evidence')
     for relative, expected in report['source_sha256'].items():
-        actual = hashlib.sha256((root / relative).read_bytes()).hexdigest()
+        actual = hashlib.sha256((root / 'experiments/release_v2' / relative).read_bytes()).hexdigest()
         if actual != expected:
             raise AssertionError('verified source changed: ' + relative)
     count = 0
@@ -31,7 +31,7 @@ def run():
         count += group['count']
     if count != 222:
         raise AssertionError('complete corpus')
-    print('PASS: release-source hashes and 222 published evidence records')
+    print('PASS: frozen v2 release-source hashes and 222 historical evidence records')
 
 
 if __name__ == '__main__':

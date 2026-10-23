@@ -1,0 +1,30 @@
+{
+  "admitted_width_channels": 65536,
+  "maxima": {
+    "encode": {
+      "bytes": 10450883,
+      "width": 31774,
+      "height": 128,
+      "channels": 3
+    },
+    "decode_stream": {
+      "bytes": 8614818,
+      "width": 31774,
+      "height": 128,
+      "channels": 3
+    },
+    "decode_into": {
+      "bytes": 7566276,
+      "width": 31774,
+      "height": 128,
+      "channels": 3
+    },
+    "entropy_input": {
+      "bytes": 2097156,
+      "width": 9,
+      "height": 32768,
+      "channels": 4
+    }
+  },
+  "scope": "Owned capacities only; excludes caller storage, stack, allocator and process overhead."
+}

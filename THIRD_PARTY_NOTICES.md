@@ -6,7 +6,7 @@ images or external manuscripts are bundled.
 
 | Dependency | Use | Upstream terms |
 | --- | --- | --- |
-| Zstandard 1.5.7 | Entropy coding and bounded encoder context | BSD-3-Clause (the selected upstream licensing option) |
+| Zstandard 1.5.7 | Frozen v2 comparison/migration only; not a v3 runtime dependency | BSD-3-Clause (the selected upstream licensing option) |
 | zlib | CRC32 checksums | zlib license |
 
 Upstream distributions carry their own notices. Linking a dependency does not
@@ -19,3 +19,6 @@ notices when redistributing dependency binaries or source.
 The research measurements additionally used libpng and externally sourced images.
 Neither is needed to build the library or run its bundled generated-fixture test.
 The published evidence contains measurements and image hashes, not those images.
+
+The bundled stx_cngcompress package is first-party MIT code with its own LICENSE.
+No zxc implementation is bundled or linked.

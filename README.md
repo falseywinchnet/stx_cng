@@ -9,8 +9,7 @@ RGBA8 samples exactly, including the colour beneath transparent pixels. Repeated
 pixels and predictable structure become compact instructions; the remaining
 samples pass through a reversible colour transform and entropy coding.
 
-The reference implementation is **stx_cng**. This first public release,
-**0.1.0-rc1**, provides standalone images and two collection forms: complete images
+The reference implementation is **stx_cng**. Release candidate **0.2.0-rc1**, provides standalone images and two collection forms: complete images
 packed together, or one composite image decoded in full and sliced into its set.
 
 [Format](docs/FORMAT.md) · [Build](docs/BUILDING.md) · [API](docs/API.md) ·
@@ -23,7 +22,7 @@ CNG processes full-width bands within a 1 MiB source-byte budget. Within each
 band, the encoder looks for exact pixel matches and exact gradient prediction
 runs. The decoder reconstructs those runs directly. Unmatched pixels become
 modular gradient residuals, transformed into reversible mean/opponent colour
-coordinates, packed into four-bit planes, and compressed with Zstandard.
+coordinates, packed into four-bit planes, and compressed with the in-house **cngcompress** algorithm.
 
 When compressed literal data would cost more than its original samples, the band
 stores those samples directly. This is a fixed part of the format, not a family
@@ -40,18 +39,19 @@ buffer for direct decoding, and owned planes for decoded collections.
 | Samples | RGB8 or RGBA8, exact reconstruction |
 | Alpha | Preserved exactly; hidden RGB is preserved |
 | Coding | Pixel matches, gradient runs, reversible residual coding |
-| Entropy backend | Zstandard 1.5.7, level 3 for encoding |
+| Entropy backend | stx_cngcompress: bounded matching and compact Huffman coding |
 | Framing | Typed chunks with lengths and CRC32 |
 | Encoder storage | Band workspace; no complete image retained internally |
 | Collections | Packed standalone images or one fully decoded composite |
 | Implementation | C++20; no platform-specific SIMD intrinsics |
-| Dependencies | Zstandard 1.5.7 and zlib for CRC32 |
+| Dependencies | Bundled MIT stx_cngcompress; external zlib for CRC32 |
 | License | MIT |
 
 ## Build
 
-Provide matching Zstandard **1.5.7** headers and library, plus zlib. CMake does not
-fetch dependencies.
+Provide zlib and C/C++20 compilers. The independent stx_cngcompress package is
+included in the source tree at a [recorded commit](docs/CNGCOMPRESS_SOURCE.json).
+It is also available as [its own library](https://github.com/falseywinchnet/stx_cngcompress). CMake does not fetch dependencies.
 
 ```sh
 git clone https://github.com/falseywinchnet/stx_cng.git
@@ -70,24 +70,32 @@ LLVM toolchain and the dependency version contract.
 
 ## Evidence
 
-The consolidated library reproduced **222 frozen image files byte for byte** and
-reconstructed every source sample. Its standalone tests cover 40 image cases
-through both decoding interfaces and verify both collection forms. The published
-[evidence summary](evidence/verification.json) identifies the checked sources and
-separates local test coverage from the larger research battery.
+The integrated library reconstructs all **222 frozen image bodies** exactly through
+both decoding interfaces. Its entropy bytes match the selected experimental
+encoder; only the public format header and its checksum change. The ordinary
+suite also covers 40 generated image cases and both collection forms, including
+explicit rejection of older standalone versions before pixel output.
 
-The current encoder's enumerated owned-array capacity is at most **14,000,967
-bytes**, including a 4 MiB entropy-context ceiling. This is an internal capacity
-bound, not a bound on the process or its caller. Measured stream-encoder peak RSS
-was approximately 9 MB on the release verification corpus. See
-[measurements and methodology](docs/MEASUREMENTS.md) for the domain, exclusions,
-comparison results and remaining limitations.
+Complete-image measurements retain the prior decoder improvement over the
+Zstandard release, with slightly smaller aggregate files. Individual regressions
+remain, including some smooth images and small packed glyph collections. See
+[measurements and methodology](docs/MEASUREMENTS.md) for per-group results,
+workspace accounting and the precise comparison scope.
+
+The current encoder's enumerated owned capacity is at most **10,450,883 bytes**
+on the measured 64-bit ABI. This includes its compressor handle; it excludes
+caller storage, stack, allocator metadata and process mappings. Both the CNG
+package and the standalone compressor pass independent relocated-install consumer
+checks. The compressor itself has no external compression-library dependency.
 
 ## Release scope
 
-This is an integration candidate. Its existing standalone CSP v2 signature and
-SHDR v0 collection schema remain unchanged; the public name does not rewrite
-previously encoded files. The format and C++ ABI are not yet frozen.
+This is an integration candidate. Its standalone header is **CSP v3** and its
+collection schema remains SHDR v0. The eight-byte signatures are unchanged.
+Version 2 files require decoding with the prior release and re-encoding; changing
+a header is insufficient. The [compatibility contract](docs/FORMAT.md#4-compatibility-boundary)
+describes standalone and collection migration. The format and C++ ABI are not yet
+frozen.
 
 The current canvas limit is 4,194,304 pixels **after dimension rounding to
 multiples of 128**. Samples themselves are not padded in the file. The library

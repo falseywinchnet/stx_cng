@@ -4,12 +4,52 @@ CNG's release evidence distinguishes three questions: whether every sample is
 preserved, how much storage the implementation owns, and whether a measured
 change improves complete encoding or decoding. These are separate claims.
 
-## Release-source verification
+## Current v3 integration
+
+The production v3 library uses the public stx_cngcompress API and no Zstandard
+runtime dependency. Two complete runs over the same 222 image bodies preserve
+all samples through both decode interfaces and reproduce the selected candidate's
+entropy bytes exactly. Only the public signature/header/CRC framing differs from
+the private experimental files.
+
+Ratios are v3 divided by the released Zstandard-based v2 library; lower is better.
+Each image has seven alternating paired trials after warmup. Summed per-image
+medians include codec allocation and discarded compression attempts, excluding
+file I/O, caller pixel allocation and verification. Non-Apple LLVM 23.1.2 builds
+on M4; measurements execute on Apple A18 Pro.
+
+| Group | Bytes | Encode first / repeat | Decode first / repeat |
+| --- | ---: | ---: | ---: |
+| General, 131 | 0.992910 | 0.916669 / 0.922655 | 0.917105 / 0.913335 |
+| RGBA derivatives, 80 | 0.990180 | 0.906523 / 0.905705 | 0.917470 / 0.924759 |
+| Composite bodies, 11 | 1.004546 | 0.959251 / 0.995323 | 0.947886 / 0.923136 |
+| All 222 | **0.991584** | **0.911137 / 0.913406** | **0.917460 / 0.920074** |
+
+This is approximately 8.0–8.3% less complete decode time, 8.7–8.9% less encode
+time and 0.84% fewer bytes in aggregate. There are still **116 larger files**,
+and 52/62 slower decodes in the two runs. In the complete collection checks,
+64 packed glyphs take 121/104 microseconds versus 89/75 microseconds for v2,
+and grow from 16,622 to 16,889 bytes. Those losses remain part of the result.
+
+On the measured 64-bit ABI, enumeration over all admitted widths/channel counts
+bounds owned encoder capacity at 10,450,883 bytes, stream decoding at 8,614,818
+bytes and supplied-output decoding at 7,566,276 bytes. These exclude caller
+storage, stack, allocator metadata and process mappings. Decoder storage is
+slightly higher than v2. The standalone compressor handles occupy 656,400 and
+131,088 bytes respectively, already included in these totals.
+
+The installed CNG consumer passes after moving its prefix and links only zlib,
+the C++ runtime and the system runtime. The separate compressor consumer needs
+no zlib. See the [integration report](../experiments/cngcompress_integration/README.md)
+for source pins, complete records, exactness checks, collection scope and
+reproduction commands. The historical v2 results below remain unchanged.
+
+## Historical v2 release-source verification
 
 The 0.1.0-rc1 source was built using non-Apple LLVM 23.1.2 with warnings treated as
 errors, Zstandard 1.5.7, and zlib on macOS arm64. CMake configuration, build,
 ordinary tests, installation and compilation of a consumer against the installed
-headers/library succeeded. The source files in this repository match the
+headers/library succeeded. The immutable files in `experiments/release_v2` match the
 verified implementation; [verification.json](../evidence/verification.json)
 records their SHA-256 hashes.
 
@@ -30,7 +70,7 @@ Third-party image files remain outside this source release; the evidence include
 names and hashes for identifying the frozen inputs. The bundled tests can be
 reproduced from this checkout alone; the entire external battery cannot.
 
-## Complete image sizes
+## Historical v2 complete image sizes
 
 These sizes refer to accepted CSP v2 files reproduced exactly by the release
 library. PNG references were generated with libpng 1.6.59 and zlib 1.2.12 at
@@ -48,7 +88,7 @@ bodies also expose framing costs. These results do not establish universal PNG
 superiority or a result against optimized PNG encoders. Per-image byte counts
 and source/file hashes are retained in the evidence.
 
-## Memory
+## Historical v2 memory
 
 The encoder's complete owned-array capacity was enumerated across the admitted
 width/channel domain at maximum valid height. Including a 4 MiB ceiling for its
@@ -99,7 +139,7 @@ Fewer intermediate bytes did not translate to lower runtime. The release keeps
 the faster separate stages. [Raw paired timings](../evidence/literal-fusion.json)
 are published without local process inventories or machine paths.
 
-## Interpretation
+## Historical interpretation
 
 Earlier research measured useful speed gains against PNG using closely related
 candidates. The consolidated source package has its own equality/resource check,

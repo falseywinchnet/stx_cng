@@ -68,7 +68,15 @@ API cases, a C99 installed consumer, and byte identity for 414 known-raw vectors
 plus 1,413 retained frames. Common-width assembly is retained. This completes the
 initial standalone engineering checkpoint; it does not complete delivery.
 
-Steps 6–7 and the final integrated performance check remain: CNG integration with
-explicit version compatibility, current documentation/evidence, independent
-repository export and publication. This goal is active; the experimental wrapper
-is not shipping integration and the existing release remains unchanged.
+The public CNG integration now uses the standalone C API, writes CHDR v3 and
+explicitly rejects v2 before pixel output. The old implementation is preserved
+for migration and historical evidence. Two integrated 222-image runs retain
+8.0–8.3% less aggregate decode time and 0.84% fewer bytes, with every candidate
+payload unchanged. Both collection forms and the relocated installed CNG
+consumer pass. The 64-glyph packed regression remains explicit. Detailed evidence
+is in `experiments/cngcompress_integration`.
+
+The standalone source has been exported to its own local Git repository, and
+CNG's bundled copy is recorded by commit and per-file hashes. Publication and
+remote verification are the remaining delivery steps. This goal stays active
+until those complete.
