@@ -1,0 +1,29 @@
+{
+  "compiler": "Homebrew LLVM 23.1.2 (non-Apple)",
+  "build_host": "M4 Mac mini",
+  "execution_cpu": "Apple A18 Pro",
+  "flags": "-O3 -DNDEBUG -std=c++20 -arch arm64 -Wall -Wextra -Wpedantic -Werror",
+  "definitions": [
+    "CNG_SHORT_STREAM=1",
+    "CNG_SPLIT_HISTOGRAM=1",
+    "CNG_UNIFORM_PROOF=1"
+  ],
+  "native_match_cases": 432,
+  "match_budgets_per_case": 5,
+  "independent_match_cases": 414,
+  "native_huffman_cases": 368,
+  "huffman_budgets_per_case": 7,
+  "depth_checks": 128,
+  "vectors_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "previous_vectors_sha256": "04e9277ec8c5f6913918dce18c2792b1f4504fe068d9ff0e142f51ace022126b",
+  "binaries": {
+    "cng_fallback_probe": "7616ed32f7bd40b28c547a87263c99caa9e0ccf679b13bfa5e227c1b077a5649",
+    "cng_fallback_checks": "6a6f2fc0d15e529a989a10919ba73c843c4748d1324741b9c312827662ada864",
+    "cng_fallback_huffman": "aca2bf2ce33c680d291712baabd6762266e8e42577a578b5055a42cde79c3c4e",
+    "cng_direct_comparison": "d26b9a85e94194876664e3d0528bb0986d464732fc4c1d86e46ce2f554709cec"
+  },
+  "reports": {
+    "corpus": "5e298ca54ca1fbdf9c65ade18796f3b615f4d85e0355946c2efba12be6337edf",
+    "direct": "aa7b19a075cc93c2d778d0fd6458639e20bebc36e34cd1f0d1159af90d373824"
+  }
+}

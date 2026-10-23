@@ -65,3 +65,10 @@ uniform-depth Huffman shortcut plus split frequency counting. All 222 emitted
 files match the preceding candidate byte for byte. Its README records isolated
 and complete-image measurements, short-input regressions and reproduction steps.
 Keep size and decoder gaps explicit; this is further progress, not acceptance.
+
+`experiments/raw_fallback` preserves a strict-size rejection and deferred-copy
+trial. It improves random attempt cost but has mixed wider timing results; do not
+declare it an overall win. `experiments/parser_review` reviews the sibling's MTF
+continuation result, reproduces its native rANS order witness, and verifies exact
+Huffman packet counting on 2,953 retained packets. That count is a next-parser
+research building block, not a measured parser speed improvement.

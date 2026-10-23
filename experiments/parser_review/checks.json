@@ -1,0 +1,24 @@
+{
+  "compiler": "Homebrew LLVM 23.1.2 (non-Apple)",
+  "execution_cpu": "Apple A18 Pro",
+  "build_host": "M4 Mac mini",
+  "flags": "-O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Werror -DCNG_SHORT_STREAM=1",
+  "binary_sha256": "6a042b1b4333e3f8dc6e11c26ffddf7900d4633dee741b1c7ba29dac37f3578b",
+  "witness_sha256": "f6a4f5164f076095ece598ccba22c2a0ebdd5cd6c14f72c60a8dc794d13abfa1",
+  "sibling_witness_sha256": "f6a4f5164f076095ece598ccba22c2a0ebdd5cd6c14f72c60a8dc794d13abfa1",
+  "sibling_report_sha256": "524caa11eb3477719977d275417dba170e8c5eca4197745e65e21e9b91f67733",
+  "counterexample_sha256": "5bd3954b8a26e11cd84fd6ab886c626cb4951bfe57778e8f6286bbb2f1035d6a",
+  "corpus_manifest_sha256": "56ffbdc1f1ea9358892b3ea8b892a12e352ee8644d21cd8fc4e6eb3a6d8941d0",
+  "deterministic_huffman_counts": 432,
+  "corpus_huffman_counts": 2953,
+  "images": 222,
+  "source_sha256": {
+    "experiments/parser_review/check.cpp": "6c2d78a1228fe46e60768b89a9e6653f93c997e4572f7aea19a7ffa2a7aa1144",
+    "experiments/parser_review/extract.py": "9d4966c2857a9a398a2c1cc39f7f53ae7b71ebece9fcf45465b26484d30778ce",
+    "experiments/entropy/match_events_bounded.cpp": "01c3048fd73644a59fbf3593bf9a731abc6c1208a5bd07467c8bd1fea6ec706e",
+    "experiments/entropy/match_events_bounded.hpp": "d2db162e267744f27024cecf717947009446195d242ab44854488532555abe97",
+    "experiments/entropy/huffman_tail_split.cpp": "d8724ea483ee010d3cc257486921ea26276195fdb44930f8d0a2d2d1cfa8c7a8",
+    "experiments/entropy/huffman_kernel.hpp": "69ed0b2809f538c15177575506ee546da6ff41e31c47ba6c136e2dcbed70abc6",
+    "experiments/entropy/rans.hpp": "f484daf32726ddb09e5e1094adaafbaebddb8d84724e2b11d1476470bf8224d0"
+  }
+}
