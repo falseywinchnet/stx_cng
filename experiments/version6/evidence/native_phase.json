@@ -1,0 +1,3983 @@
+{
+  "complete": true,
+  "scope": "Build the native phase codec with the non-Apple LLVM toolchain, check it against the bit-exact vectors,\nthen cross-check it against the Python reference on the pinned corpus: native encode must equal Python encode\nbyte for byte and native decode must reproduce every sample. Writes results/native_phase.json. Intended to run\non the M4 through m4build; the Python reference encodes are the slow part (about 50 us per pixel) and run in a\nprocess pool. Usage: python -B -m research.run_native_phase [--workers N] [--limit N] [--skip-corpus]",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "command": [
+    "/opt/homebrew/opt/llvm/bin/clang++",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "native/phase/phase_codec.cpp",
+    "native/phase/phase_driver.cpp",
+    "-o",
+    ".build/phase-native/phase_driver"
+  ],
+  "compiler": "Homebrew clang version 23.1.2\nTarget: arm64-apple-darwin25.5.0\nThread model: posix\nInstalledDir: /opt/homebrew/Cellar/llvm/23.1.2/bin\nConfiguration file: /opt/homebrew/Cellar/llvm/23.1.2/etc/clang/arm64-apple-darwin25.cfg\n",
+  "code_sha256": {
+    "native/phase/phase_codec.cpp": "884fb8e031b1ae8928db84af26ee4970799d85e7a38b30eac4562077a4b910bc",
+    "native/phase/phase_driver.cpp": "a0e7e775e33af5787b999d1b661e2927567d69b692822fd56137512bfc6e180e",
+    "native/phase/phase_codec.hpp": "0fd7daed6ef76f39fd105fff10e18a4cad92a3fe35a0a6cdf67e8c64134db0b2",
+    "native/phase/range_coder.hpp": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4",
+    "native/phase/phase_tables.hpp": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46",
+    "research/phase_codec.py": "4dbefb313b5f921602d33a26ea112c87117ed6583d640479436a62cc4e4dbcc8",
+    "research/run_native_phase.py": "8f0a9d2813a6998a0319683754126cb711c951a4fea73d4aa61276c631f544e3",
+    "data/phase_weights.json": "9c33bea9312b9f413635ae92a14fab98c3bbd55febdb6a39329a382bf19f5b40"
+  },
+  "vectors": [
+    {
+      "name": "checker",
+      "returncode": 0,
+      "output": "bytes_match samples_match 136 136"
+    },
+    {
+      "name": "tile_7_phase_0",
+      "returncode": 0,
+      "output": "bytes_match samples_match 530 530"
+    },
+    {
+      "name": "smooth_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 230 230"
+    },
+    {
+      "name": "noise_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 1989 1989"
+    },
+    {
+      "name": "rgba_face_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 1022 1022"
+    },
+    {
+      "name": "one_pixel",
+      "returncode": 0,
+      "output": "bytes_match samples_match 25 25"
+    },
+    {
+      "name": "row_rgba",
+      "returncode": 0,
+      "output": "bytes_match samples_match 190 190"
+    },
+    {
+      "name": "column",
+      "returncode": 0,
+      "output": "bytes_match samples_match 123 123"
+    },
+    {
+      "name": "gradient_exact",
+      "returncode": 0,
+      "output": "bytes_match samples_match 151 151"
+    }
+  ],
+  "corpus": [
+    {
+      "group": "research_smooth",
+      "name": "odd_surface_31_19",
+      "shape": [
+        31,
+        19,
+        3
+      ],
+      "python_sha256": "4b69fcf2d90edd4b053b904ec1718619dd9b0db8a3ffd394aca7c71d35ed74f8",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 780,
+      "python_bytes": 780
+    },
+    {
+      "group": "research_structured",
+      "name": "checker",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "b44ef1fde57799e665673990b28ae9c85716cf113ad6729cd5a1c463d8663bc5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 136,
+      "python_bytes": 136
+    },
+    {
+      "group": "research_smooth",
+      "name": "surface_64_noise_0",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "d324a88e89b047fabe0b1da89629c25f7987c093cc62269377aa448f79ae6abc",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2810,
+      "python_bytes": 2810
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_2",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "2d7b7e297622967b17aeba471f1f2719f888ef36d020aa9304c7df1b9c23f809",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5352,
+      "python_bytes": 5352
+    },
+    {
+      "group": "research_smooth",
+      "name": "odd_surface_65_67",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "2d8419075eaa47a7dfcf63f1b4341a6f938d93c14c04802d9a6d8961a3a6efb6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3066,
+      "python_bytes": 3066
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_8",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "0adb3c1482bacdebcfb50dcfede0a3f6ba542dced4e813ea6c287b5be142011b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7716,
+      "python_bytes": 7716
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_32",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "f2eb606a1fc655c35379671d02b232a3e81068ada84f3d501cb43d25cf149be0",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 10685,
+      "python_bytes": 10685
+    },
+    {
+      "group": "research_noisy",
+      "name": "retained_random_rgb",
+      "shape": [
+        63,
+        67,
+        3
+      ],
+      "python_sha256": "8f63b356c043edfd09388a02d4810b51ab0b22daf46e70c4d116eb1a1e4b14f8",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 12969,
+      "python_bytes": 12969
+    },
+    {
+      "group": "research_noisy",
+      "name": "random",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "864e595aaa0accdf0bece222af825de51bb9266258620c7c01b77fc96aa89f8e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 13374,
+      "python_bytes": 13374
+    },
+    {
+      "group": "research_smooth",
+      "name": "ramp",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "d6e47233300e6f8d4b16af6c6d14c9163880f9b75afc76e2d9314b9d523fe8cc",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 51,
+      "python_bytes": 51
+    },
+    {
+      "group": "research_mixed",
+      "name": "half_noise",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "ce6c5a5f5796bdfadcc9b158f11e030657b392d6397e7058069421c89d8dd0fb",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 29091,
+      "python_bytes": 29091
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise1",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "c1474ab8bc34195126efd00030e7871fac451e8bdb39c10dfb52131397432c88",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 15304,
+      "python_bytes": 15304
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise2",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "7029e5200e9994d3986de23001f41a346f0b8fb5723f1adc58ce8447fc035fa6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 19210,
+      "python_bytes": 19210
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise4",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "10c43bed2c2d0421e2b60e251dd499d73fb85db7446651571d0dda7b82e041bd",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 24156,
+      "python_bytes": 24156
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise8",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "2184dd19a09de71c2926661d456c60ad170d3da741012c2709d66c4e574ce0e5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 29899,
+      "python_bytes": 29899
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise32",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "6997713e29a932d86a27687fcfc1390e45522ad440c57038f67b3b65a8758679",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 42130,
+      "python_bytes": 42130
+    },
+    {
+      "group": "research_noisy",
+      "name": "speckles25",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "6d23a2d7e3cdc36e7601114d0d96f4a66bfac94298b0f7ae1b3a3382f449b125",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 35352,
+      "python_bytes": 35352
+    },
+    {
+      "group": "research_noisy",
+      "name": "speckles5",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "6bdeb83f545dc8336f8082b0297c1a2bf405099de4f9a014a63458e36c917aa6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 16916,
+      "python_bytes": 16916
+    },
+    {
+      "group": "research_smooth",
+      "name": "surface",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "4939d470b1802dbbb2b7b30abe1f7ddb0e66146397ffcf290a526c6740ba8c73",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6931,
+      "python_bytes": 6931
+    },
+    {
+      "group": "research_smooth",
+      "name": "surface_128_noise_0",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "8a5a1364b31cb278e711dba658bcf380615ca2ecfb27b775afd54a0a964e9170",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6638,
+      "python_bytes": 6638
+    },
+    {
+      "group": "research_noisy",
+      "name": "speckles50",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "83efaec5577593d53974504301cd08907c1636d41190d6c2dc7d75addf6481ee",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 45725,
+      "python_bytes": 45725
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_128_noise_2",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "e6b964e037415d3d20455f5f58f13744bf30198781e3a166cdef8c9e029985be",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 19103,
+      "python_bytes": 19103
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_128_noise_8",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "bce78e90ab764bf27ed046421729ffb1e3bfa2828a4f49692ac56b9876413e7a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 29769,
+      "python_bytes": 29769
+    },
+    {
+      "group": "research_noisy",
+      "name": "speckles90",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "b60a6742f7828008c923527f559c5da52f48abfab82209177aadd8d43de74816",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 50025,
+      "python_bytes": 50025
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_128_noise_32",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "d1ad737aaab781de04c23fc83129d8b3d4791839c210b060160b114e3d6b82bc",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 41928,
+      "python_bytes": 41928
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_8_axis_0",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "a94916c3894fcfb8e647b07495a09d4c9ba64688d97e8c05b759b5b3c8fb801b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 47362,
+      "python_bytes": 47362
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f600.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "32a9ef92c5ea3047542298e51be60271dd8b58a6ac24523562a123e59a4ac936",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6781,
+      "python_bytes": 6781
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f601.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "916fe60d82152824f0d4bed7c66ea846e5cdcafa2b020935b3bf9b03c1b4db5d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6487,
+      "python_bytes": 6487
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_8_axis_1",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "0efce57fb1e366be80471b102e7afe9d30d8ee5527517e6fe5169d3eda76521b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 47394,
+      "python_bytes": 47394
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_16_axis_0",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "fe41b23ab562f5818f9c2b2ae84c31e7852d895cc2fa4bc4036beed671033b36",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 44186,
+      "python_bytes": 44186
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_24_axis_0",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "84c495dc32a03481647398e94a39ab112c3c83f22faed3b81d0459a52d9a4f25",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 41106,
+      "python_bytes": 41106
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_16_axis_1",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "d17a16cabd7f52d88813ccaf7c3d96442c830c7b4e4f298dee80da59a76794ad",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 44244,
+      "python_bytes": 44244
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f602.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "4f0390fa1a605052349f3ba321f01bbdc994b3f6ad3000d787af20bfc9dcc546",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 8150,
+      "python_bytes": 8150
+    },
+    {
+      "group": "research_mixed",
+      "name": "strip_24_axis_1",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "183353404e7fdacfa76f64bbfaa84da1edad121e9b04eb63d579757ff1280690",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 41146,
+      "python_bytes": 41146
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f603.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "5d7780fdf497e2d3eb5ae1559c39f4ad623090b78f140e2337d05f835c987112",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6804,
+      "python_bytes": 6804
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f604.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "79f5834996783c0c5ab5077a545eb5598d1e46b08bb31be027fe234a262dc355",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6591,
+      "python_bytes": 6591
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f605.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "726558e7593546a8bbdb1ed95e3396a3a39af80dfe3db877cdf456c88d2ebc7a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7129,
+      "python_bytes": 7129
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f606.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "98f4c1fa0db91eb02e24cadae41efa07617e8f56fa11bd918001b659a8e115e4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7085,
+      "python_bytes": 7085
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f609.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "12f7c269e00b8a76919c2656aa8aeb4d79ceb226f00d0277eef942dd1d74528b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5983,
+      "python_bytes": 5983
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f607.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "bd70b05048f2d87d22479f3db837d1dd01ca59e86dad7db2f9c4ed04ea779e14",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6612,
+      "python_bytes": 6612
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f608.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "4af32b8c535356e6bf59340c7947649e866cb28859e9e350d10705c0f8565f61",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7532,
+      "python_bytes": 7532
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60a.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "c53a295ee9f00653909265adbe048a82e1470f5744df31a636b278d09ea0ae90",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6745,
+      "python_bytes": 6745
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60b.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "2c8485cb6f665f89ce23f8265cf369f2de7f5cf905430203c732225f9bed6646",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6411,
+      "python_bytes": 6411
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60d.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "5c5fcda9a47f1ef0285908bc18eef5874b61f0b7412bbf90b3cf682b27fbf706",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7327,
+      "python_bytes": 7327
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60c.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "a3d529faf2adaaa7fcac69f1c8f2964666aef0f69b6c3bdaed29721c34bd823a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6075,
+      "python_bytes": 6075
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60e.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "38c023e5ca07a6692e90b8592e82db46dc6e41b2ea53d09571b35af34cdafcea",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5639,
+      "python_bytes": 5639
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f60f.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "38436487a4104c51b3b1afe9b3b16bb67bab24e77504182fe88678609dc44a1e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6150,
+      "python_bytes": 6150
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f611.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "66159569987a83dc9781add736ab316ea480b6b7fa9a198625d1becc9a631b67",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4598,
+      "python_bytes": 4598
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f610.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "8f3b4fc4591be510bac11af9837d08b7bb9856c4a19030a92077fe292348ed53",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5116,
+      "python_bytes": 5116
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f612.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "5ad9db42d47ce54536213edc908a79e868e47ae7b713087a31dc2735ed95873f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6118,
+      "python_bytes": 6118
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f613.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "51072915f058ee27cffffdcdb79edebd01da05e01ecbd6e4e5dee4793f402185",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5974,
+      "python_bytes": 5974
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f614.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "65c64f21d365d9c663dd50d76b77b1a219cabdd1407e87c3b81fcabfe2d0f4ff",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5771,
+      "python_bytes": 5771
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f615.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9cb9f4c2447dcee3e800e153d95709d1599f2071b524845fdc12f38c0b010d74",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5636,
+      "python_bytes": 5636
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f616.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "7ca29b78dcdbdf5e80617052434867b0c0a87301dc122d80ff211a32d74018b2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6302,
+      "python_bytes": 6302
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f618.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "37f27b507cc334fa8039e198e3d24d59a8139d4c63f72ec133590a78453bb4f7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6678,
+      "python_bytes": 6678
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f617.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "8b46a186ca2c26c10a58f3bbf970b3f6175e96650456c330e8424889f617d95c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5485,
+      "python_bytes": 5485
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f619.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "bfc4e6b9940e1fa54aa540c04475ccacb752d0a21af0a2226d6db3d0fd8ba8ee",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5409,
+      "python_bytes": 5409
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61a.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9e290093538815f04199adf47ed9e55c0a3f696aa7e110a171651529629fcfed",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7361,
+      "python_bytes": 7361
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61b.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "8a35775859f5be6053cca878f3492aff3a5e258e28ee3a8076d44f4c2613fe4e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5711,
+      "python_bytes": 5711
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61c.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "755129b20429cd83a192df803694e389da9233fd1d9c9294977719b64f0b39b9",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6323,
+      "python_bytes": 6323
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61d.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "fe1aecc31e1e1d148e13265103e6309746587ee1aa9e6c89d2b083f9f206282f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6237,
+      "python_bytes": 6237
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f3cb_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "e2388ba8b8b3dcea273c86a6918bb82bec56bb6755709b79355af25daf5e51c8",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4649,
+      "python_bytes": 4649
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61e.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9411b94d479a933708d13601157343c7275ca7c7b73e195099c4bb91a73da931",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5439,
+      "python_bytes": 5439
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9a2f214c8808696d30ff12185fa6636ec309af9b602806cf39748d3b23fd423b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5855,
+      "python_bytes": 5855
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u270b_1f3fe.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "fc938b7413bba1e0d6e6ba872ede8c6136e929759e09f20e886ab1af70e6a063",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3070,
+      "python_bytes": 3070
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f431.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "ca652f0249f6ab1ddbaf3116cfd86615c3d0abd25c73202eef5b7a612d67e1e9",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4321,
+      "python_bytes": 4321
+    },
+    {
+      "group": "noto_faces",
+      "name": "emoji_u1f61f.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "7534b8a0256209cecebded038a49e120605c9fbbdf4fa6460605aa5ef92b1058",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6201,
+      "python_bytes": 6201
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f46e_1f3fd_200d_2642.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "c02e435d29378c4a6e0091a5ccb9c89993e07bda7128f14de9dd51664a5043a4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5925,
+      "python_bytes": 5925
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f44d_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "c17815786417ee46e732ca1a4c5ba5dda5a461f3dd8ce2040a81bcf5e2fd4f05",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4001,
+      "python_bytes": 4001
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1fab6.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "73466a38d12aea7dc40c07065bc8e28ed6db2a63c0edc6e03c7836563b12849f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5924,
+      "python_bytes": 5924
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "532afa91f705330390a6cec69a3bdf8b44b37e6cc9e20497221a527dbd7adaa5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6750,
+      "python_bytes": 6750
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f470_1f3ff_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "dd2143b3c9153e22298d6d17e1ab7813ad890fb3e3b961e671e535431552ff5c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5700,
+      "python_bytes": 5700
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1fa90.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "0233ac67ae22ef1eee03196103afce29cc726ab29642021311154524603ff3d6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6474,
+      "python_bytes": 6474
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9e9.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "2173bdb94c61ff207487f6986c5f7eb1a94f1f35155f5a844c558f830bd12c50",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5383,
+      "python_bytes": 5383
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f4bd.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "789c347c9873eec4b9815ce35a312afb159ac06c9d813efd98fe08af6a5b467b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7487,
+      "python_bytes": 7487
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1faf1_1f3fe.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "341b15eea43305e1a01c60ff2b3055d3653f8e7657f234e97897e1100fb12890",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2950,
+      "python_bytes": 2950
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f481_1f3fb_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "6fda3a1683c7e96f3c575af426f9ebda62b3501f6ad0e2468b64d6278db6a770",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4666,
+      "python_bytes": 4666
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9d1_1f3fb_200d_1f384.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "1be66d74bdb02eb0629d64ad2736a125be7cb9b28840012406fb3cdcb43aa2d6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5216,
+      "python_bytes": 5216
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f552.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "e8e984ae05613aedede54c4f5ed657fdbeea111961cb2a91c8743405d3595219",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4784,
+      "python_bytes": 4784
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f3c3_1f3fe_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "d45ce0f27f776f3c50d2ee163a8a4b3ce11724ce865090cdcd342899bace052e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3935,
+      "python_bytes": 3935
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f468_200d_2764_200d_1f468.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "ec03054fe5200cb8fb7f5334adb08e2bdf585b6bbe0ab653dc234e81b0f08a89",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6988,
+      "python_bytes": 6988
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f5fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "4591d730328e48d4952b91bff0c692fd2c0036a098dcf538fd65e334b9a1fff9",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1843,
+      "python_bytes": 1843
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f6d6.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "33e3836db6f31288b2d920905ddc9d436e1f14c0e6ce75e381e2487b7a0d4395",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4472,
+      "python_bytes": 4472
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f6b5_1f3fc_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "19dd223e8cdbaf80f888cebb3efc761086f13e815ed874cb15179cddfe44ef79",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 8434,
+      "python_bytes": 8434
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f3c3_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "ddf548bce8c6ba467c55ebe42dfe2ffa34c49ddf6e2573ff3fc8330042504e81",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3600,
+      "python_bytes": 3600
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1fa85.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "0b4be84bd12907dc258ef18f0f755a49b247bf9fb1139d06bcaa87ea8d6ea691",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 10418,
+      "python_bytes": 10418
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1fabc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "c2b403266fd6fced8cb0178af624ee17a14e6d87cd348504028be5428b7c7080",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 9687,
+      "python_bytes": 9687
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "d06a7923cd077fc29074fa9cbe0b565f4f0449e025b78170af7bd677f23262ba",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4828,
+      "python_bytes": 4828
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f47c_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "7849a515abc4f2ca0dc2f00c0da49a77c5b8849f8644fb3f4f5e5ca55caddee3",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5826,
+      "python_bytes": 5826
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "ab5532e87a794efb298ce00b0ca100a0bcf84871e39d8097dc473a19bdf2ca11",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6060,
+      "python_bytes": 6060
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "f8bd85fd2670d8ad5367a227003f6c50bd8fce266cfeb49da16c685d149e0736",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6020,
+      "python_bytes": 6020
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "a3ba7ee73c0b6ec4e2a1638205b7f2b83ff26af09abc4424e8e3a598f0afbc62",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3574,
+      "python_bytes": 3574
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f923.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "238ddb0d9a59159fb252c78593f95cf92d10ecd2181d5f9667cff0800e06c324",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 8180,
+      "python_bytes": 8180
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u270a.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "da222c951ee50227acd373b2c0079e2afb9def59ee694b36479af73dcd42b0c4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6084,
+      "python_bytes": 6084
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f1eb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "df2cc0d0492097dfcc7b53fd17d3457a9075c2ec9564d8ee4ef12c7e6a484e2f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 177,
+      "python_bytes": 177
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3fc_200d_1f680.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "8579165e2fd629b646b2bd6bfba0bf4d569406e325c80525b575b28504270a11",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5429,
+      "python_bytes": 5429
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f43d.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "dd7ae36f1bbd9a9f48fdaa9ebdfc1aa70a8e62fe611fceade142a50d5baf5ee2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2845,
+      "python_bytes": 2845
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f977.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "91f80f5529aa5701de9cede9d111c34d49b401121538a435cb4e39ccba76a454",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6895,
+      "python_bytes": 6895
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f5c4.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "7585c55e5a2eebd83df208e68c1d7ff0ea1783b917fd0bdc224ab48a6e13fee4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1426,
+      "python_bytes": 1426
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f3a0.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9222dbba8953957cd866a9758a74d6722da41479efb45222c6963c386fa4ee9b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6792,
+      "python_bytes": 6792
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f999.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "418f5525d72faf25539910211426602d375d788ebe5c40b5022863d91e033075",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4084,
+      "python_bytes": 4084
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9dc_1f3fd.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "3593d5365b8acb7182cb940d1a6f1b3060dbe826602858b63319edd8546eefec",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5586,
+      "python_bytes": 5586
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f473_1f3ff_200d_2642.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "2fdff8ce7b3aafd75af7fe90bf92195f0026cbb09cb0e089a5c06e18f11dc930",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4299,
+      "python_bytes": 4299
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f4d8.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9a45d0c2356e5a59be619ff87f5f7c1f66e5050692dcc5c99bb78e33af13ec84",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 784,
+      "python_bytes": 784
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9de_200d_2642.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "f702c828f4538f8cebdc3bf95ceb7aa1e6b40e84848fbb1e5c7a0bc5d3e98fe3",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 9295,
+      "python_bytes": 9295
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "a24743c3719a2675c9fef5d5db46639eacfef7afdd568371a136d9f00d379b22",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5737,
+      "python_bytes": 5737
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f471_1f3fc.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "b93bf8a2ba8867c2b26133db05523218f0fb566c8dd2d480dac01e90859497bf",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5134,
+      "python_bytes": 5134
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "6ce65e13eb98eb3409534f26bf71f4e2bf91ad8896e21f3acd39a0c5e37074c4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5713,
+      "python_bytes": 5713
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9d7_1f3fe.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "4b032c1bedf4eb7aae2154950c6f6dbd699f2e52d16dd15cb223b0c4122c676d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6115,
+      "python_bytes": 6115
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f574_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "a90ae427cac157b49ea7b708dade7e3edbbca3b4caf2d3dd8c18968b28d8aefe",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2921,
+      "python_bytes": 2921
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f3d6.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "04527d81a4ca348857a3bcb65836addc059b53061f390fb6c9fd6df9874f6120",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4932,
+      "python_bytes": 4932
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f486_200d_2642.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "60112e1c645035cc632d167d51798449226671b60e50f3ff5e89d7b65129b70d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4640,
+      "python_bytes": 4640
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f5d1.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "a7906aecf5d23004a0ff6ea5b9f33b450076372362f6b18b63fdf1df1c57d053",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6152,
+      "python_bytes": 6152
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f939_1f3fb.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "85f023c15a6d502415a5ee68acb95a53c7a1b99ea7ca2771706a4aa50a7c311b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6079,
+      "python_bytes": 6079
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9d9_1f3fd_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "9bed23869a036316a5084a6c1b45802b7fe0d491e53137db7fa936769dfd98a6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6347,
+      "python_bytes": 6347
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f93d_1f3fd_200d_2642.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "00aea7a05ecc0c44d28c8f069c4ef8afb3b158a078832e4343b3b909713fefaa",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6307,
+      "python_bytes": 6307
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f40d.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "fb8f88f77e3b57a784ceac0b70f997fc9c69a927614ded80460edddffd90295f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3948,
+      "python_bytes": 3948
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "19255705f33683dfefa021f00c7460b42a8e8ff44acd2c40c181a3a6bef7612d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2662,
+      "python_bytes": 2662
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "93607b39f77e1a45f141f1859160b2475d5eccdb28e5d76d5f9c926b95acae08",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7478,
+      "python_bytes": 7478
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f63e.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "f0ccfcf7cd5b2b0a5792b2c34f49d3e9298d44cc9fabe97c0cb122a27a503a33",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5086,
+      "python_bytes": 5086
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f93c_1f3fd_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "2b41c7973c7d3b1d346373a5b5b2a2d34cc232b46b57bfd78603b83601393809",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7301,
+      "python_bytes": 7301
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f9d7_1f3fe_200d_2640.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "d6a0452090aff7c36ec120da87b0b6c70a69c853158e6e59b74c6e570035b7fc",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6256,
+      "python_bytes": 6256
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3fb_200d_1f527.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "689a0b3ce3d1c4b282e691eff96568f1882a416479a1225626f1c4db67fcba30",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6277,
+      "python_bytes": 6277
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f959.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "ed1e03f073e39a1da374cc5b3cdf43b27910c39a4bb6edd9c2e4798f83bdcc38",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 8761,
+      "python_bytes": 8761
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f91b.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "82dff33e2d9239ba4bbde0cbc0c54195fbe3abfdda2cd972ff4b59141e36718e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3139,
+      "python_bytes": 3139
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f469_1f3fd_200d_1f393.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "c39ee89b593713254d96c45e851ae1a4f0e0f5246c5f2441f7080314cec16a87",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5246,
+      "python_bytes": 5246
+    },
+    {
+      "group": "noto_mixed",
+      "name": "emoji_u1f553.png",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "python_sha256": "69d496bdda9b31f56b73d9a52584ff99c95e265df94c957937fc189e29ebe62c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 4970,
+      "python_bytes": 4970
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "check_box",
+      "shape": [
+        146,
+        305,
+        3
+      ],
+      "python_sha256": "4f595d05065332f0243fcb2286ad7d889bb184d5cc9c00cd00b40f89dcf9a8db",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 10284,
+      "python_bytes": 10284
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "button_family",
+      "shape": [
+        96,
+        620,
+        3
+      ],
+      "python_sha256": "13c7f18f173cf10a050b0233fa04706753a6fc2875c7456542696cd65e110ad9",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 15466,
+      "python_bytes": 15466
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "card_collection",
+      "shape": [
+        392,
+        204,
+        3
+      ],
+      "python_sha256": "b68504cee92107b352585b308d83a30606b56c40f016a3b17d2625009267cb70",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 41635,
+      "python_bytes": 41635
+    },
+    {
+      "group": "research_smooth",
+      "name": "surface_256_noise_0",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "python_sha256": "133cf3035d2fdb85b74f639de3c4c6de1677e7516560232c2393f763e83b0ce0",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 11153,
+      "python_bytes": 11153
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_256_noise_2",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "python_sha256": "a11570e7cf20d87c60770607a4d01ed1ef221b96f413e34abcb309c8cadf0b0c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 73413,
+      "python_bytes": 73413
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_256_noise_8",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "python_sha256": "95fb557ebaf12271bf94a00b6412cba0a211c4b3489c19739f4a77da140b286b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 118741,
+      "python_bytes": 118741
+    },
+    {
+      "group": "archive_structured",
+      "name": "nyquist_checker",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "0c79c4a7f6f650a558d95a5744d6d9c6014a1f97c387aa966e92568b4c4d92b2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 87,
+      "python_bytes": 87
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "941744afe763d1bd1d70e062aed4cf490131cbd19371727d4c75e05c8e39fe1a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 85,
+      "python_bytes": 85
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_256_noise_32",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "python_sha256": "8073bb81d5df72f4d48d146c401dab7af17c452d0153b1a3a4e6cb086d389b7e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 169788,
+      "python_bytes": 169788
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "c6a951580992b85641500959dcb999651d990418d5698e6ca3d75c9f99f42d58",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 86,
+      "python_bytes": 86
+    },
+    {
+      "group": "archive_smooth",
+      "name": "smooth",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "fa69d387debb81414bbd74247dd95d45b6a98e0cb32a99ac0823fbafc8aeb4a7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 6400,
+      "python_bytes": 6400
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_7",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "557cc96377b5ac5c5c5fadf0f7466b0de8c610bbc74c44bdc3d6117467bb7f81",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_7",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "b629364c228685f5c1096f70d7e821c714d27dcdaa63b0ab9723590f6ed2ec58",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_8",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "7a9baccbf914bb08da80d80919ff0317057a363b61c378601ac22a1c1ca735f2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_8",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "b5382a5a10d2f38ee5db286cd0bd91856b735364dfebc513939a8b9f064702b0",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_15",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "2fdbe13285dac33fc7aca35f22bff22e6f948aeba91bfb582ebc95fa7928bbb7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_15",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "0c8d170eea3e98a47bea35e506868c66a28ddce2ffbd20eb2853bd74b2375db1",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_16",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "e4733afdb45883f7ef01a403021ad0131f2ee7e0caf740d2bf5fa434b69c419a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_16",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "da5ed9527d3a14e58ba26de20c344f62e9ce2dbb256f6f74a00d56a708f7959d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_31",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "a64ec12aa1642210c94606675c31af2a65b7481629d634ccce0e589b9b0e9410",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_31",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "de78d4481f4f418f519a96120275fe6bc3ea76a2402cfa617bae9f60d043a518",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_noise_mixed",
+      "name": "mixed_order_noise",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "edf311f47773b4a9868c34bc2ed0312d68aa93489d6bbaed5527a5e44ed65908",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 156753,
+      "python_bytes": 156753
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_32",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "70beb975a3bc311c74ede60c6f50805e0af0c42b9b1d6da06a9e6aefebf8cd67",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_32",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "dd887958feb3ae9a8453ecda228322d11f6f780185bec3c682f0332f37e6bf1d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_noise_mixed",
+      "name": "random",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "864f5c5a6f448b09134ba635643366d3c55ef6cfd2f86ccdf77fb32494a79790",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 299957,
+      "python_bytes": 299957
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_33",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "e2692db3a28e33aa800d5fe2399bb33f1537c64dccf8459911d614f7283a7ad6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_33",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "32ea1713ab48df811d573e59deee87b5f96305475a062aab83a3fda7faed96d7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_64",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "834e493f8864814c9d5b4f2feba9ddbb6190f4c371d1bbca2f6f834e7d82114d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_64",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "0a0d2b1a114f676b069dcfbfc25440d8a5fb446484bff9de228aba3ab8fe13ba",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_127",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "473a0d203215cf5f0b5c62758bd7143ab8fa041232a9f532b19153644f648288",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_127",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "7930b5c923083a746491c6a5dec60133f37cbb8dcea7091fc5fb79d21aab81e2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "vertical_128",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "887a0cbf6054b720de18c9c432182397ae232e7bd3e65c098b8b30118763a0eb",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "horizontal_128",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "e6c54921d0fec5deb6448edd43bee13bcdd423a0c93b7912945f453de9f78a9f",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 88,
+      "python_bytes": 88
+    },
+    {
+      "group": "archive_structured",
+      "name": "diagonal_one",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "213a6f1c32ec6628e5a6bff53d2ae4b94fbf2fae1393ab9aebfd1de6684f4e17",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 102,
+      "python_bytes": 102
+    },
+    {
+      "group": "archive_structured",
+      "name": "diagonal_half",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "6a5a0bc0ad33bc89a2d0594d2fddbb78442112a3e0e11ae29ea766a2d74bda09",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 489,
+      "python_bytes": 489
+    },
+    {
+      "group": "archive_structured",
+      "name": "oblique_3_7",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "f6e7aa22978d6cd5fdfad5b6f3771bcacf2a27d44f02eb8f34265cd3d30d10a6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 505,
+      "python_bytes": 505
+    },
+    {
+      "group": "archive_structured",
+      "name": "thin_horizontal",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "64b4594e085c6e6e73a214d06dc5e217323ecdbc51b432f665a5327217595b56",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 94,
+      "python_bytes": 94
+    },
+    {
+      "group": "archive_structured",
+      "name": "thin_diagonal",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "54edc4be8566e651f97efb232739607de91d3a11b73e6b21ddad1def5f8d64c4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 493,
+      "python_bytes": 493
+    },
+    {
+      "group": "archive_structured",
+      "name": "rectangle_unaligned",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "30cf256cea8a4ce7c069ee27d0210c9355208fa6b45d89855cac14d8b6395b45",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 101,
+      "python_bytes": 101
+    },
+    {
+      "group": "archive_structured",
+      "name": "rectangle_aligned",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "014d4dae8ea0adb419763ddaa0c4097d626ba927f56b16a7d3cc057010282e24",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 101,
+      "python_bytes": 101
+    },
+    {
+      "group": "archive_structured",
+      "name": "drawing_rgb",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "b72c054e8b4723cee7d22bd0d13303b70e141e46195f6a1e3904f1451420d6ec",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 200,
+      "python_bytes": 200
+    },
+    {
+      "group": "archive_structured",
+      "name": "checker_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "4506fb55592e5c9a894160ae6797066fda7a3ef702d29505f04a3981cac7b934",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 86,
+      "python_bytes": 86
+    },
+    {
+      "group": "archive_structured",
+      "name": "thin_blueprint",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "db25445ae5d01c173203f4520fd4999b3d5d5bb06add2110631e4dd4920d287e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 613,
+      "python_bytes": 613
+    },
+    {
+      "group": "archive_structured",
+      "name": "oblique_periodic",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "3551ae30ab389f1355ad2d46ebc6fc38af18e8ae360f3744cf296d16839aeb42",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 126,
+      "python_bytes": 126
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_2_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "f0b03097b317d69cb995c300c4f915179f1669f56ba24670ce54390226b5b55a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 138,
+      "python_bytes": 138
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_2_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "9809915dc233dc6cc4c9a7ef212e870a767755b40ec1ca9dc10eaa6d9b68b7a4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 136,
+      "python_bytes": 136
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_2_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "70537b97d8409f9c801b5df4d19b4346ff93e40d25bf6d569048bfecfdd4db43",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 207,
+      "python_bytes": 207
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_3_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "2d99bfa7de01e45e0f4530de023a58f8528d47451083108b876d9a81d31fc6fd",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 196,
+      "python_bytes": 196
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_3_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "07a5dbf383cb31bcde0d6fa4a8c5229889a081e7aaa0822e30bf86be8a5a0f5e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 192,
+      "python_bytes": 192
+    },
+    {
+      "group": "archive_structured",
+      "name": "rectangle_on_gradient",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "8207a0013ed1798d0ad836274a0eae8c1a4b15890779e3ecaca22a7792f3349d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 924,
+      "python_bytes": 924
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_3_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "1865120bea01d69d2958b0c5466920f3c2b8bd1ffe6ef6997cddf13ace7d109e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 321,
+      "python_bytes": 321
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_5_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "f3af122b516f13eabdc3f6eafbb56a782718b0324b65c9f18b8c6c44a9a55065",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 337,
+      "python_bytes": 337
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_5_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "ed844fc7432e41d04f141cd5cc13c44ad7ab85c4debc51432ee19275d8b954ef",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 334,
+      "python_bytes": 334
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_5_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "7cd30d17923fd04f19c71ffcf41867fd4c2314142bf7dbede0869edd6177ef7d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 524,
+      "python_bytes": 524
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_7_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "e3a445dea86968abe91c903a5650af9cd016972abca79b260a25b11579581e22",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 513,
+      "python_bytes": 513
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_7_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "1090a36c1ad07699d29dd352346764401e696d5487c74c15a703550d46b3cdf7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 515,
+      "python_bytes": 515
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_7_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "d059fbf234c31498c081addc9db64a00324632d54ff562c8e4e51b18c9c6dc26",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 764,
+      "python_bytes": 764
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_8_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "d57cb852937395f45bdf6dd67094f8fbec5f747fbe19d318e805213e163261c2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 625,
+      "python_bytes": 625
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_8_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "c7ea9aaa2d23b1ae72e1e5ee3a27001d80218603f1b735e3cca6df5c7f81bf43",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 623,
+      "python_bytes": 623
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_8_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "58eb33c68dfe497cdae4ef0136629524bae55405206c24795fe6523aa5edfd5e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 857,
+      "python_bytes": 857
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_16_phase_0",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "8ba779913fce10bb2285dfd069f1745c05dd2d5d408827cc732d9fdd363cd2de",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1943,
+      "python_bytes": 1943
+    },
+    {
+      "group": "archive_structured",
+      "name": "rectangle_on_texture",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "053abcc59b1030f2565e893d50ccf1e30dcd1258bfd0eebe27f378c9bf3743d8",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 130029,
+      "python_bytes": 130029
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_16_phase_1",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "3abdd1e5cc8af438c9683d0fa74a4dbbfd3048edf8a4dbfd0ea69c56260c072d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1938,
+      "python_bytes": 1938
+    },
+    {
+      "group": "archive_structured",
+      "name": "tile_16_phase_break",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "2a58aa153326a18645c066b7088a08931dda02d9ece6b36d95ef29f4405e1875",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2365,
+      "python_bytes": 2365
+    },
+    {
+      "group": "archive_structured",
+      "name": "ramp_plus_tile7",
+      "shape": [
+        256,
+        384,
+        3
+      ],
+      "python_sha256": "12bb155caf397c1d14b8bfba7e25d5677ce91607623965c0271024a7636412ce",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 28618,
+      "python_bytes": 28618
+    },
+    {
+      "group": "archive_composite",
+      "name": "composite_photograph_crops",
+      "shape": [
+        2048,
+        64,
+        3
+      ],
+      "python_sha256": "2083bfc02ff5c3a70c7705adde81b4432d81cfc0f7f0bfef820af13f28964948",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 164071,
+      "python_bytes": 164071
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "anchored_popup_layer",
+      "shape": [
+        370,
+        755,
+        3
+      ],
+      "python_sha256": "c2485d44e292f06a08d24ddfb2771d7ad9945e8e24149805f494a7b23312de20",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 105083,
+      "python_bytes": 105083
+    },
+    {
+      "group": "research_smooth",
+      "name": "retained_smooth_half",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "52dc9a7c52a19c80014b48ba809f7e2f058d7edc99ff3c0f26f0f0e15aaf8d0a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 31781,
+      "python_bytes": 31781
+    },
+    {
+      "group": "research_smooth",
+      "name": "retained_smooth_transposed",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "dd72f002949356ec5efd3a98f398fe3afac34f1ecb98959747d6458db00adc47",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 34503,
+      "python_bytes": 34503
+    },
+    {
+      "group": "reference_fixture",
+      "name": "smooth-half",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "52dc9a7c52a19c80014b48ba809f7e2f058d7edc99ff3c0f26f0f0e15aaf8d0a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 31781,
+      "python_bytes": 31781
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "basic_controls_overview",
+      "shape": [
+        430,
+        690,
+        3
+      ],
+      "python_sha256": "d284e77a09ce1bbf0d9555850b93591ff7bfef0b35bed70b5304fe60a8bc1f62",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 69680,
+      "python_bytes": 69680
+    },
+    {
+      "group": "research_noisy",
+      "name": "retained_smooth_noise_one",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "49c2979ac920511800d35dad174a325515e88de0a82f884b5e783b8308cdfe18",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 225566,
+      "python_bytes": 225566
+    },
+    {
+      "group": "research_photo",
+      "name": "photo",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "c0ff1cea12e50c3f96f04158769d2cc8efd9b97d4754911ca448c722fea7be9a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 381716,
+      "python_bytes": 381716
+    },
+    {
+      "group": "reference_fixture",
+      "name": "dog-half",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "python_sha256": "c0ff1cea12e50c3f96f04158769d2cc8efd9b97d4754911ca448c722fea7be9a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 381716,
+      "python_bytes": 381716
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim01",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "76670659e1cf6fc51386e30ba140b24845000cea3aedd5e5cef48beb668065fd",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 507309,
+      "python_bytes": 507309
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim03",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "7ea0c139870407d2a9bff5f0a9373a14c089590069b5617cc56b094787a755f4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 401539,
+      "python_bytes": 401539
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim02",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "9e8cf1d56b0f1e55707a6f118db78d928d1d50f794f222bc1c82269ac2249e56",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 459599,
+      "python_bytes": 459599
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim04",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "3b199d490cbde0ac027dda2b42a874895e4439dca5e20f7d62fa32d49c8a196a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 470465,
+      "python_bytes": 470465
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim07",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "d940f61908de82f7a9b288bec7dd49c2838825f50260f62e20bfdea9801d669d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 425063,
+      "python_bytes": 425063
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim05",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "faafc6b938aff0a140345b5bb2ac189bc9fd3e1b6a9ac8eba8c08ac3ac71f8d7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 557431,
+      "python_bytes": 557431
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim06",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "f5050d224ecc09a78f2b59e186c83833a0d698eae598c0e8979f19a8037be5f6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 478734,
+      "python_bytes": 478734
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim08",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "bf3762a8f0dcbdce298e615ec89cbb6f7bc36341b1176fd05600939f04addd74",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 553117,
+      "python_bytes": 553117
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim09",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "0874c1579b91310d48649a1dfb56df587dfd82b31b3c96d214047e8112c5263b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 435940,
+      "python_bytes": 435940
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim11",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "2ff33e6ea9d8d3db9f472ec2d06f4513e914b8eb65eaced4716c6f30a2529cb5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 464963,
+      "python_bytes": 464963
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim10",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "1bbfc8fffc188510f16b40160eb107a8a5b72115fa359c4838cd915085748fe6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 443748,
+      "python_bytes": 443748
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim12",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "c6727e951cc2d67b5d428f6093f4aaa94d5791fdb7be904297198d02c2fc1c3d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 415828,
+      "python_bytes": 415828
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim16",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "b986e666e05be1dde59eeb9a83db6bb3687e32596e067511122ec0503ef142ab",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 425996,
+      "python_bytes": 425996
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim14",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "be67f7234095f580dbf302c9fff0115322de2277d8b5d88adfb43ec4a5a472be",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 527264,
+      "python_bytes": 527264
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim15",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "01cae920a7752d3f39e13ad635b7ee89f1b8ffe59ac0f2545507422550acdbfb",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 453185,
+      "python_bytes": 453185
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim13",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "fe37300eb82e3e021f1afde3dec3773e45f5117dee9dc07677f57916b13abe0d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 600320,
+      "python_bytes": 600320
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim17",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "1652f5f416f5f240be38634c2b7e2825bc7958a7b4c3705c6696eb2ca20f58b5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 444493,
+      "python_bytes": 444493
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim20",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "fb968404beebe39041ad0b1903328f5f93db86624fb03605458b3d4edf1801d6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 393729,
+      "python_bytes": 393729
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim19",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "5e557939c4763d4aad7e68b63cb667c557c626e4b79630a0c6621f4618d4a1b1",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 483749,
+      "python_bytes": 483749
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim18",
+      "shape": [
+        768,
+        512,
+        3
+      ],
+      "python_sha256": "f461415fefe7e0116a508f34b26f72fdfb9748e1d61f45ea29199108303cc1de",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 560988,
+      "python_bytes": 560988
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim21",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "4e7951ad5ac1e0ba2c1a279026cc6035bc8dd8bc41ae69e45bcb7dd0e11f16cb",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 491260,
+      "python_bytes": 491260
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim23",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "0db6714d1172670e2a54cd4f499979d5612180e6a212d553aa991302649454f2",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 432136,
+      "python_bytes": 432136
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim22",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "745b12fe337653034e114777f456f8ae44d1599e8543048f852d45c59d0400da",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 519872,
+      "python_bytes": 519872
+    },
+    {
+      "group": "archive_photographs",
+      "name": "kodim24",
+      "shape": [
+        512,
+        768,
+        3
+      ],
+      "python_sha256": "b697b2563936c36cd21453298014b3d2f8abd308132dfd40a0c4418eda5fa6a0",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 496011,
+      "python_bytes": 496011
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "container_focus",
+      "shape": [
+        558,
+        840,
+        3
+      ],
+      "python_sha256": "75af3c0d6d669f034cc54f99c19ef70ce20a3e3fd1c8f3666dd1c07f7cf9b0f8",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 113108,
+      "python_bytes": 113108
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "checked_list_box",
+      "shape": [
+        558,
+        840,
+        3
+      ],
+      "python_sha256": "401322c2669cc6e8e4c284861dcb660c6f0da67f2b7415f8a7aa789bd564d492",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 128936,
+      "python_bytes": 128936
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "correspondence-macos",
+      "shape": [
+        720,
+        1120,
+        4
+      ],
+      "python_sha256": "7dc260d0c6fcd021bd7cdbac45fc92469810697a140f5d3cbb1567838f2a110c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 39549,
+      "python_bytes": 39549
+    },
+    {
+      "group": "research_mixed",
+      "name": "retained_whole",
+      "shape": [
+        512,
+        1024,
+        3
+      ],
+      "python_sha256": "e4b8f7fb45d8af715ec772108713032aced5c281e93a6c6a7421e91f8a8de0d3",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 422525,
+      "python_bytes": 422525
+    },
+    {
+      "group": "reference_fixture",
+      "name": "reference",
+      "shape": [
+        512,
+        1024,
+        3
+      ],
+      "python_sha256": "e4b8f7fb45d8af715ec772108713032aced5c281e93a6c6a7421e91f8a8de0d3",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 422525,
+      "python_bytes": 422525
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "collection_menu_screen",
+      "shape": [
+        760,
+        1259,
+        3
+      ],
+      "python_sha256": "545af1299a29982ab071656dbac33ea3af78fed8b9fe1165bfddcfc9987ea1ee",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 414195,
+      "python_bytes": 414195
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "basic_controls_002_screen",
+      "shape": [
+        760,
+        1259,
+        3
+      ],
+      "python_sha256": "4165b97aa04bc2ba94b4b7480af69c1d8d2111459f95484a5d158e0dc76223a6",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 459117,
+      "python_bytes": 459117
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "checked_list_box_screen",
+      "shape": [
+        760,
+        1259,
+        3
+      ],
+      "python_sha256": "ae5b6bade4aaa82fb6d316f90d8fc7449cd18ed9a64c37faa873d7195d7f9f12",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 450828,
+      "python_bytes": 450828
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "composition_bundle_001_screen",
+      "shape": [
+        760,
+        1259,
+        3
+      ],
+      "python_sha256": "d6afe6d9b811a2e4e94b02b1a2f90742d47154e9b4b91a58e964373fc035490e",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 459039,
+      "python_bytes": 459039
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "container_bundle_003_screen",
+      "shape": [
+        760,
+        1259,
+        3
+      ],
+      "python_sha256": "429141dfea09f4f0101db890ff1346601bd6a30152db0b88a42d55a57beeb767",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 434997,
+      "python_bytes": 434997
+    },
+    {
+      "group": "guiforms_capture",
+      "name": "gallery-macos",
+      "shape": [
+        820,
+        1280,
+        4
+      ],
+      "python_sha256": "b1d667456bdb48c1e8b2425fd144af300aa18385c476256cc457d05df64c2822",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 113464,
+      "python_bytes": 113464
+    },
+    {
+      "group": "testimages",
+      "name": "_apples.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "334991f816d28039fea2931d67ef61daeca5beb5db62950f8796be3ec9b1b4b7",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1086025,
+      "python_bytes": 1086025
+    },
+    {
+      "group": "testimages",
+      "name": "_almonds.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "dcde669f7d97b942775700a5ac11f211c8c7247e43287249e9aa5322856a55e4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1643693,
+      "python_bytes": 1643693
+    },
+    {
+      "group": "testimages",
+      "name": "_billiard_balls_a.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "c489680859a873815e37b1f31ea8a96e5244e450b26743c464feb4a1faf2d2db",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 848160,
+      "python_bytes": 848160
+    },
+    {
+      "group": "testimages",
+      "name": "_baloons.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "49f41b59e2c0dafd6ee392fffadf5de0fd687ce46bb802998644090c6ece0f4a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1086697,
+      "python_bytes": 1086697
+    },
+    {
+      "group": "testimages",
+      "name": "_billiard_balls_b.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "6c8ca48c746bd86c4469fd5bfe165536a7bc1b1099e37f1b117475b6a6a75daa",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1101631,
+      "python_bytes": 1101631
+    },
+    {
+      "group": "testimages",
+      "name": "_building.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "3a58282d76803e92cb9c6f9f886fbcd0713e48477614f7bae36e227c6dd78b7d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 998292,
+      "python_bytes": 998292
+    },
+    {
+      "group": "testimages",
+      "name": "_bananas.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "a0916ce83fe7d38ee90c0d8527cb421bbeeee8f7723c6a79718d21e876159aed",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1413877,
+      "python_bytes": 1413877
+    },
+    {
+      "group": "testimages",
+      "name": "_cards_a.png",
+      "shape": [
+        1200,
+        1200,
+        3
+      ],
+      "python_sha256": "29d8c5d3d73996eeb9a21f83683459216dfbd68b18c4f8093bc923260d4adc3c",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 1783259,
+      "python_bytes": 1783259
+    }
+  ]
+}
