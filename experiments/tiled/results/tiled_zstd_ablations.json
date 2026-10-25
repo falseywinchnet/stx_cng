@@ -1,0 +1,4452 @@
+{
+ "scope": "Benchmark of the tiled transform + zstd reference (research/tiled_zstd_codec.py) on the phase corpus and the Noto\nfixtures: complete-file bytes, exact decode of every image, and the reference sizes it sits between, all on the same\nimages: lossless WebP (Pillow/libwebp, method 6, quality 100, exact), OptiPNG -o7 and PNG level 9 (from\nresults/optipng_reference.json), CSP v3 (manifest) and the CNGPHI08 frame codec (results/native_phase_hashes_arm64_v7e.json).\n\n    python -B -m research.benchmark_tiled_zstd main [--workers 4] [--limit N]\n        default construction: encode, decode, exactness, WebP size  -> results/tiled_zstd_benchmark.json\n    python -B -m research.benchmark_tiled_zstd ablations [--workers 4]\n        each component switched off in turn: sizes for every image, exact decode for images up to 20,000 pixels\n                                                                    -> results/tiled_zstd_ablations.json\nSizes only; the Python decoder's time is not a measurement of the construction.",
+ "ablations": {
+  "default": {},
+  "no phase-rounded plane": {
+   "plane": false
+  },
+  "no phase sign flip": {
+   "flip": false
+  },
+  "no stream split": {
+   "split": false
+  },
+  "no colour gate": {
+   "gate": false
+  },
+  "no dictionary": {
+   "dictionary": false
+  }
+ },
+ "rows": [
+  {
+   "group": "research_structured",
+   "name": "checker",
+   "w": 67,
+   "h": 65,
+   "sizes": {
+    "default": 484,
+    "no phase-rounded plane": 380,
+    "no phase sign flip": 504,
+    "no stream split": 382,
+    "no colour gate": 480,
+    "no dictionary": 484
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise2",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 44406,
+    "no phase-rounded plane": 44558,
+    "no phase sign flip": 44434,
+    "no stream split": 44468,
+    "no colour gate": 40544,
+    "no dictionary": 44406
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise32",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 89298,
+    "no phase-rounded plane": 89298,
+    "no phase sign flip": 89298,
+    "no stream split": 89214,
+    "no colour gate": 84086,
+    "no dictionary": 89298
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "half_noise",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 58290,
+    "no phase-rounded plane": 59846,
+    "no phase sign flip": 58922,
+    "no stream split": 58982,
+    "no colour gate": 58224,
+    "no dictionary": 58290
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise1",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 30994,
+    "no phase-rounded plane": 34088,
+    "no phase sign flip": 31318,
+    "no stream split": 31652,
+    "no colour gate": 30130,
+    "no dictionary": 30994
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise4",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 54698,
+    "no phase-rounded plane": 54698,
+    "no phase sign flip": 54698,
+    "no stream split": 54630,
+    "no colour gate": 50104,
+    "no dictionary": 54698
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise8",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 65732,
+    "no phase-rounded plane": 65732,
+    "no phase sign flip": 65732,
+    "no stream split": 65600,
+    "no colour gate": 60736,
+    "no dictionary": 65732
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "random",
+   "w": 67,
+   "h": 65,
+   "sizes": {
+    "default": 26442,
+    "no phase-rounded plane": 26442,
+    "no phase sign flip": 26442,
+    "no stream split": 26386,
+    "no colour gate": 26442,
+    "no dictionary": 26442
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "retained_random_rgb",
+   "w": 67,
+   "h": 63,
+   "sizes": {
+    "default": 25598,
+    "no phase-rounded plane": 25598,
+    "no phase sign flip": 25598,
+    "no stream split": 25552,
+    "no colour gate": 25598,
+    "no dictionary": 25598
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "ramp",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 316,
+    "no phase-rounded plane": 316,
+    "no phase sign flip": 316,
+    "no stream split": 190,
+    "no colour gate": 350,
+    "no dictionary": 316
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_photo",
+   "name": "photo",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 440907,
+    "no phase-rounded plane": 436653,
+    "no phase sign flip": 440407,
+    "no stream split": 451619,
+    "no colour gate": 471012,
+    "no dictionary": 440990
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_noisy",
+   "name": "retained_smooth_noise_one",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 266939,
+    "no phase-rounded plane": 265990,
+    "no phase sign flip": 267174,
+    "no stream split": 270893,
+    "no colour gate": 264457,
+    "no dictionary": 266950
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_noisy",
+   "name": "speckles25",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 80062,
+    "no phase-rounded plane": 79032,
+    "no phase sign flip": 80086,
+    "no stream split": 79772,
+    "no colour gate": 77894,
+    "no dictionary": 80062
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "speckles5",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 42642,
+    "no phase-rounded plane": 39722,
+    "no phase sign flip": 43106,
+    "no stream split": 42710,
+    "no colour gate": 40880,
+    "no dictionary": 42642
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "speckles50",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 95550,
+    "no phase-rounded plane": 95550,
+    "no phase sign flip": 95550,
+    "no stream split": 95414,
+    "no colour gate": 94460,
+    "no dictionary": 95550
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "speckles90",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 98764,
+    "no phase-rounded plane": 98764,
+    "no phase sign flip": 98764,
+    "no stream split": 98726,
+    "no colour gate": 98754,
+    "no dictionary": 98764
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "retained_smooth_half",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 94554,
+    "no phase-rounded plane": 83258,
+    "no phase sign flip": 90820,
+    "no stream split": 48362,
+    "no colour gate": 93330,
+    "no dictionary": 94618
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_smooth",
+   "name": "surface_64_noise_0",
+   "w": 64,
+   "h": 64,
+   "sizes": {
+    "default": 5750,
+    "no phase-rounded plane": 6376,
+    "no phase sign flip": 5916,
+    "no stream split": 5840,
+    "no colour gate": 5558,
+    "no dictionary": 5750
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_64_noise_2",
+   "w": 64,
+   "h": 64,
+   "sizes": {
+    "default": 11894,
+    "no phase-rounded plane": 11914,
+    "no phase sign flip": 11894,
+    "no stream split": 11852,
+    "no colour gate": 10906,
+    "no dictionary": 11894
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_64_noise_8",
+   "w": 64,
+   "h": 64,
+   "sizes": {
+    "default": 16742,
+    "no phase-rounded plane": 16742,
+    "no phase sign flip": 16742,
+    "no stream split": 16690,
+    "no colour gate": 15606,
+    "no dictionary": 16742
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_64_noise_32",
+   "w": 64,
+   "h": 64,
+   "sizes": {
+    "default": 22564,
+    "no phase-rounded plane": 22564,
+    "no phase sign flip": 22564,
+    "no stream split": 22514,
+    "no colour gate": 21212,
+    "no dictionary": 22564
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "surface",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 13678,
+    "no phase-rounded plane": 17496,
+    "no phase sign flip": 14898,
+    "no stream split": 13216,
+    "no colour gate": 13370,
+    "no dictionary": 13678
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_128_noise_2",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 44116,
+    "no phase-rounded plane": 44266,
+    "no phase sign flip": 44130,
+    "no stream split": 44166,
+    "no colour gate": 40180,
+    "no dictionary": 44116
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "retained_smooth_transposed",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 113897,
+    "no phase-rounded plane": 82943,
+    "no phase sign flip": 112259,
+    "no stream split": 57127,
+    "no colour gate": 112602,
+    "no dictionary": 113974
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_smooth",
+   "name": "surface_128_noise_0",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 12974,
+    "no phase-rounded plane": 17184,
+    "no phase sign flip": 14504,
+    "no stream split": 12398,
+    "no colour gate": 12826,
+    "no dictionary": 12974
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_128_noise_8",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 65468,
+    "no phase-rounded plane": 65468,
+    "no phase sign flip": 65468,
+    "no stream split": 65382,
+    "no colour gate": 60560,
+    "no dictionary": 65468
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_128_noise_32",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 89292,
+    "no phase-rounded plane": 89292,
+    "no phase sign flip": 89292,
+    "no stream split": 89214,
+    "no colour gate": 84040,
+    "no dictionary": 89292
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_256_noise_8",
+   "w": 256,
+   "h": 256,
+   "sizes": {
+    "default": 163524,
+    "no phase-rounded plane": 163524,
+    "no phase sign flip": 163524,
+    "no stream split": 163305,
+    "no colour gate": 151057,
+    "no dictionary": 163524
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_256_noise_32",
+   "w": 256,
+   "h": 256,
+   "sizes": {
+    "default": 223001,
+    "no phase-rounded plane": 223001,
+    "no phase sign flip": 223001,
+    "no stream split": 222841,
+    "no colour gate": 209916,
+    "no dictionary": 223033
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_noisy",
+   "name": "surface_256_noise_2",
+   "w": 256,
+   "h": 256,
+   "sizes": {
+    "default": 107928,
+    "no phase-rounded plane": 108330,
+    "no phase sign flip": 108017,
+    "no stream split": 108258,
+    "no colour gate": 98079,
+    "no dictionary": 107957
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_8_axis_0",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 93634,
+    "no phase-rounded plane": 93594,
+    "no phase sign flip": 93634,
+    "no stream split": 93546,
+    "no colour gate": 93598,
+    "no dictionary": 93634
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_8_axis_1",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 94914,
+    "no phase-rounded plane": 94858,
+    "no phase sign flip": 94914,
+    "no stream split": 94128,
+    "no colour gate": 94888,
+    "no dictionary": 94914
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_16_axis_0",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 87466,
+    "no phase-rounded plane": 87436,
+    "no phase sign flip": 87466,
+    "no stream split": 87372,
+    "no colour gate": 87464,
+    "no dictionary": 87466
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_16_axis_1",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 88788,
+    "no phase-rounded plane": 88722,
+    "no phase sign flip": 88788,
+    "no stream split": 87954,
+    "no colour gate": 88782,
+    "no dictionary": 88788
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_24_axis_0",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 81308,
+    "no phase-rounded plane": 81278,
+    "no phase sign flip": 81308,
+    "no stream split": 81222,
+    "no colour gate": 81294,
+    "no dictionary": 81308
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "odd_surface_65_67",
+   "w": 67,
+   "h": 65,
+   "sizes": {
+    "default": 6286,
+    "no phase-rounded plane": 6802,
+    "no phase sign flip": 6352,
+    "no stream split": 6440,
+    "no colour gate": 6086,
+    "no dictionary": 6286
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "strip_24_axis_1",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 82654,
+    "no phase-rounded plane": 82610,
+    "no phase sign flip": 82654,
+    "no stream split": 81790,
+    "no colour gate": 82638,
+    "no dictionary": 82654
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_smooth",
+   "name": "odd_surface_31_19",
+   "w": 19,
+   "h": 31,
+   "sizes": {
+    "default": 2126,
+    "no phase-rounded plane": 1886,
+    "no phase sign flip": 2076,
+    "no stream split": 1962,
+    "no colour gate": 2068,
+    "no dictionary": 2126
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "research_mixed",
+   "name": "retained_whole",
+   "w": 1024,
+   "h": 512,
+   "sizes": {
+    "default": 531072,
+    "no phase-rounded plane": 514410,
+    "no phase sign flip": 526844,
+    "no stream split": 498509,
+    "no colour gate": 560076,
+    "no dictionary": 531155
+   },
+   "exact": {}
+  },
+  {
+   "group": "research_smooth",
+   "name": "surface_256_noise_0",
+   "w": 256,
+   "h": 256,
+   "sizes": {
+    "default": 25797,
+    "no phase-rounded plane": 34538,
+    "no phase sign flip": 28479,
+    "no stream split": 22596,
+    "no colour gate": 25704,
+    "no dictionary": 25899
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_noise_mixed",
+   "name": "random",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 346018,
+    "no phase-rounded plane": 346018,
+    "no phase sign flip": 346018,
+    "no stream split": 345897,
+    "no colour gate": 345888,
+    "no dictionary": 346018
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "nyquist_checker",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 623,
+    "no phase-rounded plane": 592,
+    "no phase sign flip": 623,
+    "no stream split": 373,
+    "no colour gate": 623,
+    "no dictionary": 783
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_noise_mixed",
+   "name": "mixed_order_noise",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 172422,
+    "no phase-rounded plane": 161693,
+    "no phase sign flip": 170316,
+    "no stream split": 165285,
+    "no colour gate": 171867,
+    "no dictionary": 173520
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_smooth",
+   "name": "smooth",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 15254,
+    "no phase-rounded plane": 19388,
+    "no phase sign flip": 16641,
+    "no stream split": 10277,
+    "no colour gate": 15192,
+    "no dictionary": 15360
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim01",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 634018,
+    "no phase-rounded plane": 615141,
+    "no phase sign flip": 632187,
+    "no stream split": 639353,
+    "no colour gate": 793898,
+    "no dictionary": 637856
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim02",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 562772,
+    "no phase-rounded plane": 548944,
+    "no phase sign flip": 561490,
+    "no stream split": 568483,
+    "no colour gate": 649996,
+    "no dictionary": 566035
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim04",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 571598,
+    "no phase-rounded plane": 554688,
+    "no phase sign flip": 569770,
+    "no stream split": 576912,
+    "no colour gate": 654283,
+    "no dictionary": 575076
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim03",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 509082,
+    "no phase-rounded plane": 487781,
+    "no phase sign flip": 503330,
+    "no stream split": 521572,
+    "no colour gate": 561970,
+    "no dictionary": 509986
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim05",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 673328,
+    "no phase-rounded plane": 661635,
+    "no phase sign flip": 672305,
+    "no stream split": 685237,
+    "no colour gate": 813104,
+    "no dictionary": 674852
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim06",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 577328,
+    "no phase-rounded plane": 562154,
+    "no phase sign flip": 574028,
+    "no stream split": 577845,
+    "no colour gate": 699213,
+    "no dictionary": 579756
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim08",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 660742,
+    "no phase-rounded plane": 652790,
+    "no phase sign flip": 660242,
+    "no stream split": 664682,
+    "no colour gate": 810133,
+    "no dictionary": 665708
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim07",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 535625,
+    "no phase-rounded plane": 506098,
+    "no phase sign flip": 530385,
+    "no stream split": 545613,
+    "no colour gate": 588216,
+    "no dictionary": 536802
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim09",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 545140,
+    "no phase-rounded plane": 535827,
+    "no phase sign flip": 543309,
+    "no stream split": 550566,
+    "no colour gate": 619478,
+    "no dictionary": 549049
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim10",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 548985,
+    "no phase-rounded plane": 540470,
+    "no phase sign flip": 547709,
+    "no stream split": 555303,
+    "no colour gate": 625493,
+    "no dictionary": 552961
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim11",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 576635,
+    "no phase-rounded plane": 553434,
+    "no phase sign flip": 573077,
+    "no stream split": 582274,
+    "no colour gate": 679358,
+    "no dictionary": 579259
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim13",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 722701,
+    "no phase-rounded plane": 717895,
+    "no phase sign flip": 721999,
+    "no stream split": 722540,
+    "no colour gate": 920489,
+    "no dictionary": 726243
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim14",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 627903,
+    "no phase-rounded plane": 617179,
+    "no phase sign flip": 625461,
+    "no stream split": 632441,
+    "no colour gate": 752835,
+    "no dictionary": 632743
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim12",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 527455,
+    "no phase-rounded plane": 504740,
+    "no phase sign flip": 522115,
+    "no stream split": 536537,
+    "no colour gate": 592486,
+    "no dictionary": 529654
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim15",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 545241,
+    "no phase-rounded plane": 521950,
+    "no phase sign flip": 541181,
+    "no stream split": 553692,
+    "no colour gate": 608904,
+    "no dictionary": 548316
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim18",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 666108,
+    "no phase-rounded plane": 665646,
+    "no phase sign flip": 665965,
+    "no stream split": 669786,
+    "no colour gate": 791607,
+    "no dictionary": 669762
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim16",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 535494,
+    "no phase-rounded plane": 521910,
+    "no phase sign flip": 532081,
+    "no stream split": 540231,
+    "no colour gate": 624417,
+    "no dictionary": 538921
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim17",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 556668,
+    "no phase-rounded plane": 539250,
+    "no phase sign flip": 550858,
+    "no stream split": 561961,
+    "no colour gate": 643365,
+    "no dictionary": 560387
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim20",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 435319,
+    "no phase-rounded plane": 432995,
+    "no phase sign flip": 434796,
+    "no stream split": 438228,
+    "no colour gate": 482525,
+    "no dictionary": 437734
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim22",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 628318,
+    "no phase-rounded plane": 624734,
+    "no phase sign flip": 627896,
+    "no stream split": 634577,
+    "no colour gate": 724048,
+    "no dictionary": 632323
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim19",
+   "w": 512,
+   "h": 768,
+   "sizes": {
+    "default": 582054,
+    "no phase-rounded plane": 579644,
+    "no phase sign flip": 581330,
+    "no stream split": 581887,
+    "no colour gate": 689678,
+    "no dictionary": 587094
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 655,
+    "no phase-rounded plane": 596,
+    "no phase sign flip": 655,
+    "no stream split": 449,
+    "no colour gate": 655,
+    "no dictionary": 678
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 689,
+    "no phase-rounded plane": 613,
+    "no phase sign flip": 689,
+    "no stream split": 488,
+    "no colour gate": 689,
+    "no dictionary": 735
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_7",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 722,
+    "no phase-rounded plane": 628,
+    "no phase sign flip": 722,
+    "no stream split": 516,
+    "no colour gate": 724,
+    "no dictionary": 781
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_7",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 715,
+    "no phase-rounded plane": 629,
+    "no phase sign flip": 715,
+    "no stream split": 524,
+    "no colour gate": 717,
+    "no dictionary": 799
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_8",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 723,
+    "no phase-rounded plane": 623,
+    "no phase sign flip": 723,
+    "no stream split": 519,
+    "no colour gate": 725,
+    "no dictionary": 781
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim21",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 584854,
+    "no phase-rounded plane": 583077,
+    "no phase sign flip": 584623,
+    "no stream split": 587008,
+    "no colour gate": 701118,
+    "no dictionary": 589777
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_8",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 715,
+    "no phase-rounded plane": 629,
+    "no phase sign flip": 715,
+    "no stream split": 524,
+    "no colour gate": 717,
+    "no dictionary": 799
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_15",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 728,
+    "no phase-rounded plane": 636,
+    "no phase sign flip": 728,
+    "no stream split": 526,
+    "no colour gate": 728,
+    "no dictionary": 776
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_15",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 727,
+    "no phase-rounded plane": 641,
+    "no phase sign flip": 727,
+    "no stream split": 524,
+    "no colour gate": 727,
+    "no dictionary": 813
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_16",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 729,
+    "no phase-rounded plane": 633,
+    "no phase sign flip": 729,
+    "no stream split": 518,
+    "no colour gate": 729,
+    "no dictionary": 776
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_16",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 723,
+    "no phase-rounded plane": 635,
+    "no phase sign flip": 723,
+    "no stream split": 520,
+    "no colour gate": 723,
+    "no dictionary": 809
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_31",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 770,
+    "no phase-rounded plane": 654,
+    "no phase sign flip": 770,
+    "no stream split": 548,
+    "no colour gate": 770,
+    "no dictionary": 824
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_31",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 777,
+    "no phase-rounded plane": 663,
+    "no phase sign flip": 777,
+    "no stream split": 570,
+    "no colour gate": 777,
+    "no dictionary": 863
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_32",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 754,
+    "no phase-rounded plane": 638,
+    "no phase sign flip": 754,
+    "no stream split": 548,
+    "no colour gate": 754,
+    "no dictionary": 808
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_32",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 761,
+    "no phase-rounded plane": 647,
+    "no phase sign flip": 761,
+    "no stream split": 548,
+    "no colour gate": 761,
+    "no dictionary": 847
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_33",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 815,
+    "no phase-rounded plane": 679,
+    "no phase sign flip": 815,
+    "no stream split": 580,
+    "no colour gate": 815,
+    "no dictionary": 901
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_33",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 784,
+    "no phase-rounded plane": 674,
+    "no phase sign flip": 784,
+    "no stream split": 548,
+    "no colour gate": 784,
+    "no dictionary": 838
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_64",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 771,
+    "no phase-rounded plane": 631,
+    "no phase sign flip": 771,
+    "no stream split": 577,
+    "no colour gate": 771,
+    "no dictionary": 825
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_64",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 747,
+    "no phase-rounded plane": 655,
+    "no phase sign flip": 749,
+    "no stream split": 542,
+    "no colour gate": 747,
+    "no dictionary": 827
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_127",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 753,
+    "no phase-rounded plane": 671,
+    "no phase sign flip": 753,
+    "no stream split": 536,
+    "no colour gate": 753,
+    "no dictionary": 795
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_127",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 794,
+    "no phase-rounded plane": 658,
+    "no phase sign flip": 794,
+    "no stream split": 557,
+    "no colour gate": 794,
+    "no dictionary": 840
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "vertical_128",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 647,
+    "no phase-rounded plane": 583,
+    "no phase sign flip": 647,
+    "no stream split": 470,
+    "no colour gate": 647,
+    "no dictionary": 647
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "horizontal_128",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 617,
+    "no phase-rounded plane": 577,
+    "no phase sign flip": 619,
+    "no stream split": 448,
+    "no colour gate": 617,
+    "no dictionary": 617
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "diagonal_half",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 813,
+    "no phase-rounded plane": 813,
+    "no phase sign flip": 813,
+    "no stream split": 549,
+    "no colour gate": 818,
+    "no dictionary": 846
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "diagonal_one",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 765,
+    "no phase-rounded plane": 671,
+    "no phase sign flip": 731,
+    "no stream split": 495,
+    "no colour gate": 767,
+    "no dictionary": 832
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "thin_horizontal",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 765,
+    "no phase-rounded plane": 641,
+    "no phase sign flip": 765,
+    "no stream split": 560,
+    "no colour gate": 765,
+    "no dictionary": 889
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "oblique_3_7",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1323,
+    "no phase-rounded plane": 1290,
+    "no phase sign flip": 1313,
+    "no stream split": 887,
+    "no colour gate": 1339,
+    "no dictionary": 1357
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "thin_diagonal",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 748,
+    "no phase-rounded plane": 748,
+    "no phase sign flip": 748,
+    "no stream split": 555,
+    "no colour gate": 750,
+    "no dictionary": 823
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "rectangle_aligned",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1275,
+    "no phase-rounded plane": 829,
+    "no phase sign flip": 1310,
+    "no stream split": 1086,
+    "no colour gate": 1275,
+    "no dictionary": 1317
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "rectangle_unaligned",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1549,
+    "no phase-rounded plane": 973,
+    "no phase sign flip": 1563,
+    "no stream split": 1208,
+    "no colour gate": 1545,
+    "no dictionary": 1591
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "drawing_rgb",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2668,
+    "no phase-rounded plane": 1468,
+    "no phase sign flip": 2696,
+    "no stream split": 2259,
+    "no colour gate": 2622,
+    "no dictionary": 2751
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "rectangle_on_gradient",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 7023,
+    "no phase-rounded plane": 1845,
+    "no phase sign flip": 5741,
+    "no stream split": 5622,
+    "no colour gate": 6958,
+    "no dictionary": 7109
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "checker_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 594,
+    "no phase-rounded plane": 589,
+    "no phase sign flip": 594,
+    "no stream split": 377,
+    "no colour gate": 594,
+    "no dictionary": 734
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "thin_blueprint",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1801,
+    "no phase-rounded plane": 1382,
+    "no phase sign flip": 1803,
+    "no stream split": 1479,
+    "no colour gate": 1817,
+    "no dictionary": 2674
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "rectangle_on_texture",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 173001,
+    "no phase-rounded plane": 172854,
+    "no phase sign flip": 172984,
+    "no stream split": 172584,
+    "no colour gate": 155677,
+    "no dictionary": 173190
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim24",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 618498,
+    "no phase-rounded plane": 589671,
+    "no phase sign flip": 616279,
+    "no stream split": 626837,
+    "no colour gate": 723624,
+    "no dictionary": 620733
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "oblique_periodic",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 827,
+    "no phase-rounded plane": 827,
+    "no phase sign flip": 837,
+    "no stream split": 630,
+    "no colour gate": 857,
+    "no dictionary": 971
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_2_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 541,
+    "no phase-rounded plane": 541,
+    "no phase sign flip": 541,
+    "no stream split": 425,
+    "no colour gate": 533,
+    "no dictionary": 796
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_2_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 541,
+    "no phase-rounded plane": 541,
+    "no phase sign flip": 541,
+    "no stream split": 425,
+    "no colour gate": 535,
+    "no dictionary": 796
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_2_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 625,
+    "no phase-rounded plane": 625,
+    "no phase sign flip": 625,
+    "no stream split": 507,
+    "no colour gate": 611,
+    "no dictionary": 1090
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_3_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1125,
+    "no phase-rounded plane": 1125,
+    "no phase sign flip": 1125,
+    "no stream split": 950,
+    "no colour gate": 1099,
+    "no dictionary": 1187
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_3_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1134,
+    "no phase-rounded plane": 1124,
+    "no phase sign flip": 1134,
+    "no stream split": 929,
+    "no colour gate": 1137,
+    "no dictionary": 1194
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim23",
+   "w": 768,
+   "h": 512,
+   "sizes": {
+    "default": 519974,
+    "no phase-rounded plane": 514604,
+    "no phase sign flip": 518477,
+    "no stream split": 525022,
+    "no colour gate": 566891,
+    "no dictionary": 521692
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_5_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1402,
+    "no phase-rounded plane": 1348,
+    "no phase sign flip": 1406,
+    "no stream split": 1232,
+    "no colour gate": 1387,
+    "no dictionary": 1731
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_3_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1603,
+    "no phase-rounded plane": 1595,
+    "no phase sign flip": 1605,
+    "no stream split": 1368,
+    "no colour gate": 1574,
+    "no dictionary": 1835
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_5_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1360,
+    "no phase-rounded plane": 1304,
+    "no phase sign flip": 1356,
+    "no stream split": 1240,
+    "no colour gate": 1334,
+    "no dictionary": 1688
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_7_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1758,
+    "no phase-rounded plane": 1754,
+    "no phase sign flip": 1754,
+    "no stream split": 1567,
+    "no colour gate": 1736,
+    "no dictionary": 2431
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_5_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2115,
+    "no phase-rounded plane": 2015,
+    "no phase sign flip": 2111,
+    "no stream split": 1857,
+    "no colour gate": 2065,
+    "no dictionary": 2544
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_7_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1804,
+    "no phase-rounded plane": 1806,
+    "no phase sign flip": 1802,
+    "no stream split": 1519,
+    "no colour gate": 1791,
+    "no dictionary": 2455
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_7_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2480,
+    "no phase-rounded plane": 2478,
+    "no phase sign flip": 2478,
+    "no stream split": 2279,
+    "no colour gate": 2333,
+    "no dictionary": 3238
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_8_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 993,
+    "no phase-rounded plane": 993,
+    "no phase sign flip": 993,
+    "no stream split": 881,
+    "no colour gate": 989,
+    "no dictionary": 2378
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_8_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 987,
+    "no phase-rounded plane": 987,
+    "no phase sign flip": 987,
+    "no stream split": 875,
+    "no colour gate": 987,
+    "no dictionary": 2357
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_8_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 1211,
+    "no phase-rounded plane": 1211,
+    "no phase sign flip": 1211,
+    "no stream split": 1099,
+    "no colour gate": 1203,
+    "no dictionary": 3141
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_16_phase_0",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2279,
+    "no phase-rounded plane": 2279,
+    "no phase sign flip": 2279,
+    "no stream split": 2167,
+    "no colour gate": 2265,
+    "no dictionary": 6879
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_16_phase_1",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2273,
+    "no phase-rounded plane": 2273,
+    "no phase sign flip": 2273,
+    "no stream split": 2161,
+    "no colour gate": 2269,
+    "no dictionary": 6858
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_16_phase_break",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 2689,
+    "no phase-rounded plane": 2689,
+    "no phase sign flip": 2689,
+    "no stream split": 2577,
+    "no colour gate": 2657,
+    "no dictionary": 8314
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_structured",
+   "name": "ramp_plus_tile7",
+   "w": 384,
+   "h": 256,
+   "sizes": {
+    "default": 3327,
+    "no phase-rounded plane": 3327,
+    "no phase sign flip": 3327,
+    "no stream split": 3054,
+    "no colour gate": 3396,
+    "no dictionary": 5775
+   },
+   "exact": {}
+  },
+  {
+   "group": "archive_composite",
+   "name": "composite_photograph_crops",
+   "w": 64,
+   "h": 2048,
+   "sizes": {
+    "default": 208147,
+    "no phase-rounded plane": 203608,
+    "no phase sign flip": 207774,
+    "no stream split": 199777,
+    "no colour gate": 256508,
+    "no dictionary": 210774
+   },
+   "exact": {}
+  },
+  {
+   "group": "reference_fixture",
+   "name": "dog-half",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 440907,
+    "no phase-rounded plane": 436653,
+    "no phase sign flip": 440407,
+    "no stream split": 451619,
+    "no colour gate": 471012,
+    "no dictionary": 440990
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "correspondence-macos",
+   "w": 1120,
+   "h": 720,
+   "sizes": {
+    "default": 89675,
+    "no phase-rounded plane": 67902,
+    "no phase sign flip": 88925,
+    "no stream split": 83824,
+    "no colour gate": 103856,
+    "no dictionary": 89913
+   },
+   "exact": {}
+  },
+  {
+   "group": "reference_fixture",
+   "name": "smooth-half",
+   "w": 512,
+   "h": 512,
+   "sizes": {
+    "default": 94554,
+    "no phase-rounded plane": 83258,
+    "no phase sign flip": 90820,
+    "no stream split": 48362,
+    "no colour gate": 93330,
+    "no dictionary": 94618
+   },
+   "exact": {}
+  },
+  {
+   "group": "reference_fixture",
+   "name": "reference",
+   "w": 1024,
+   "h": 512,
+   "sizes": {
+    "default": 531072,
+    "no phase-rounded plane": 514410,
+    "no phase sign flip": 526844,
+    "no stream split": 498509,
+    "no colour gate": 560076,
+    "no dictionary": 531155
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "anchored_popup_layer",
+   "w": 755,
+   "h": 370,
+   "sizes": {
+    "default": 220753,
+    "no phase-rounded plane": 144883,
+    "no phase sign flip": 208984,
+    "no stream split": 211342,
+    "no colour gate": 236465,
+    "no dictionary": 221127
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "gallery-macos",
+   "w": 1280,
+   "h": 820,
+   "sizes": {
+    "default": 222106,
+    "no phase-rounded plane": 173503,
+    "no phase sign flip": 219581,
+    "no stream split": 211726,
+    "no colour gate": 262096,
+    "no dictionary": 223749
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "button_family",
+   "w": 620,
+   "h": 96,
+   "sizes": {
+    "default": 38561,
+    "no phase-rounded plane": 26726,
+    "no phase sign flip": 37373,
+    "no stream split": 35939,
+    "no colour gate": 41191,
+    "no dictionary": 38561
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "check_box",
+   "w": 305,
+   "h": 146,
+   "sizes": {
+    "default": 27354,
+    "no phase-rounded plane": 22937,
+    "no phase sign flip": 26798,
+    "no stream split": 26986,
+    "no colour gate": 30199,
+    "no dictionary": 27354
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "card_collection",
+   "w": 204,
+   "h": 392,
+   "sizes": {
+    "default": 85146,
+    "no phase-rounded plane": 64827,
+    "no phase sign flip": 81798,
+    "no stream split": 83418,
+    "no colour gate": 93708,
+    "no dictionary": 85159
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "basic_controls_overview",
+   "w": 690,
+   "h": 430,
+   "sizes": {
+    "default": 138582,
+    "no phase-rounded plane": 103596,
+    "no phase sign flip": 135144,
+    "no stream split": 131629,
+    "no colour gate": 151436,
+    "no dictionary": 138612
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "checked_list_box",
+   "w": 840,
+   "h": 558,
+   "sizes": {
+    "default": 251426,
+    "no phase-rounded plane": 182788,
+    "no phase sign flip": 242260,
+    "no stream split": 241202,
+    "no colour gate": 271574,
+    "no dictionary": 251496
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "basic_controls_002_screen",
+   "w": 1259,
+   "h": 760,
+   "sizes": {
+    "default": 766774,
+    "no phase-rounded plane": 562945,
+    "no phase sign flip": 745852,
+    "no stream split": 768927,
+    "no colour gate": 808114,
+    "no dictionary": 767005
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "checked_list_box_screen",
+   "w": 1259,
+   "h": 760,
+   "sizes": {
+    "default": 755759,
+    "no phase-rounded plane": 551998,
+    "no phase sign flip": 734479,
+    "no stream split": 758218,
+    "no colour gate": 795133,
+    "no dictionary": 756036
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "collection_menu_screen",
+   "w": 1259,
+   "h": 760,
+   "sizes": {
+    "default": 691225,
+    "no phase-rounded plane": 504281,
+    "no phase sign flip": 665391,
+    "no stream split": 689350,
+    "no colour gate": 727221,
+    "no dictionary": 691594
+   },
+   "exact": {}
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f600.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22628,
+    "no phase-rounded plane": 18410,
+    "no phase sign flip": 22598,
+    "no stream split": 21150,
+    "no colour gate": 22254,
+    "no dictionary": 22628
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f601.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21424,
+    "no phase-rounded plane": 17368,
+    "no phase sign flip": 21412,
+    "no stream split": 20100,
+    "no colour gate": 20910,
+    "no dictionary": 21424
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f602.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 25368,
+    "no phase-rounded plane": 20858,
+    "no phase sign flip": 25326,
+    "no stream split": 24314,
+    "no colour gate": 24786,
+    "no dictionary": 25368
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f603.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22928,
+    "no phase-rounded plane": 18032,
+    "no phase sign flip": 22826,
+    "no stream split": 21312,
+    "no colour gate": 22638,
+    "no dictionary": 22928
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f604.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21806,
+    "no phase-rounded plane": 17664,
+    "no phase sign flip": 21826,
+    "no stream split": 20552,
+    "no colour gate": 21496,
+    "no dictionary": 21806
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f605.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 23726,
+    "no phase-rounded plane": 18750,
+    "no phase sign flip": 23732,
+    "no stream split": 22324,
+    "no colour gate": 23288,
+    "no dictionary": 23726
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f606.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22648,
+    "no phase-rounded plane": 18702,
+    "no phase sign flip": 22650,
+    "no stream split": 21398,
+    "no colour gate": 22272,
+    "no dictionary": 22648
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f607.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21976,
+    "no phase-rounded plane": 17352,
+    "no phase sign flip": 22050,
+    "no stream split": 20586,
+    "no colour gate": 21710,
+    "no dictionary": 21976
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f608.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 24288,
+    "no phase-rounded plane": 19732,
+    "no phase sign flip": 24200,
+    "no stream split": 23690,
+    "no colour gate": 23830,
+    "no dictionary": 24288
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "composition_bundle_001_screen",
+   "w": 1259,
+   "h": 760,
+   "sizes": {
+    "default": 760927,
+    "no phase-rounded plane": 565909,
+    "no phase sign flip": 734543,
+    "no stream split": 760262,
+    "no colour gate": 808325,
+    "no dictionary": 761253
+   },
+   "exact": {}
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "container_focus",
+   "w": 840,
+   "h": 558,
+   "sizes": {
+    "default": 235942,
+    "no phase-rounded plane": 164523,
+    "no phase sign flip": 226400,
+    "no stream split": 225481,
+    "no colour gate": 251859,
+    "no dictionary": 235971
+   },
+   "exact": {}
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f609.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20476,
+    "no phase-rounded plane": 16608,
+    "no phase sign flip": 20528,
+    "no stream split": 19148,
+    "no colour gate": 20174,
+    "no dictionary": 20476
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60a.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20700,
+    "no phase-rounded plane": 17626,
+    "no phase sign flip": 20940,
+    "no stream split": 20274,
+    "no colour gate": 20274,
+    "no dictionary": 20700
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60b.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21140,
+    "no phase-rounded plane": 17106,
+    "no phase sign flip": 21176,
+    "no stream split": 19948,
+    "no colour gate": 20654,
+    "no dictionary": 21140
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60c.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20186,
+    "no phase-rounded plane": 16594,
+    "no phase sign flip": 20300,
+    "no stream split": 18914,
+    "no colour gate": 19828,
+    "no dictionary": 20186
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60d.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 23984,
+    "no phase-rounded plane": 19274,
+    "no phase sign flip": 23984,
+    "no stream split": 23190,
+    "no colour gate": 22702,
+    "no dictionary": 23984
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60e.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19914,
+    "no phase-rounded plane": 15490,
+    "no phase sign flip": 19816,
+    "no stream split": 19000,
+    "no colour gate": 19648,
+    "no dictionary": 19914
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f60f.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20682,
+    "no phase-rounded plane": 16678,
+    "no phase sign flip": 20754,
+    "no stream split": 19268,
+    "no colour gate": 20386,
+    "no dictionary": 20682
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f610.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18316,
+    "no phase-rounded plane": 14714,
+    "no phase sign flip": 18430,
+    "no stream split": 16820,
+    "no colour gate": 18108,
+    "no dictionary": 18316
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f611.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16738,
+    "no phase-rounded plane": 13458,
+    "no phase sign flip": 16904,
+    "no stream split": 15224,
+    "no colour gate": 16438,
+    "no dictionary": 16738
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f612.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20534,
+    "no phase-rounded plane": 16804,
+    "no phase sign flip": 20554,
+    "no stream split": 19194,
+    "no colour gate": 20172,
+    "no dictionary": 20534
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f613.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20632,
+    "no phase-rounded plane": 16258,
+    "no phase sign flip": 20730,
+    "no stream split": 19168,
+    "no colour gate": 20256,
+    "no dictionary": 20632
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f614.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19762,
+    "no phase-rounded plane": 16080,
+    "no phase sign flip": 19878,
+    "no stream split": 18392,
+    "no colour gate": 19428,
+    "no dictionary": 19762
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f615.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19420,
+    "no phase-rounded plane": 15844,
+    "no phase sign flip": 19492,
+    "no stream split": 17864,
+    "no colour gate": 19206,
+    "no dictionary": 19420
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f616.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20770,
+    "no phase-rounded plane": 17162,
+    "no phase sign flip": 20782,
+    "no stream split": 19626,
+    "no colour gate": 20442,
+    "no dictionary": 20770
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f617.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19548,
+    "no phase-rounded plane": 15718,
+    "no phase sign flip": 19658,
+    "no stream split": 18024,
+    "no colour gate": 19384,
+    "no dictionary": 19548
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "container_bundle_003_screen",
+   "w": 1259,
+   "h": 760,
+   "sizes": {
+    "default": 740224,
+    "no phase-rounded plane": 534004,
+    "no phase sign flip": 718438,
+    "no stream split": 742235,
+    "no colour gate": 775272,
+    "no dictionary": 740487
+   },
+   "exact": {}
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f618.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22894,
+    "no phase-rounded plane": 17934,
+    "no phase sign flip": 22858,
+    "no stream split": 21518,
+    "no colour gate": 22368,
+    "no dictionary": 22894
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f619.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19354,
+    "no phase-rounded plane": 15620,
+    "no phase sign flip": 19460,
+    "no stream split": 18038,
+    "no colour gate": 19154,
+    "no dictionary": 19354
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61a.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22864,
+    "no phase-rounded plane": 18976,
+    "no phase sign flip": 22856,
+    "no stream split": 22214,
+    "no colour gate": 22338,
+    "no dictionary": 22864
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61b.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20568,
+    "no phase-rounded plane": 15516,
+    "no phase sign flip": 20594,
+    "no stream split": 18940,
+    "no colour gate": 20168,
+    "no dictionary": 20568
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61c.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22136,
+    "no phase-rounded plane": 16792,
+    "no phase sign flip": 22146,
+    "no stream split": 20724,
+    "no colour gate": 21558,
+    "no dictionary": 22136
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61d.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21206,
+    "no phase-rounded plane": 16506,
+    "no phase sign flip": 21244,
+    "no stream split": 19958,
+    "no colour gate": 20772,
+    "no dictionary": 21206
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61e.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18572,
+    "no phase-rounded plane": 15212,
+    "no phase sign flip": 18692,
+    "no stream split": 17090,
+    "no colour gate": 18280,
+    "no dictionary": 18572
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f61f.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20826,
+    "no phase-rounded plane": 16958,
+    "no phase sign flip": 20898,
+    "no stream split": 19504,
+    "no colour gate": 20508,
+    "no dictionary": 20826
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f3cb_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 17112,
+    "no phase-rounded plane": 11686,
+    "no phase sign flip": 16976,
+    "no stream split": 16586,
+    "no colour gate": 17408,
+    "no dictionary": 17112
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21752,
+    "no phase-rounded plane": 14174,
+    "no phase sign flip": 21412,
+    "no stream split": 20944,
+    "no colour gate": 22688,
+    "no dictionary": 21752
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u270b_1f3fe.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16350,
+    "no phase-rounded plane": 8840,
+    "no phase sign flip": 16006,
+    "no stream split": 14918,
+    "no colour gate": 16818,
+    "no dictionary": 16350
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f431.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16426,
+    "no phase-rounded plane": 11514,
+    "no phase sign flip": 16464,
+    "no stream split": 15862,
+    "no colour gate": 15870,
+    "no dictionary": 16426
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f46e_1f3fd_200d_2642.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21930,
+    "no phase-rounded plane": 15438,
+    "no phase sign flip": 21830,
+    "no stream split": 20718,
+    "no colour gate": 22320,
+    "no dictionary": 21930
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1fab6.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19230,
+    "no phase-rounded plane": 15542,
+    "no phase sign flip": 19200,
+    "no stream split": 18778,
+    "no colour gate": 19506,
+    "no dictionary": 19230
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f44d_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16148,
+    "no phase-rounded plane": 10584,
+    "no phase sign flip": 15990,
+    "no stream split": 15264,
+    "no colour gate": 16896,
+    "no dictionary": 16148
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f4bd.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 23158,
+    "no phase-rounded plane": 18550,
+    "no phase sign flip": 22922,
+    "no stream split": 22960,
+    "no colour gate": 24658,
+    "no dictionary": 23158
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 25022,
+    "no phase-rounded plane": 17036,
+    "no phase sign flip": 24528,
+    "no stream split": 23754,
+    "no colour gate": 25524,
+    "no dictionary": 25022
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f470_1f3ff_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22284,
+    "no phase-rounded plane": 14940,
+    "no phase sign flip": 21610,
+    "no stream split": 21654,
+    "no colour gate": 23312,
+    "no dictionary": 22284
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9e9.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16542,
+    "no phase-rounded plane": 13714,
+    "no phase sign flip": 16664,
+    "no stream split": 16256,
+    "no colour gate": 16446,
+    "no dictionary": 16542
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1fa90.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18610,
+    "no phase-rounded plane": 15562,
+    "no phase sign flip": 18558,
+    "no stream split": 17750,
+    "no colour gate": 19504,
+    "no dictionary": 18610
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f481_1f3fb_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20154,
+    "no phase-rounded plane": 12326,
+    "no phase sign flip": 19464,
+    "no stream split": 19142,
+    "no colour gate": 20766,
+    "no dictionary": 20154
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9d1_1f3fb_200d_1f384.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19838,
+    "no phase-rounded plane": 13764,
+    "no phase sign flip": 19476,
+    "no stream split": 18886,
+    "no colour gate": 20178,
+    "no dictionary": 19838
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1faf1_1f3fe.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 13086,
+    "no phase-rounded plane": 8676,
+    "no phase sign flip": 12760,
+    "no stream split": 12276,
+    "no colour gate": 13632,
+    "no dictionary": 13086
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f552.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19018,
+    "no phase-rounded plane": 13200,
+    "no phase sign flip": 18908,
+    "no stream split": 17764,
+    "no colour gate": 19144,
+    "no dictionary": 19018
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f468_200d_2764_200d_1f468.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 24952,
+    "no phase-rounded plane": 17656,
+    "no phase sign flip": 24600,
+    "no stream split": 23768,
+    "no colour gate": 24798,
+    "no dictionary": 24952
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f3c3_1f3fe_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 13498,
+    "no phase-rounded plane": 9962,
+    "no phase sign flip": 13450,
+    "no stream split": 12816,
+    "no colour gate": 13924,
+    "no dictionary": 13498
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f6b5_1f3fc_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 30872,
+    "no phase-rounded plane": 21004,
+    "no phase sign flip": 30122,
+    "no stream split": 29450,
+    "no colour gate": 31332,
+    "no dictionary": 30872
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f6d6.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16314,
+    "no phase-rounded plane": 12078,
+    "no phase sign flip": 16162,
+    "no stream split": 15764,
+    "no colour gate": 17394,
+    "no dictionary": 16314
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f5fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 10296,
+    "no phase-rounded plane": 5796,
+    "no phase sign flip": 10236,
+    "no stream split": 9424,
+    "no colour gate": 10282,
+    "no dictionary": 10296
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1fabc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 29584,
+    "no phase-rounded plane": 24420,
+    "no phase sign flip": 29572,
+    "no stream split": 28610,
+    "no colour gate": 27904,
+    "no dictionary": 29584
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1fa85.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 31500,
+    "no phase-rounded plane": 24254,
+    "no phase sign flip": 31528,
+    "no stream split": 30782,
+    "no colour gate": 30472,
+    "no dictionary": 31500
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f3c3_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 12778,
+    "no phase-rounded plane": 9136,
+    "no phase sign flip": 12632,
+    "no stream split": 12078,
+    "no colour gate": 12956,
+    "no dictionary": 12778
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16542,
+    "no phase-rounded plane": 12952,
+    "no phase sign flip": 16414,
+    "no stream split": 15816,
+    "no colour gate": 17334,
+    "no dictionary": 16542
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f47c_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20602,
+    "no phase-rounded plane": 14354,
+    "no phase sign flip": 20262,
+    "no stream split": 19556,
+    "no colour gate": 21304,
+    "no dictionary": 20602
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 25826,
+    "no phase-rounded plane": 16422,
+    "no phase sign flip": 25540,
+    "no stream split": 24178,
+    "no colour gate": 26408,
+    "no dictionary": 25826
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 23312,
+    "no phase-rounded plane": 15522,
+    "no phase sign flip": 23082,
+    "no stream split": 21790,
+    "no colour gate": 24226,
+    "no dictionary": 23312
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f923.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 27294,
+    "no phase-rounded plane": 20290,
+    "no phase sign flip": 27174,
+    "no stream split": 25756,
+    "no colour gate": 26610,
+    "no dictionary": 27294
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 13868,
+    "no phase-rounded plane": 9272,
+    "no phase sign flip": 13726,
+    "no stream split": 13054,
+    "no colour gate": 14288,
+    "no dictionary": 13868
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u270a.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21360,
+    "no phase-rounded plane": 16146,
+    "no phase sign flip": 21232,
+    "no stream split": 20654,
+    "no colour gate": 21276,
+    "no dictionary": 21360
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f977.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19436,
+    "no phase-rounded plane": 15774,
+    "no phase sign flip": 19316,
+    "no stream split": 19954,
+    "no colour gate": 19562,
+    "no dictionary": 19436
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3fc_200d_1f680.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18726,
+    "no phase-rounded plane": 13098,
+    "no phase sign flip": 18352,
+    "no stream split": 18124,
+    "no colour gate": 19338,
+    "no dictionary": 18726
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f1eb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 1644,
+    "no phase-rounded plane": 1090,
+    "no phase sign flip": 1654,
+    "no stream split": 1386,
+    "no colour gate": 1636,
+    "no dictionary": 1644
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f43d.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 12040,
+    "no phase-rounded plane": 8316,
+    "no phase sign flip": 11914,
+    "no stream split": 11212,
+    "no colour gate": 11650,
+    "no dictionary": 12040
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f3a0.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 25528,
+    "no phase-rounded plane": 17434,
+    "no phase sign flip": 25460,
+    "no stream split": 24220,
+    "no colour gate": 26068,
+    "no dictionary": 25528
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f5c4.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 9014,
+    "no phase-rounded plane": 4666,
+    "no phase sign flip": 9022,
+    "no stream split": 8000,
+    "no colour gate": 9678,
+    "no dictionary": 9014
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f999.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16216,
+    "no phase-rounded plane": 11112,
+    "no phase sign flip": 16178,
+    "no stream split": 15162,
+    "no colour gate": 16736,
+    "no dictionary": 16216
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9de_200d_2642.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 27056,
+    "no phase-rounded plane": 21558,
+    "no phase sign flip": 27028,
+    "no stream split": 26012,
+    "no colour gate": 27050,
+    "no dictionary": 27056
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9dc_1f3fd.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18120,
+    "no phase-rounded plane": 14210,
+    "no phase sign flip": 17994,
+    "no stream split": 17244,
+    "no colour gate": 17828,
+    "no dictionary": 18120
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22816,
+    "no phase-rounded plane": 15132,
+    "no phase sign flip": 22488,
+    "no stream split": 21318,
+    "no colour gate": 23660,
+    "no dictionary": 22816
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f473_1f3ff_200d_2642.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 17172,
+    "no phase-rounded plane": 11254,
+    "no phase sign flip": 16480,
+    "no stream split": 16844,
+    "no colour gate": 18262,
+    "no dictionary": 17172
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f471_1f3fc.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19420,
+    "no phase-rounded plane": 13424,
+    "no phase sign flip": 19182,
+    "no stream split": 18588,
+    "no colour gate": 19434,
+    "no dictionary": 19420
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21192,
+    "no phase-rounded plane": 15076,
+    "no phase sign flip": 20962,
+    "no stream split": 20768,
+    "no colour gate": 20946,
+    "no dictionary": 21192
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f4d8.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 4002,
+    "no phase-rounded plane": 2540,
+    "no phase sign flip": 3966,
+    "no stream split": 3492,
+    "no colour gate": 4034,
+    "no dictionary": 4002
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9d7_1f3fe.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 27020,
+    "no phase-rounded plane": 15890,
+    "no phase sign flip": 26730,
+    "no stream split": 25098,
+    "no colour gate": 27434,
+    "no dictionary": 27020
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f3d6.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 17972,
+    "no phase-rounded plane": 12502,
+    "no phase sign flip": 17918,
+    "no stream split": 17050,
+    "no colour gate": 17822,
+    "no dictionary": 17972
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f574_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 9702,
+    "no phase-rounded plane": 7032,
+    "no phase sign flip": 9570,
+    "no stream split": 9360,
+    "no colour gate": 10064,
+    "no dictionary": 9702
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f486_200d_2642.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18082,
+    "no phase-rounded plane": 12224,
+    "no phase sign flip": 17942,
+    "no stream split": 17182,
+    "no colour gate": 17918,
+    "no dictionary": 18082
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f5d1.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 21936,
+    "no phase-rounded plane": 15342,
+    "no phase sign flip": 21862,
+    "no stream split": 20672,
+    "no colour gate": 22988,
+    "no dictionary": 21936
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f939_1f3fb.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 22834,
+    "no phase-rounded plane": 15018,
+    "no phase sign flip": 22292,
+    "no stream split": 21326,
+    "no colour gate": 23100,
+    "no dictionary": 22834
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9d9_1f3fd_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 24648,
+    "no phase-rounded plane": 16296,
+    "no phase sign flip": 24224,
+    "no stream split": 23248,
+    "no colour gate": 25024,
+    "no dictionary": 24648
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f93d_1f3fd_200d_2642.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20152,
+    "no phase-rounded plane": 16022,
+    "no phase sign flip": 20116,
+    "no stream split": 18622,
+    "no colour gate": 20190,
+    "no dictionary": 20152
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 28462,
+    "no phase-rounded plane": 18954,
+    "no phase sign flip": 27594,
+    "no stream split": 27016,
+    "no colour gate": 29330,
+    "no dictionary": 28462
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f40d.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 16388,
+    "no phase-rounded plane": 11246,
+    "no phase sign flip": 16306,
+    "no stream split": 15536,
+    "no colour gate": 16630,
+    "no dictionary": 16388
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f93c_1f3fd_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 25418,
+    "no phase-rounded plane": 17868,
+    "no phase sign flip": 25252,
+    "no stream split": 24380,
+    "no colour gate": 26156,
+    "no dictionary": 25418
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f9d7_1f3fe_200d_2640.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 27670,
+    "no phase-rounded plane": 16370,
+    "no phase sign flip": 27498,
+    "no stream split": 25914,
+    "no colour gate": 28182,
+    "no dictionary": 27670
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f63e.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 18620,
+    "no phase-rounded plane": 13066,
+    "no phase sign flip": 18654,
+    "no stream split": 18014,
+    "no colour gate": 18340,
+    "no dictionary": 18620
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 10416,
+    "no phase-rounded plane": 6932,
+    "no phase sign flip": 10290,
+    "no stream split": 9656,
+    "no colour gate": 10532,
+    "no dictionary": 10416
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3fb_200d_1f527.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 26762,
+    "no phase-rounded plane": 16512,
+    "no phase sign flip": 26182,
+    "no stream split": 25260,
+    "no colour gate": 27778,
+    "no dictionary": 26762
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f959.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 28808,
+    "no phase-rounded plane": 22492,
+    "no phase sign flip": 29080,
+    "no stream split": 27966,
+    "no colour gate": 28246,
+    "no dictionary": 28808
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f469_1f3fd_200d_1f393.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 20012,
+    "no phase-rounded plane": 13120,
+    "no phase sign flip": 19552,
+    "no stream split": 19068,
+    "no colour gate": 20718,
+    "no dictionary": 20012
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f91b.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 12696,
+    "no phase-rounded plane": 8674,
+    "no phase sign flip": 12626,
+    "no stream split": 11868,
+    "no colour gate": 12708,
+    "no dictionary": 12696
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  },
+  {
+   "group": "noto_mixed",
+   "name": "emoji_u1f553.png",
+   "w": 128,
+   "h": 128,
+   "sizes": {
+    "default": 19464,
+    "no phase-rounded plane": 13712,
+    "no phase sign flip": 19330,
+    "no stream split": 18334,
+    "no colour gate": 19718,
+    "no dictionary": 19464
+   },
+   "exact": {
+    "default": true,
+    "no phase-rounded plane": true,
+    "no phase sign flip": true,
+    "no stream split": true,
+    "no colour gate": true,
+    "no dictionary": true
+   }
+  }
+ ]
+}

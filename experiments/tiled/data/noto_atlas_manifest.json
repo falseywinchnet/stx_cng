@@ -1,0 +1,1768 @@
+{
+  "complete": true,
+  "scope": "Freeze a content-independent Noto Emoji atlas evaluation before compression.\n\n32 consecutive faces U+1F600..U+1F61F and 64 distinct filename-hash-ranked images.\nThe source release/commit and order are fixed. No codec result affects selection.\n",
+  "repository": "https://github.com/googlefonts/noto-emoji",
+  "tag": "v2.047",
+  "commit": "22e564626297b4df0a40570ad81d6c05cc7c38bd",
+  "population": 3583,
+  "selection": "faces numeric order; mixed ascending SHA256 of CNG-Noto-holdout-v1 NUL plus repository path, excluding faces",
+  "groups": {
+    "faces32": [
+      "png/128/emoji_u1f600.png",
+      "png/128/emoji_u1f601.png",
+      "png/128/emoji_u1f602.png",
+      "png/128/emoji_u1f603.png",
+      "png/128/emoji_u1f604.png",
+      "png/128/emoji_u1f605.png",
+      "png/128/emoji_u1f606.png",
+      "png/128/emoji_u1f607.png",
+      "png/128/emoji_u1f608.png",
+      "png/128/emoji_u1f609.png",
+      "png/128/emoji_u1f60a.png",
+      "png/128/emoji_u1f60b.png",
+      "png/128/emoji_u1f60c.png",
+      "png/128/emoji_u1f60d.png",
+      "png/128/emoji_u1f60e.png",
+      "png/128/emoji_u1f60f.png",
+      "png/128/emoji_u1f610.png",
+      "png/128/emoji_u1f611.png",
+      "png/128/emoji_u1f612.png",
+      "png/128/emoji_u1f613.png",
+      "png/128/emoji_u1f614.png",
+      "png/128/emoji_u1f615.png",
+      "png/128/emoji_u1f616.png",
+      "png/128/emoji_u1f617.png",
+      "png/128/emoji_u1f618.png",
+      "png/128/emoji_u1f619.png",
+      "png/128/emoji_u1f61a.png",
+      "png/128/emoji_u1f61b.png",
+      "png/128/emoji_u1f61c.png",
+      "png/128/emoji_u1f61d.png",
+      "png/128/emoji_u1f61e.png",
+      "png/128/emoji_u1f61f.png"
+    ],
+    "mixed64": [
+      "png/128/emoji_u1f3cb_1f3fb.png",
+      "png/128/emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+      "png/128/emoji_u270b_1f3fe.png",
+      "png/128/emoji_u1f431.png",
+      "png/128/emoji_u1f46e_1f3fd_200d_2642.png",
+      "png/128/emoji_u1fab6.png",
+      "png/128/emoji_u1f44d_1f3fc.png",
+      "png/128/emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+      "png/128/emoji_u1f4bd.png",
+      "png/128/emoji_u1f470_1f3ff_200d_2640.png",
+      "png/128/emoji_u1f9e9.png",
+      "png/128/emoji_u1fa90.png",
+      "png/128/emoji_u1f481_1f3fb_200d_2640.png",
+      "png/128/emoji_u1f9d1_1f3fb_200d_1f384.png",
+      "png/128/emoji_u1faf1_1f3fe.png",
+      "png/128/emoji_u1f552.png",
+      "png/128/emoji_u1f468_200d_2764_200d_1f468.png",
+      "png/128/emoji_u1f3c3_1f3fe_200d_2640.png",
+      "png/128/emoji_u1f6b5_1f3fc_200d_2640.png",
+      "png/128/emoji_u1f6d6.png",
+      "png/128/emoji_u1f5fc.png",
+      "png/128/emoji_u1fabc.png",
+      "png/128/emoji_u1fa85.png",
+      "png/128/emoji_u1f3c3_1f3fb.png",
+      "png/128/emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+      "png/128/emoji_u1f47c_1f3fc.png",
+      "png/128/emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+      "png/128/emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+      "png/128/emoji_u1f923.png",
+      "png/128/emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+      "png/128/emoji_u270a.png",
+      "png/128/emoji_u1f977.png",
+      "png/128/emoji_u1f469_1f3fc_200d_1f680.png",
+      "png/128/emoji_u1f43d.png",
+      "png/128/emoji_u1f1eb.png",
+      "png/128/emoji_u1f3a0.png",
+      "png/128/emoji_u1f5c4.png",
+      "png/128/emoji_u1f999.png",
+      "png/128/emoji_u1f9de_200d_2642.png",
+      "png/128/emoji_u1f9dc_1f3fd.png",
+      "png/128/emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+      "png/128/emoji_u1f473_1f3ff_200d_2642.png",
+      "png/128/emoji_u1f471_1f3fc.png",
+      "png/128/emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+      "png/128/emoji_u1f4d8.png",
+      "png/128/emoji_u1f9d7_1f3fe.png",
+      "png/128/emoji_u1f3d6.png",
+      "png/128/emoji_u1f574_1f3fb.png",
+      "png/128/emoji_u1f486_200d_2642.png",
+      "png/128/emoji_u1f5d1.png",
+      "png/128/emoji_u1f939_1f3fb.png",
+      "png/128/emoji_u1f9d9_1f3fd_200d_2640.png",
+      "png/128/emoji_u1f93d_1f3fd_200d_2642.png",
+      "png/128/emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+      "png/128/emoji_u1f40d.png",
+      "png/128/emoji_u1f93c_1f3fd_200d_2640.png",
+      "png/128/emoji_u1f9d7_1f3fe_200d_2640.png",
+      "png/128/emoji_u1f63e.png",
+      "png/128/emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+      "png/128/emoji_u1f469_1f3fb_200d_1f527.png",
+      "png/128/emoji_u1f959.png",
+      "png/128/emoji_u1f469_1f3fd_200d_1f393.png",
+      "png/128/emoji_u1f91b.png",
+      "png/128/emoji_u1f553.png"
+    ]
+  },
+  "licenses": {
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/LICENSE",
+      "file": "data/noto_atlas/LICENSE",
+      "sha256": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b"
+    },
+    "README.md": {
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/README.md",
+      "file": "data/noto_atlas/README.md",
+      "sha256": "51ac190ddc677d3bebe232bd93765072f90ea7aed2300f81fc73560295c2d395"
+    },
+    "svg/LICENSE": {
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/svg/LICENSE",
+      "file": "data/noto_atlas/svg_LICENSE",
+      "sha256": "611ceab36dae96644ca84e8ace6873821790192bf6f73b0d0624a21b24b4b332"
+    },
+    "fonts/LICENSE": {
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/fonts/LICENSE",
+      "file": "data/noto_atlas/fonts_LICENSE",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    }
+  },
+  "images": [
+    {
+      "group": "faces32",
+      "index": 0,
+      "path": "png/128/emoji_u1f600.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f600.png",
+      "file": "data/noto_atlas/emoji_u1f600.png",
+      "png_bytes": 7541,
+      "png_sha256": "88df38e1a578f360c1df99b41387ec370bb568a58a6e846631422e39e6473530",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "127c047a0e9de27d8717144b44bc7fe6b5a1a0ef95f59808d2c54500b877e7d1"
+    },
+    {
+      "group": "faces32",
+      "index": 1,
+      "path": "png/128/emoji_u1f601.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f601.png",
+      "file": "data/noto_atlas/emoji_u1f601.png",
+      "png_bytes": 7498,
+      "png_sha256": "66b70e04ba6a7c27a51bc9d4e0ec2252b5135fed3cbae83399c614e5bc47cb75",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "9a8f3abd34b0895ae5dad4e4d412c6d7268f3aa0f7ea063905caa336a9488fb5"
+    },
+    {
+      "group": "faces32",
+      "index": 2,
+      "path": "png/128/emoji_u1f602.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f602.png",
+      "file": "data/noto_atlas/emoji_u1f602.png",
+      "png_bytes": 8421,
+      "png_sha256": "7e8f1147812f52fbfeb21fd235cbd0a1058e645c9195e4f9a226ecbef4ff3d36",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "1dbf3d28f1c1cbdbe803badaed6b98ebd825b8f01f095910f9e47bd0633bba4c"
+    },
+    {
+      "group": "faces32",
+      "index": 3,
+      "path": "png/128/emoji_u1f603.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f603.png",
+      "file": "data/noto_atlas/emoji_u1f603.png",
+      "png_bytes": 7446,
+      "png_sha256": "269299d8e69bf899451d10c1ae19892c5db149bc7782824afc5d03f4c71070d2",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "3a14709c0a117217376eb0d7bcfa3f534b43e002e6cccc73c8ffad7501252160"
+    },
+    {
+      "group": "faces32",
+      "index": 4,
+      "path": "png/128/emoji_u1f604.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f604.png",
+      "file": "data/noto_atlas/emoji_u1f604.png",
+      "png_bytes": 7376,
+      "png_sha256": "9c87031e24be61aa29c462163d87fdbfc21d6ff88b09cc5ec627d4438b369386",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "a8a108b4daf1e8f5bb20183beb2ced0ccc346fdecd56b5b3ce5322a8802ac70a"
+    },
+    {
+      "group": "faces32",
+      "index": 5,
+      "path": "png/128/emoji_u1f605.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f605.png",
+      "file": "data/noto_atlas/emoji_u1f605.png",
+      "png_bytes": 8018,
+      "png_sha256": "6d8480a73f9d2ef611b2312c1948e742bd0363b1a1dc525948e6eb24f8213daa",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "090d3c0efaf8ce0fa7f9c5a4efbf2bc53a5c1335168c2706f1c0137ae2d68d37"
+    },
+    {
+      "group": "faces32",
+      "index": 6,
+      "path": "png/128/emoji_u1f606.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f606.png",
+      "file": "data/noto_atlas/emoji_u1f606.png",
+      "png_bytes": 7744,
+      "png_sha256": "a8e8288a62b21c2ff276a127b979983b7f9324d88d21c38069058271647eb380",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "e5703441e5677fde2d5eeaf596adc3e043709858f25c59181aead2b88a9aaf89"
+    },
+    {
+      "group": "faces32",
+      "index": 7,
+      "path": "png/128/emoji_u1f607.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f607.png",
+      "file": "data/noto_atlas/emoji_u1f607.png",
+      "png_bytes": 7236,
+      "png_sha256": "687a72b75c66f975d94d22fad41487a6c35df4a5dcb9add4fcc6b6a9f06e6db3",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "31e0cdb9716a1604e4152d7933d4c8d5451185e6c8d6173e0878094b8737783f"
+    },
+    {
+      "group": "faces32",
+      "index": 8,
+      "path": "png/128/emoji_u1f608.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f608.png",
+      "file": "data/noto_atlas/emoji_u1f608.png",
+      "png_bytes": 9010,
+      "png_sha256": "9dc0845ffb53d4c4c446d5a69207f227538f5e7d583375f81411524441d2524d",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "554d5f9047a8bf571407d46d27fd5a1322bb3b2a8e02b6e790d5a00175338ace"
+    },
+    {
+      "group": "faces32",
+      "index": 9,
+      "path": "png/128/emoji_u1f609.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f609.png",
+      "file": "data/noto_atlas/emoji_u1f609.png",
+      "png_bytes": 7156,
+      "png_sha256": "cdd35eeae29b2c005ba8c8fbd6e2f9944db98b271bf1d24cc21227eee38b8965",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "a72b1ada6c8f3fa0527707df756f91b034ee507e270727f3c1f64d8d3a888c4a"
+    },
+    {
+      "group": "faces32",
+      "index": 10,
+      "path": "png/128/emoji_u1f60a.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60a.png",
+      "file": "data/noto_atlas/emoji_u1f60a.png",
+      "png_bytes": 8270,
+      "png_sha256": "e630f6e4d93ef69fb3877abfef50d8cab91e79fa3cf7c7512175d4c9398b13e3",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "7e11d73d201d9c0d2c169fb128ada79cb1800a2cc1cfef0b900685f8624cb637"
+    },
+    {
+      "group": "faces32",
+      "index": 11,
+      "path": "png/128/emoji_u1f60b.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60b.png",
+      "file": "data/noto_atlas/emoji_u1f60b.png",
+      "png_bytes": 7252,
+      "png_sha256": "c791bebd7ae1cbb36dc86ad4f153fa721309234412c1d6e52b064a8f80aecf6c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "81ac20b523281d7d4eb7ba4dbdf323e6feab397a7401c30163f9ef18cfa6e9e8"
+    },
+    {
+      "group": "faces32",
+      "index": 12,
+      "path": "png/128/emoji_u1f60c.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60c.png",
+      "file": "data/noto_atlas/emoji_u1f60c.png",
+      "png_bytes": 7042,
+      "png_sha256": "c31feec270ee3cfe0534c445a63c114cb369c1aab1ebcf03dc915ab0e65e123b",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "c48e458c91767cb24cf9a32c03e0da1ffbe19acf2a5aea7ca419585c026cdcc2"
+    },
+    {
+      "group": "faces32",
+      "index": 13,
+      "path": "png/128/emoji_u1f60d.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60d.png",
+      "file": "data/noto_atlas/emoji_u1f60d.png",
+      "png_bytes": 8045,
+      "png_sha256": "af8ae97e92dc3e2bb0d5015376e5d15f1b0b258ffbd33aab7ed91d9d51033f2b",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "985e55f250172bbc3b06dd2aea3d9444c8f40b6814ad7a470266786f79fdea8e"
+    },
+    {
+      "group": "faces32",
+      "index": 14,
+      "path": "png/128/emoji_u1f60e.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60e.png",
+      "file": "data/noto_atlas/emoji_u1f60e.png",
+      "png_bytes": 6477,
+      "png_sha256": "e89120098daf8e159bf901e59e2c0caf09e61b3c8794a37c7759f6de0e90fdc1",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d841a125ecd9827f943818d30d52b561c5adff67699b5085b83bd947d0d3fb6e"
+    },
+    {
+      "group": "faces32",
+      "index": 15,
+      "path": "png/128/emoji_u1f60f.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f60f.png",
+      "file": "data/noto_atlas/emoji_u1f60f.png",
+      "png_bytes": 7272,
+      "png_sha256": "94b9d609695532f1fc7ebb6ff6b9d18aa1fafc61512100829d01b3ce183f5222",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "ae446349784a89bc6e6b76b95169f4268b9960ee585a429f7d89b66f0d13bb62"
+    },
+    {
+      "group": "faces32",
+      "index": 16,
+      "path": "png/128/emoji_u1f610.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f610.png",
+      "file": "data/noto_atlas/emoji_u1f610.png",
+      "png_bytes": 6430,
+      "png_sha256": "f9d68519ee3095764b3c495507e9d28ec81f7aaf6fb7d59b25c28505112d9627",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "567de0d3b92d0a851a276ca7270aeddfc03ce8cb0e37d2e04a9c643934d55ec0"
+    },
+    {
+      "group": "faces32",
+      "index": 17,
+      "path": "png/128/emoji_u1f611.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f611.png",
+      "file": "data/noto_atlas/emoji_u1f611.png",
+      "png_bytes": 5953,
+      "png_sha256": "70b2ad6f702e55a563c2f1172ff6c6760f83b4cfccd51bdefd2e977f1b252ad4",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "28d5ef085c0ecd6d56408ffef3a5f8d68a602d14abb8f0c890e6d25cfe29f4e0"
+    },
+    {
+      "group": "faces32",
+      "index": 18,
+      "path": "png/128/emoji_u1f612.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f612.png",
+      "file": "data/noto_atlas/emoji_u1f612.png",
+      "png_bytes": 7307,
+      "png_sha256": "231a25c94873fe8105456a0a7f5674e087b6511599727b98fca5caea2c1fe503",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "75ca4b1385452cc21cbb6f08d908c478a6352411381561bdec266ef72c6370bf"
+    },
+    {
+      "group": "faces32",
+      "index": 19,
+      "path": "png/128/emoji_u1f613.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f613.png",
+      "file": "data/noto_atlas/emoji_u1f613.png",
+      "png_bytes": 6981,
+      "png_sha256": "bdde631856901f8a08da4c4c328610d5c7241d78424e251a414e6df7e826c07e",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "1e1dfd4f9a3d2928ba60ff74660af305b2fc4b037394a4005f3cbd2412afc5e4"
+    },
+    {
+      "group": "faces32",
+      "index": 20,
+      "path": "png/128/emoji_u1f614.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f614.png",
+      "file": "data/noto_atlas/emoji_u1f614.png",
+      "png_bytes": 6971,
+      "png_sha256": "06f073159ecafc519e2f532a312c538c18a169fbbb7a273280c5a78a1f373cbf",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "cd43108612a08773eb2c9274b586f6fffbfb186c950838e2c8a88cfe063b9f6f"
+    },
+    {
+      "group": "faces32",
+      "index": 21,
+      "path": "png/128/emoji_u1f615.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f615.png",
+      "file": "data/noto_atlas/emoji_u1f615.png",
+      "png_bytes": 6943,
+      "png_sha256": "350011a31f3f89f46664ec12a919375265652d2b78d31e28fb412a786bb0367c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "e202143827e6c3d8b2ea536e52878ccf1641ccc6ad66b1106261d1d16120b23c"
+    },
+    {
+      "group": "faces32",
+      "index": 22,
+      "path": "png/128/emoji_u1f616.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f616.png",
+      "file": "data/noto_atlas/emoji_u1f616.png",
+      "png_bytes": 7378,
+      "png_sha256": "802f7a7824ef2df3dd06cfebbaf630f04f0b67b5d3f7fc719d889539194729ba",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "70f3537566e006f20e25182284b6446c6f2dd8f420073661813ab0e9cd8c4371"
+    },
+    {
+      "group": "faces32",
+      "index": 23,
+      "path": "png/128/emoji_u1f617.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f617.png",
+      "file": "data/noto_atlas/emoji_u1f617.png",
+      "png_bytes": 6786,
+      "png_sha256": "fa165bc9c447882e046c9dc9881e76c73a075d777a3286883027ebdb5ef73df8",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "e2d8eb5156f42b4c8376614e1bb024811a667fb3220ca987079d277c2a0066b4"
+    },
+    {
+      "group": "faces32",
+      "index": 24,
+      "path": "png/128/emoji_u1f618.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f618.png",
+      "file": "data/noto_atlas/emoji_u1f618.png",
+      "png_bytes": 7680,
+      "png_sha256": "4d35109fb51858a57788cf208dc7999186e1408417022fd8d807157bb1466c22",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "59593957c6a4070c15c29643331368e20593145c5c88152ac750845dce4e5d57"
+    },
+    {
+      "group": "faces32",
+      "index": 25,
+      "path": "png/128/emoji_u1f619.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f619.png",
+      "file": "data/noto_atlas/emoji_u1f619.png",
+      "png_bytes": 6780,
+      "png_sha256": "90130d0e37cca118bd84dbc4d1a5aeb90326bd1b98c686fa2ba66e6aeaf8647c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "47d9611b601315d7d0393ef4e10c1d811ce459ec638dfd2da4f3424fc8b21f5b"
+    },
+    {
+      "group": "faces32",
+      "index": 26,
+      "path": "png/128/emoji_u1f61a.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61a.png",
+      "file": "data/noto_atlas/emoji_u1f61a.png",
+      "png_bytes": 8888,
+      "png_sha256": "01c7a4770bfe62a8e54f1e76f01c0f1e36e1406bedcba1e2b4e486f6055e57fb",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "3540d629903aef7be711e5ea5320235ae0991d6f8a31c6326a7a0889c30b1581"
+    },
+    {
+      "group": "faces32",
+      "index": 27,
+      "path": "png/128/emoji_u1f61b.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61b.png",
+      "file": "data/noto_atlas/emoji_u1f61b.png",
+      "png_bytes": 6635,
+      "png_sha256": "dacc74b251944d46e0efd14f063afe9bcb944af247c63de924cbfa5c835f3cc1",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "71e27f32ae71587666d08d990773cf06e10593c8c7a69436b8a25c4841593d4b"
+    },
+    {
+      "group": "faces32",
+      "index": 28,
+      "path": "png/128/emoji_u1f61c.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61c.png",
+      "file": "data/noto_atlas/emoji_u1f61c.png",
+      "png_bytes": 7285,
+      "png_sha256": "e7343da9dab83a42a13e2dbb743cdc7edf7b4876c8db4fe8a8219a7bdc0f4df8",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "3dcbd5518a6df29dd358c6608b75df655bd3d863eeebb25dcde81cd5afe58ac7"
+    },
+    {
+      "group": "faces32",
+      "index": 29,
+      "path": "png/128/emoji_u1f61d.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61d.png",
+      "file": "data/noto_atlas/emoji_u1f61d.png",
+      "png_bytes": 7101,
+      "png_sha256": "821dd50fa9df4bb39f12668eb62eb81233394eb83ac0601bbfa4f9f52b45c27c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "9f3512c827fe103c80ee4e020ddd3dd332b0e04f20781318137c29de797c38ed"
+    },
+    {
+      "group": "faces32",
+      "index": 30,
+      "path": "png/128/emoji_u1f61e.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61e.png",
+      "file": "data/noto_atlas/emoji_u1f61e.png",
+      "png_bytes": 6564,
+      "png_sha256": "907e7bfd2cdb1f8cbb91049db2771450b3db8a73b4db163072d310b43728e20e",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "ab68d94c45e87228c8626dd77c0979d6ba87f1623d1dd886ed82cc65e8c4d4c3"
+    },
+    {
+      "group": "faces32",
+      "index": 31,
+      "path": "png/128/emoji_u1f61f.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f61f.png",
+      "file": "data/noto_atlas/emoji_u1f61f.png",
+      "png_bytes": 7191,
+      "png_sha256": "fae3cff7917edc82c84c728eaf247d666d6f07f7b82fe5474e26ae00019b4a9c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "aa5c711043a26d7f5f89826877af977bd3e0f6a90ccc7f74395e5c9685e85c51"
+    },
+    {
+      "group": "mixed64",
+      "index": 0,
+      "path": "png/128/emoji_u1f3cb_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f3cb_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1f3cb_1f3fb.png",
+      "png_bytes": 5568,
+      "png_sha256": "87319fd59de826862e24dbfc11695628f8c02da53f3b76eca03ee5ff0d7c668f",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5f28f39f81bb1a3a6e5dafd4893e756383773e6166c37195c7abd0268e4525ea"
+    },
+    {
+      "group": "mixed64",
+      "index": 1,
+      "path": "png/128/emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc.png",
+      "png_bytes": 6668,
+      "png_sha256": "570d15c2d384b2c85af2777d7f62c124e1dd1f97831b18d2f4aae647f4efeecf",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "30d1ec199f7a1c99778bb95ab32d4061b9867bc506d5f126faa8d7309537158f"
+    },
+    {
+      "group": "mixed64",
+      "index": 2,
+      "path": "png/128/emoji_u270b_1f3fe.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u270b_1f3fe.png",
+      "file": "data/noto_atlas/emoji_u270b_1f3fe.png",
+      "png_bytes": 3529,
+      "png_sha256": "a5e3cbab8e649678252c7fdf5288ce5749a1f94707cb64fe48ba7db05ada34a5",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "6bee31aa1652b14bab238e50c28552c1bae835f804683e45333ff8c5aa7bc950"
+    },
+    {
+      "group": "mixed64",
+      "index": 3,
+      "path": "png/128/emoji_u1f431.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f431.png",
+      "file": "data/noto_atlas/emoji_u1f431.png",
+      "png_bytes": 4061,
+      "png_sha256": "81cba1f23a3dfe65f9081f65f17deb3ac9c0d49a4eb00454438230a953fbdf32",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "3aa9674fedd981487080f8fa221bad2657eff33a7a786f1bcffe61f166976e9c"
+    },
+    {
+      "group": "mixed64",
+      "index": 4,
+      "path": "png/128/emoji_u1f46e_1f3fd_200d_2642.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f46e_1f3fd_200d_2642.png",
+      "file": "data/noto_atlas/emoji_u1f46e_1f3fd_200d_2642.png",
+      "png_bytes": 6635,
+      "png_sha256": "ea520fc84acaf739467290e5201cb550e62c04f0bd059af5983b615b27cd12a6",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "78fdc91ccbe7b68d4abc2574a727c3018d0ba0ebe7e8091d5dd09c0c1a2880ed"
+    },
+    {
+      "group": "mixed64",
+      "index": 5,
+      "path": "png/128/emoji_u1fab6.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1fab6.png",
+      "file": "data/noto_atlas/emoji_u1fab6.png",
+      "png_bytes": 6792,
+      "png_sha256": "5041b0a14a655f64113f84cff3e447519e1c612e03e67773274302efd36b870d",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "966c1b45a2336c40bf3c19ae1cdbc61628d5a55b36c83a24fdfbc795ba5e9c8e"
+    },
+    {
+      "group": "mixed64",
+      "index": 6,
+      "path": "png/128/emoji_u1f44d_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f44d_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f44d_1f3fc.png",
+      "png_bytes": 4204,
+      "png_sha256": "0d478d7c3666818665bf4116d1c9378fad417dba2b1671e5d210a4851c4baafb",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "8126b5edad8d3f20c585bbecc0f66774c4912de08da92272d1f6ffec4e72eb11"
+    },
+    {
+      "group": "mixed64",
+      "index": 7,
+      "path": "png/128/emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc.png",
+      "png_bytes": 7025,
+      "png_sha256": "3f75083ea7e95d6ef0837dc97008e2832f0b8d2d743c55c2f634d7e532a27250",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "69c8910eb26f1aa80f950ec4161f84f248d280adb8484ac1f34b1f8a9d031396"
+    },
+    {
+      "group": "mixed64",
+      "index": 8,
+      "path": "png/128/emoji_u1f4bd.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f4bd.png",
+      "file": "data/noto_atlas/emoji_u1f4bd.png",
+      "png_bytes": 9793,
+      "png_sha256": "d0e5b99f59b44acc97668be44e1f98b108a9dc1d5cb482fc0a20f560f1fd5f64",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "152939b448ca8243d6974b89bfa5e6476140a632fc1dba3ab70cba1a40cf852a"
+    },
+    {
+      "group": "mixed64",
+      "index": 9,
+      "path": "png/128/emoji_u1f470_1f3ff_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f470_1f3ff_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f470_1f3ff_200d_2640.png",
+      "png_bytes": 6909,
+      "png_sha256": "fc5b72dbb3db6f22d4cab13bd39418fcec62c251365e95271f072e493449852d",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5b50593c12d8d325883bad760ace0966a6bc563cdec1aa77d7b4213dc50078ee"
+    },
+    {
+      "group": "mixed64",
+      "index": 10,
+      "path": "png/128/emoji_u1f9e9.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9e9.png",
+      "file": "data/noto_atlas/emoji_u1f9e9.png",
+      "png_bytes": 6378,
+      "png_sha256": "3cd25893942e34f889ef57503a0faa8632fb6871a36addb4980d510f9d100f03",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5bc35a4f7bac494b4c29939920ff0589e11cefeeb579259af875ab487635280b"
+    },
+    {
+      "group": "mixed64",
+      "index": 11,
+      "path": "png/128/emoji_u1fa90.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1fa90.png",
+      "file": "data/noto_atlas/emoji_u1fa90.png",
+      "png_bytes": 6666,
+      "png_sha256": "3ea3dcdbc9e77b9ef820695072d913f3b7b66e0b2ea695d33d8f9a108a86d72c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d4c7e93ac31eae2cfa74432b9833a2f975f8d7291a61e4297b5f907b2c93f349"
+    },
+    {
+      "group": "mixed64",
+      "index": 12,
+      "path": "png/128/emoji_u1f481_1f3fb_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f481_1f3fb_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f481_1f3fb_200d_2640.png",
+      "png_bytes": 5272,
+      "png_sha256": "4cc3af0217f0de9f4622f8fe0fa32ce5b7c3c8c32da7e85d8c05ffb3f697258b",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "4ec12cf75474e3fbc6e99651679d7b345ddd897816c9da590ae3a68142ce75db"
+    },
+    {
+      "group": "mixed64",
+      "index": 13,
+      "path": "png/128/emoji_u1f9d1_1f3fb_200d_1f384.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9d1_1f3fb_200d_1f384.png",
+      "file": "data/noto_atlas/emoji_u1f9d1_1f3fb_200d_1f384.png",
+      "png_bytes": 6036,
+      "png_sha256": "65effe4d8b642d26e9cb9eb48eb5fa4d9c4fa572567c2ec57b0efb94995e56d7",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "6b4d700eb17f1b605236a83c59f03b1d2c92deda9bf61e5180e2c57fd765391a"
+    },
+    {
+      "group": "mixed64",
+      "index": 14,
+      "path": "png/128/emoji_u1faf1_1f3fe.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1faf1_1f3fe.png",
+      "file": "data/noto_atlas/emoji_u1faf1_1f3fe.png",
+      "png_bytes": 3279,
+      "png_sha256": "77c998b8a25a57c9ad1c048bb9924f0384fb7788e163568a442e58c37545fadb",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "e83f2e34ecd62d9ce0e80a3851cbf35042975da019194420a902f6a5abf55589"
+    },
+    {
+      "group": "mixed64",
+      "index": 15,
+      "path": "png/128/emoji_u1f552.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f552.png",
+      "file": "data/noto_atlas/emoji_u1f552.png",
+      "png_bytes": 4781,
+      "png_sha256": "d5a05352adb2187925fa3859c7bb81b0f174b3bfb9890015b07f1592c292972b",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "6023e6949b7853d2ecc3bb3db690ba6d3f6d9dfd8a23e0d21b39c37daebe032f"
+    },
+    {
+      "group": "mixed64",
+      "index": 16,
+      "path": "png/128/emoji_u1f468_200d_2764_200d_1f468.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f468_200d_2764_200d_1f468.png",
+      "file": "data/noto_atlas/emoji_u1f468_200d_2764_200d_1f468.png",
+      "png_bytes": 6806,
+      "png_sha256": "81f646d621ae920fa7e63d3feac21e730545c11e32840aac45f7d33568a57693",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d45fae143799f606911fc0ceecd42e3788ddd0591f271b2b13fc4eb15289fcc3"
+    },
+    {
+      "group": "mixed64",
+      "index": 17,
+      "path": "png/128/emoji_u1f3c3_1f3fe_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f3c3_1f3fe_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f3c3_1f3fe_200d_2640.png",
+      "png_bytes": 4752,
+      "png_sha256": "d13e4d3557cbf30131699ccf6ca0cd79987455e993d3b2dfb6a04b984a7c7b7b",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "2a5d46796197274a9ad4c8538efbf4fe0124e8a9ae061e51ce64fc9d553d79dd"
+    },
+    {
+      "group": "mixed64",
+      "index": 18,
+      "path": "png/128/emoji_u1f6b5_1f3fc_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f6b5_1f3fc_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f6b5_1f3fc_200d_2640.png",
+      "png_bytes": 9950,
+      "png_sha256": "2fa12fbf7ffaba056c204e951aa6244e52898b07456aaf6a11f4679c2751818e",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d6cc347c8aad83653a0ce5eaaabd066d11ba781530b98442dd776922e7332e24"
+    },
+    {
+      "group": "mixed64",
+      "index": 19,
+      "path": "png/128/emoji_u1f6d6.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f6d6.png",
+      "file": "data/noto_atlas/emoji_u1f6d6.png",
+      "png_bytes": 4399,
+      "png_sha256": "8a0f77a8eeb18847a44a0ae8c09d2c0c708f00052c65045644b4139c5c563b19",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "df8eed92e0d086beb01f06348db1288791722066fccab6c8a1b45a989ecc49e4"
+    },
+    {
+      "group": "mixed64",
+      "index": 20,
+      "path": "png/128/emoji_u1f5fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f5fc.png",
+      "file": "data/noto_atlas/emoji_u1f5fc.png",
+      "png_bytes": 2291,
+      "png_sha256": "43f3adad51f3a72e85682883c107343b42cfde3f5661f919fbbc47f80e52ae27",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "e9390cd16eb2126e1363862c93633c1ec945da0099a33dce6fb3c98e55f3d573"
+    },
+    {
+      "group": "mixed64",
+      "index": 21,
+      "path": "png/128/emoji_u1fabc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1fabc.png",
+      "file": "data/noto_atlas/emoji_u1fabc.png",
+      "png_bytes": 10422,
+      "png_sha256": "a2ccffdb1a51fcbc37c8a2e716909ba59b4ff62123785557158a07e88f5c76f5",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "ee0305ae6227b5ed2aca91feea94277bb8db61863c45976b2755fc554562b6fc"
+    },
+    {
+      "group": "mixed64",
+      "index": 22,
+      "path": "png/128/emoji_u1fa85.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1fa85.png",
+      "file": "data/noto_atlas/emoji_u1fa85.png",
+      "png_bytes": 9753,
+      "png_sha256": "9ff8174653243a611aea9ba929edc1aae3f08f3300720b1bde739c514edadd4e",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "89adcfb44c8cbccaddca598882cafce1be07803c5489553e0d5a0bb2e4367a14"
+    },
+    {
+      "group": "mixed64",
+      "index": 23,
+      "path": "png/128/emoji_u1f3c3_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f3c3_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1f3c3_1f3fb.png",
+      "png_bytes": 4289,
+      "png_sha256": "2d64b5cba98355daba9797ab9df6d63656a8dca9888a920ee9c176a92952922a",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "6938e11855c84a6a70fd9ea939e4f51c7b6962a336d38ce888ca21f1b8142039"
+    },
+    {
+      "group": "mixed64",
+      "index": 24,
+      "path": "png/128/emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1faf1_1f3fe_200d_1faf2_1f3fb.png",
+      "png_bytes": 5394,
+      "png_sha256": "56d43a3ab73ca629d67bd43e28ee16c66dad969c99a200823fbd3799df3d73b3",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "ec547d3f1f8ae1dc811fda36ea99c25f6f32bf55a0267f58531da0eb224f114e"
+    },
+    {
+      "group": "mixed64",
+      "index": 25,
+      "path": "png/128/emoji_u1f47c_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f47c_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f47c_1f3fc.png",
+      "png_bytes": 6081,
+      "png_sha256": "cc02077ff0b9e201737e5ea4068a2c0f1b2c8eb5097dbe0a205d52256458e411",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "050d7149a891ed278a6bdc5bd2bd673aa955d64597994a3319908d716776a66e"
+    },
+    {
+      "group": "mixed64",
+      "index": 26,
+      "path": "png/128/emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe.png",
+      "png_bytes": 6356,
+      "png_sha256": "0be252a47e7b37ef89cca9b8e71f3d5ce4aad7c89b2c4f1381d0736d124beb14",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "19b99764c702121afc635aeea36ab2e16fc3a5b18428bc046268732bd49e2768"
+    },
+    {
+      "group": "mixed64",
+      "index": 27,
+      "path": "png/128/emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc.png",
+      "png_bytes": 6526,
+      "png_sha256": "e7ea7683efa2229b50ad82369424b85d7dd53719e2b8d049402839035f92cca0",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "fd1306eab5835cb1727b668c0ba0dc4f5afaaef80a7cd814f8e497b495089f61"
+    },
+    {
+      "group": "mixed64",
+      "index": 28,
+      "path": "png/128/emoji_u1f923.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f923.png",
+      "file": "data/noto_atlas/emoji_u1f923.png",
+      "png_bytes": 8816,
+      "png_sha256": "7a276a351cae58bf58be799bed895e6024237db466e13f5cc67ad81e0fb1cc6f",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "c583dbf7814165518d427430a404408f7225ef976e2377238c1977307f92211a"
+    },
+    {
+      "group": "mixed64",
+      "index": 29,
+      "path": "png/128/emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+      "file": "data/noto_atlas/emoji_u1f9ce_1f3fc_200d_2640_200d_27a1.png",
+      "png_bytes": 4283,
+      "png_sha256": "4d703585395615152dfcd3ccd4e1a9edcef4204aeaae032ae1a52887e9e62d84",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "18c750e7a99980133ca980dd09b59b88b5fe88de0b9b50fba3f6c230e9068208"
+    },
+    {
+      "group": "mixed64",
+      "index": 30,
+      "path": "png/128/emoji_u270a.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u270a.png",
+      "file": "data/noto_atlas/emoji_u270a.png",
+      "png_bytes": 5684,
+      "png_sha256": "4147423ea09d9c615a6a8dbed827136bc858a01090fd0a09055c10dfa578a3de",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d0bfd4c80b042d7f7c73fdc354326ceec0c2d4dd7fea6fce40b62eafb6acd50d"
+    },
+    {
+      "group": "mixed64",
+      "index": 31,
+      "path": "png/128/emoji_u1f977.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f977.png",
+      "file": "data/noto_atlas/emoji_u1f977.png",
+      "png_bytes": 9149,
+      "png_sha256": "98d61afe8e80ff4e1b3a1aa8e7d6c902dcb893ecd5c9630734993389e21085f3",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5a0440b17051fbd4a5027537713a54d732d299463cae5e4b08c281175f0fcc19"
+    },
+    {
+      "group": "mixed64",
+      "index": 32,
+      "path": "png/128/emoji_u1f469_1f3fc_200d_1f680.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3fc_200d_1f680.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3fc_200d_1f680.png",
+      "png_bytes": 6661,
+      "png_sha256": "7e05b5b1378c3ffe0e1f662d3c5e4ead5be88dd10e7dc2dd9610906b791cc438",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "9c72cfa6980adbfab84e9c138b50675d5977c0ec3b6da9eee569613ab925f2d3"
+    },
+    {
+      "group": "mixed64",
+      "index": 33,
+      "path": "png/128/emoji_u1f43d.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f43d.png",
+      "file": "data/noto_atlas/emoji_u1f43d.png",
+      "png_bytes": 2824,
+      "png_sha256": "35c8675254ea564d3dccea18caedad91fa5e855e04601fb7c01fd090258ae2de",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "4c86641b9565544470b4e7b7b04425be884913dce75c30ca901c2ee82822cb93"
+    },
+    {
+      "group": "mixed64",
+      "index": 34,
+      "path": "png/128/emoji_u1f1eb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f1eb.png",
+      "file": "data/noto_atlas/emoji_u1f1eb.png",
+      "png_bytes": 479,
+      "png_sha256": "226686c2aac05d8083bda7380d4888b6a8a39efdd9fce61942d10102de3db7b1",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "b32edbd5b00ba637fc09dc20725e73f1efddc09cbf43b3d8a114ddd0a2055a0d"
+    },
+    {
+      "group": "mixed64",
+      "index": 35,
+      "path": "png/128/emoji_u1f3a0.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f3a0.png",
+      "file": "data/noto_atlas/emoji_u1f3a0.png",
+      "png_bytes": 7226,
+      "png_sha256": "c253b44239bbfc5075a4197344ad642b914a946fc091cbacc31df63e2083a3a4",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "f38782ff5719090802bb9be28282f7bec5850a044b5fee77a74af9d77ec242c6"
+    },
+    {
+      "group": "mixed64",
+      "index": 36,
+      "path": "png/128/emoji_u1f5c4.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f5c4.png",
+      "file": "data/noto_atlas/emoji_u1f5c4.png",
+      "png_bytes": 2178,
+      "png_sha256": "2af9098e81362f6fe2eb66ad68149edef750659913de35cf3cee1bce98103aee",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "63617fd412d4501955f58d54f248b029e0a9386118e38a23ec2d779524fdb101"
+    },
+    {
+      "group": "mixed64",
+      "index": 37,
+      "path": "png/128/emoji_u1f999.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f999.png",
+      "file": "data/noto_atlas/emoji_u1f999.png",
+      "png_bytes": 4142,
+      "png_sha256": "a394f75878d9414c4ab325c79ca07bcc4e3197ad407178398741420f69df5ad5",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d06665588d9ece4fee1bf3517ae4e14754270cff7b29d1219f203002f455ec1a"
+    },
+    {
+      "group": "mixed64",
+      "index": 38,
+      "path": "png/128/emoji_u1f9de_200d_2642.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9de_200d_2642.png",
+      "file": "data/noto_atlas/emoji_u1f9de_200d_2642.png",
+      "png_bytes": 9548,
+      "png_sha256": "fe3f7225260c704e26ff0b160761eb6d701486f247e339011703286403c24d1f",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "a0c0248e7625f72f12d33e0d56b683ce1c9a334f36ca1aafcd4cbb167582b99c"
+    },
+    {
+      "group": "mixed64",
+      "index": 39,
+      "path": "png/128/emoji_u1f9dc_1f3fd.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9dc_1f3fd.png",
+      "file": "data/noto_atlas/emoji_u1f9dc_1f3fd.png",
+      "png_bytes": 6341,
+      "png_sha256": "18001768a7b5417405987cac57ac4180f3a9fe77c3c4822f1000a2284ba5c558",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "6bf2c770bf29fa12cb94ced142ebeee3a5ba66fa9a5653aec3bbf8ebdd443226"
+    },
+    {
+      "group": "mixed64",
+      "index": 40,
+      "path": "png/128/emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb.png",
+      "png_bytes": 6246,
+      "png_sha256": "293580535c4bd09c9c75d58fd24929091982b2620d905d1c77018371373c47ed",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "ff2a604d8da9dc328b8c870c0e93ab84a96666cd96f6849ef56ea9c52217b2b9"
+    },
+    {
+      "group": "mixed64",
+      "index": 41,
+      "path": "png/128/emoji_u1f473_1f3ff_200d_2642.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f473_1f3ff_200d_2642.png",
+      "file": "data/noto_atlas/emoji_u1f473_1f3ff_200d_2642.png",
+      "png_bytes": 5280,
+      "png_sha256": "249039e0fdaf8822849434625b6f4b717ae031fe01c0d1473985083b9cb7edc9",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5f8e23576e5f656791d3b5c0dca57f22788e3acf0286ffdc2387634da7ac0940"
+    },
+    {
+      "group": "mixed64",
+      "index": 42,
+      "path": "png/128/emoji_u1f471_1f3fc.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f471_1f3fc.png",
+      "file": "data/noto_atlas/emoji_u1f471_1f3fc.png",
+      "png_bytes": 5497,
+      "png_sha256": "c8f3603cd332106d6c71e60006eab490bca11d208a0a0f161d9493e455ffc18c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d6f54247ff9c984cdc75bc98400843733f76a42e9bafae3e3e8132bad2a850b2"
+    },
+    {
+      "group": "mixed64",
+      "index": 43,
+      "path": "png/128/emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+      "file": "data/noto_atlas/emoji_u1f9d1_1f3fd_200d_1f9b0.png",
+      "png_bytes": 6059,
+      "png_sha256": "1a12684c2b0bc14f9d6d354e3a2a415036d46928d5de9f08ba3e9703c3a09c7e",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "54e61b58ace1a8095101da94df1f266d5c6c11f219579c5f895349980b8d002e"
+    },
+    {
+      "group": "mixed64",
+      "index": 44,
+      "path": "png/128/emoji_u1f4d8.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f4d8.png",
+      "file": "data/noto_atlas/emoji_u1f4d8.png",
+      "png_bytes": 1116,
+      "png_sha256": "51fea45dabd804ee119eb086d4614524d6546f270dce98066a9942333205f8fd",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "678c2fe93713c88a7c8010bb3de9f45bf1ce86de2809eaa8dc6b0a53b62cbd99"
+    },
+    {
+      "group": "mixed64",
+      "index": 45,
+      "path": "png/128/emoji_u1f9d7_1f3fe.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9d7_1f3fe.png",
+      "file": "data/noto_atlas/emoji_u1f9d7_1f3fe.png",
+      "png_bytes": 7115,
+      "png_sha256": "3863e05509bb19cc5bc57cce16c2b6f90fe9772ae3ac861d8f08261f4cc58a21",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "2ff935b2b3ff69483a99d99df873e1ec8de9678fa40fb231f73bfdca53e4b1c3"
+    },
+    {
+      "group": "mixed64",
+      "index": 46,
+      "path": "png/128/emoji_u1f3d6.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f3d6.png",
+      "file": "data/noto_atlas/emoji_u1f3d6.png",
+      "png_bytes": 4673,
+      "png_sha256": "770b6971c7301a2379136230fda173a639c23fdeacf1ef7f5209c6a08998fac2",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "588bfafb177883ebdb863ebecdb8944ec0701fdde9f63a02552d0ad0d2405ab6"
+    },
+    {
+      "group": "mixed64",
+      "index": 47,
+      "path": "png/128/emoji_u1f574_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f574_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1f574_1f3fb.png",
+      "png_bytes": 4280,
+      "png_sha256": "e706cb1cc6484a2e783faf9cec977ad51ad42f8408a935bf9210ea3373f42dd9",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "abb675a80590f191e6fad24cfa9224f9dda17ee4f014d674d0058247a85efb24"
+    },
+    {
+      "group": "mixed64",
+      "index": 48,
+      "path": "png/128/emoji_u1f486_200d_2642.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f486_200d_2642.png",
+      "file": "data/noto_atlas/emoji_u1f486_200d_2642.png",
+      "png_bytes": 4900,
+      "png_sha256": "2c958b8c98ded6f07502b29efa35f551019f0b8c4e3df154f04882195f4c36d5",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "c1132a04d916f43408b9c50e9032efcdaa2bdf665deba859141b856a4e3cee7e"
+    },
+    {
+      "group": "mixed64",
+      "index": 49,
+      "path": "png/128/emoji_u1f5d1.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f5d1.png",
+      "file": "data/noto_atlas/emoji_u1f5d1.png",
+      "png_bytes": 6333,
+      "png_sha256": "8f5d8d10ee7ade866f2f9f2fbb8b3229f21423db8958932331485a72b52ffb12",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "9c2176c4d3619dd0bba1229ca419ed3d7f5d1e96ca7aa82e28dba7e153fca8cc"
+    },
+    {
+      "group": "mixed64",
+      "index": 50,
+      "path": "png/128/emoji_u1f939_1f3fb.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f939_1f3fb.png",
+      "file": "data/noto_atlas/emoji_u1f939_1f3fb.png",
+      "png_bytes": 7347,
+      "png_sha256": "d59e8a82eaa9a0aaa6605f7addd4f5dcc51f11f796f8dbd271d4eff3a9c94d56",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "50b118bb4428165f71fff51f5f9383b1d83d4bf5230e33a8f1fb6b3de6cfcc69"
+    },
+    {
+      "group": "mixed64",
+      "index": 51,
+      "path": "png/128/emoji_u1f9d9_1f3fd_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9d9_1f3fd_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f9d9_1f3fd_200d_2640.png",
+      "png_bytes": 7002,
+      "png_sha256": "99508357313e3e396161570fe1b73cf7f1ed0e8feca801c053a5ce91f3455411",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5c62288b5158de5c448a01728c75ab26b96fa9ec76731a3020e86ca0dc1a5ca6"
+    },
+    {
+      "group": "mixed64",
+      "index": 52,
+      "path": "png/128/emoji_u1f93d_1f3fd_200d_2642.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f93d_1f3fd_200d_2642.png",
+      "file": "data/noto_atlas/emoji_u1f93d_1f3fd_200d_2642.png",
+      "png_bytes": 6779,
+      "png_sha256": "81bbb8834925e0caa290fd15f69c1fea101b0fc785ac7eaff5bbc3a35868b22f",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "091d95a2e24bb90dfaf29852a67c2bee1fa51caab0daba7367e135e2c527a53a"
+    },
+    {
+      "group": "mixed64",
+      "index": 53,
+      "path": "png/128/emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff.png",
+      "png_bytes": 8232,
+      "png_sha256": "155ccaf84d8b5f56a0a78c7a1a8fd97f3d26e24b0ebb9fcce144368630d5aa60",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "d38353fc840bfeca26e453f8e99e90b77fbb5dd664c1491efe3bf2c139df6899"
+    },
+    {
+      "group": "mixed64",
+      "index": 54,
+      "path": "png/128/emoji_u1f40d.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f40d.png",
+      "file": "data/noto_atlas/emoji_u1f40d.png",
+      "png_bytes": 4309,
+      "png_sha256": "0bdbbbf34a8c2af264201e6bf3dea95961fb551985d5eeb739fdd9df2197b515",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "0ebb65952f1151fdb87ac9947e1b00cf0b94646df5f8db2e6ecbf4aaf2e240f4"
+    },
+    {
+      "group": "mixed64",
+      "index": 55,
+      "path": "png/128/emoji_u1f93c_1f3fd_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f93c_1f3fd_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f93c_1f3fd_200d_2640.png",
+      "png_bytes": 8399,
+      "png_sha256": "0227506f364574df82cfaba1f46a260cbb0705298ff61ffb34347dda5e80ea32",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "c953f7f2914c01d0611f508ad8a195d2f728faa18a371e93987c5a78f4f7458f"
+    },
+    {
+      "group": "mixed64",
+      "index": 56,
+      "path": "png/128/emoji_u1f9d7_1f3fe_200d_2640.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f9d7_1f3fe_200d_2640.png",
+      "file": "data/noto_atlas/emoji_u1f9d7_1f3fe_200d_2640.png",
+      "png_bytes": 7337,
+      "png_sha256": "3ad865cf9336b0af6626a0834322d02bdf183ce791e62ebe7f516342d0e77853",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "f392b5201acadac97e2aaaa982ed4a79822c4e7ea37ae9762f6e0f42558e1ee7"
+    },
+    {
+      "group": "mixed64",
+      "index": 57,
+      "path": "png/128/emoji_u1f63e.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f63e.png",
+      "file": "data/noto_atlas/emoji_u1f63e.png",
+      "png_bytes": 4374,
+      "png_sha256": "5412a47c120fb6054f5a9adf2984de3546fc1df668d4e38704ac1ed488ea6249",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "82877a4426267983b112258cc54d5ec0e40e363d843a7d772c9f5f8cfed0639b"
+    },
+    {
+      "group": "mixed64",
+      "index": 58,
+      "path": "png/128/emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+      "file": "data/noto_atlas/emoji_u1f6b6_1f3fe_200d_2642_200d_27a1.png",
+      "png_bytes": 3235,
+      "png_sha256": "af3f26b47d5e963fb1232f3aadc3744aae2e2972786b4353bd2431fe2fd2c88d",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "df512f3a01e643523261a7ca70f6f771e696b8b177649d71d87697b73237d5c3"
+    },
+    {
+      "group": "mixed64",
+      "index": 59,
+      "path": "png/128/emoji_u1f469_1f3fb_200d_1f527.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3fb_200d_1f527.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3fb_200d_1f527.png",
+      "png_bytes": 7567,
+      "png_sha256": "d9cdfa66dc8ae756133519e79cd75491fdc5058a47a81e3e899c82e69dd60675",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "964e3f1b5fb27a4cad2a331762b7d396dfdfd0760eb56a76f989e4cacbaa75f3"
+    },
+    {
+      "group": "mixed64",
+      "index": 60,
+      "path": "png/128/emoji_u1f959.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f959.png",
+      "file": "data/noto_atlas/emoji_u1f959.png",
+      "png_bytes": 9857,
+      "png_sha256": "f7ad2d2f5054ea46bc1d25d843e764fa14e1e92e983b1f45cf9707696a6f2673",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "5b563427be42fc77e512d63335f1ed80ed52ae0652db7e3c36b8f66979141328"
+    },
+    {
+      "group": "mixed64",
+      "index": 61,
+      "path": "png/128/emoji_u1f469_1f3fd_200d_1f393.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f469_1f3fd_200d_1f393.png",
+      "file": "data/noto_atlas/emoji_u1f469_1f3fd_200d_1f393.png",
+      "png_bytes": 6277,
+      "png_sha256": "3eba4c1d7d1af4df7a0714bb11fc9f98aa6df80d2526a3d7eed561878db9b198",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "49b96630ab167b258e2d4d048bb032688f56a8b93ab0137b9d760332c459c6e9"
+    },
+    {
+      "group": "mixed64",
+      "index": 62,
+      "path": "png/128/emoji_u1f91b.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f91b.png",
+      "file": "data/noto_atlas/emoji_u1f91b.png",
+      "png_bytes": 3170,
+      "png_sha256": "d03a9f0107c2b58ff4113369090ad745b70329712716935bb374b02a52b0800c",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "8bc5b29794ddee7939d07167bdc97d3762762dbd67e565d4b13f5dcd36affbc4"
+    },
+    {
+      "group": "mixed64",
+      "index": 63,
+      "path": "png/128/emoji_u1f553.png",
+      "url": "https://raw.githubusercontent.com/googlefonts/noto-emoji/22e564626297b4df0a40570ad81d6c05cc7c38bd/png/128/emoji_u1f553.png",
+      "file": "data/noto_atlas/emoji_u1f553.png",
+      "png_bytes": 5019,
+      "png_sha256": "f96a35f668cfd62308bfa8d5f65c9db249c82560cb23ea9bd559bc60d18848b3",
+      "png_colour_type": 6,
+      "original_mode": "RGBA",
+      "shape": [
+        128,
+        128,
+        4
+      ],
+      "source_sha256": "3d5af0b55607325fe15c591b9e80be2389793a118675392bb95970f9f0a50882"
+    }
+  ],
+  "code_sha256": "d147b17c4bbb5e29abccf272c6c899912c59df1cb3e4ddfb1ed7097713e61917"
+}
