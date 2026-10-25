@@ -183,3 +183,55 @@ PNG9 on every photograph and 2–6× faster than PNG9 on smooth and GUI
 content; decode is 9–13× PNG9's on one thread, and divides by the thread
 count across frames. Instruction counts of this kernel are to be taken on
 the pod when it is free.
+
+## 5. Release 0.3.0: duplicated index, OptiPNG reference, malformed-input sweep
+
+**Index.** The header fields gained a CRC32, and the header fields and the
+directory are each stored twice (front and trailing copy); the decoder takes
+the first copy whose checksum matches. The frame payloads are unchanged, so
+every corpus file grew by exactly `8 × frames + 22` bytes: 19,576 bytes over
+the 236 images, 0.10% of all bytes (0.05% on photographs, 0.53% on the
+one-frame 128 px emoji). Verified on the ten rewrapped vectors (Python
+reference and native kernel byte-identical, `native_phase_v7d_vectors.json`)
+and on the 236-image corpus (all exact, every size equal to the previous
+size plus `8 × frames + 22`, `native_phase_hashes_arm64_v7d.json`). The
+motivation came from the sweep below: with the frame side unprotected, a
+flipped side bit on a 300×40 image kept the frame count at three and decoded
+garbage with a success status.
+
+**OptiPNG reference** (`optipng_reference.json`; OptiPNG 7.9.1 `-o7 -strip all`,
+the maximum level, on every corpus image; CNG bytes include the duplicated
+index):
+
+| set | n | CNG / OptiPNG | smaller | CNG / PNG9 |
+|---|---|---|---|---|
+| photographs (Kodak) | 24 | 0.754 | 24 | 0.725 |
+| screen captures | 14 | 0.684 | 14 | — |
+| smooth graphics | 10 | 0.566 | 10 | 0.493 |
+| mixed photographic and graphic | 13 | 0.827 | 7 | 0.810 |
+| noise | 23 | 1.011 | 7 | 0.823 |
+| emoji faces | 32 | 1.014 | 11 | 0.862 |
+| emoji mixed | 64 | 1.133 | 21 | 0.906 |
+| small periodic tiles | 56 | 1.890 | 1 | 1.527 |
+| all | 236 | 0.777 | 95 | 0.753 |
+
+OptiPNG's maximum level is a far stronger reference than PNG level 9 on the
+repetitive and palette-like material (the structured fixtures shrink to
+0.5–0.6 of their PNG9 size; emoji to 0.8), and leaves the photographs almost
+where libpng put them (0.96). The largest loss is `ramp_plus_tile7`
+(2,073 bytes OptiPNG, 69,979 CNG): a 7-pixel tile over a ramp, where no
+causal neighbourhood repeats exactly and the phase model sees only noise.
+It is a retained counterexample.
+
+**Malformed-input sweep** (`malformed_sweep.txt`; `tests/malformed.cpp`
+built with ASan and UBSan): 70,844 damaged inputs through the public
+interfaces, 3,962 accepted, every unforged acceptance exact, no write past
+the destination, no sanitizer report. The categories are every truncation,
+every single-bit flip of the index and the payload edges, forged payloads
+with recomputed checksums, impossible header claims with one or both index
+copies forged, and whole index copies destroyed (repaired from the other).
+
+**Not measured here.** Instruction counts of the tightened kernel; the cost
+of forward error correction beyond duplication (a Reed–Solomon index would
+survive damage to both copies); PNG-class single-thread decode speed, which
+the construction does not have.

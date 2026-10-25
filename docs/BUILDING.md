@@ -1,8 +1,7 @@
 # Building stx_cng
 
-The library requires CMake 3.21 or later, C and C++20 compilers, and zlib.
-The bundled standalone stx_cngcompress package supplies entropy coding. Both
-build as static libraries. No image toolkit, browser engine, Python runtime or
+The library requires CMake 3.21 or later, a C++20 compiler and zlib. It builds
+as one static library. No image toolkit, compression library, Python runtime or
 platform graphics API is required.
 
 ## Configure, build, test
@@ -15,31 +14,19 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-The verified macOS configuration uses non-Apple LLVM 23.1.2:
-
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ \
-  -DCMAKE_PREFIX_PATH=/opt/homebrew
-cmake --build build
-ctest --test-dir build --output-on-failure
-```
-
-On another installation, set `CMAKE_PREFIX_PATH` to the dependency prefix. Zlib
-is located through
-CMake's `FindZLIB`. This source release uses portable C++20, but the release
-verification described here was performed on macOS arm64; a source portability
-claim is not a completed Windows or Linux test result.
+Zlib is located through CMake's `FindZLIB`; on another installation, set
+`CMAKE_PREFIX_PATH` to the dependency prefix. The source is portable C++20
+without platform intrinsics; it is built and verified with LLVM clang on
+macOS arm64 and with GCC on Linux x86-64, where the encoder produces identical
+bytes.
 
 ## Dependency contract
 
-The source includes the independent MIT `stx_cngcompress` package. CNG uses its
-public C interface and reusable encoder/decoder handles; no private compressor
-header is consumed. The package also builds and installs by itself.
-
-Zlib supplies CRC32. It is linked externally and not downloaded. Zstandard is
-required only for the frozen v2 comparison/migration sources, which are excluded
-from the production build. It is not an installed dependency of CNG v3.
+Zlib supplies the CRC32 of collection chunks. It is linked externally and not
+downloaded. The standalone codec computes its own CRC32 and has no dependency
+beyond the C++ standard library. The `stx_cngcompress` package in this
+repository was the entropy coder of releases 0.1 and 0.2; it remains as an
+independent package and is not built or linked by this release.
 
 ## Embed from source
 
@@ -48,9 +35,8 @@ add_subdirectory(external/stx_cng)
 target_link_libraries(my_application PRIVATE stx_cng::stx_cng)
 ```
 
-This exposes the public include directory and the C++20 requirement. The target
-carries the libraries needed for linking the static archive. Set `BUILD_TESTING`
-to `OFF` when the embedding build does not need the bundled tests.
+This exposes the public include directory and the C++20 requirement. Set
+`BUILD_TESTING` to `OFF` when the embedding build does not need the bundled tests.
 
 ## Install
 
@@ -58,29 +44,35 @@ to `OFF` when the embedding build does not need the bundled tests.
 cmake --install build --prefix /your/install/prefix
 ```
 
-Installation places both static libraries, public headers and relocatable CMake
-package configurations beneath the prefix. A consuming C++ project uses:
+Installation places the static library, public headers and a relocatable CMake
+package configuration beneath the prefix. A consuming C++ project uses:
 
 ```cmake
-find_package(stx_cng 0.2 CONFIG REQUIRED)
+find_package(stx_cng 0.3 CONFIG REQUIRED)
 target_link_libraries(my_application PRIVATE stx_cng::stx_cng)
 ```
 
-For manual linking, use `libstx_cng`, `libstx_cngcompress`, zlib and the C++
-runtime. The standalone compressor itself needs only the C++ and system runtimes.
+For manual linking, use `libstx_cng`, zlib and the C++ runtime.
 
 ## What the tests establish
 
-The bundled test exercises 40 RGB/RGBA image cases, including multi-band images,
-ramps, sharp steps, repeated patterns, noise and narrow dimensions. It checks both
-stream output and caller-supplied output, then round-trips both collection forms
-with mixed channel counts. It also checks explicit v2 rejection before
-pixel mutation. Version migration is described in [the format](FORMAT.md).
-Temporary fixtures are created in the test working directory and removed on
-success. A failed run leaves them available for
-inspection; remove that fixture directory before repeating the test.
+`stx_cng_roundtrip` exercises 40 RGB/RGBA image cases, including multi-frame
+images, ramps, sharp steps, repeated patterns, noise and narrow dimensions. It
+checks both stream output and caller-supplied output, round-trips both
+collection forms with mixed channel counts, checks that a `CSP` v3 header of
+the previous release is rejected before pixel output, and that a flipped
+payload byte is reported as a frame checksum failure.
 
-The larger 222-image verification corpus remains external. The source release
-includes its results and source hashes, not third-party image files. These
-ordinary equality and resource checks do not constitute an automated memory
-integrity review.
+`stx_cng_malformed` decodes about 70,000 damaged inputs through the public
+interfaces: every truncation of six images and two collections, every
+single-bit flip of their headers, directories and payload edges, forged
+payloads of arbitrary bytes with recomputed checksums, header fields claiming
+impossible or oversized dimensions, and whole index copies zeroed or filled.
+Each input must be rejected or decode exactly (a forged payload may decode to
+anything), must never write outside the destination, and, when the tests are
+configured with `-DSTX_CNG_SANITIZE=ON`, must raise no address or
+undefined-behaviour sanitizer report. The release runs this configuration.
+
+Temporary fixtures are created in the test working directory and removed on
+success. The measurement corpus remains external; the repository includes its
+results and source hashes, not third-party image files.

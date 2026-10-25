@@ -1,20 +1,28 @@
 # V7 stream (CNGPHI07)
 
-An experimental representation, not the published CNG grammar. V7 is the V6
-construction (see `../version6/FORMAT.md` for the per-pixel coding) inside
-independently decodable frames.
+The standalone stream of release 0.3.0. V7 is the V6 construction (see
+`../version6/FORMAT.md` for the per-pixel coding) inside independently
+decodable frames, with a checksummed, duplicated index.
 
 ## Container
 
 | Field | Bytes | Meaning |
 | --- | --- | --- |
 | Signature | 8 | ASCII `CNGPHI07` |
-| Width, height | 4 + 4 | big-endian u32, ≥ 1 |
-| Channels | 1 | 3 (RGB8) or 4 (RGBA8) |
-| Frame side | 1 | 128 as written; a decoder honours 16–255 |
+| Header fields | 10 | width u32, height u32 (big-endian, ≥ 1), channels u8 (3 or 4), frame side u8 (128 as written; a decoder honours 16–255) |
+| Header CRC32 | 4 | CRC32 of the ten header-field bytes |
 | Directory | 8 per frame | payload length u32, CRC32 u32 of the payload, frames in raster order |
-| Directory checksum | 4 | CRC32 of the directory bytes |
+| Directory CRC32 | 4 | CRC32 of the directory entries |
 | Payloads | | one per frame, raster order |
+| Directory, again | 8 per frame + 4 | the same bytes as the directory and its CRC32 |
+| Header fields, again | 14 | the same bytes as the header fields and their CRC32 |
+
+A reader takes the header fields from the front copy when its CRC32 matches,
+otherwise from the trailing copy, and the directory the same way; a stream
+with neither copy of either intact is rejected. The payload lengths must
+account for exactly the bytes between the two directory copies. Damage
+confined to one copy of the index therefore costs nothing; the second copy
+costs `8 × frames + 22` bytes per file.
 
 Frames tile the image in raster order; the last column and row of frames
 are smaller when the dimensions are not multiples of the side. A frame's

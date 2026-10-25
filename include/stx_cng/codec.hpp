@@ -12,22 +12,15 @@ struct Dimensions {
     std::size_t channels = 0;
 };
 struct Measurements {
-    std::size_t workspace_bytes = 0;
-    std::size_t stored_bands = 0;
-    std::size_t compressed_bands = 0;
-    double transform_seconds = 0.0;
-    double entropy_seconds = 0.0;
-    double sequence_seconds = 0.0;
-    double literal_seconds = 0.0;
-    double reconstruction_seconds = 0.0;
+    std::size_t workspace_bytes = 0;   // owned storage of the call: sample buffer, stream buffer and one frame's engine state
+    std::size_t frames = 0;            // frames of the image (128x128 grid, last column and row smaller)
+    double codec_seconds = 0.0;        // time inside the frame engine, excluding stream reads and writes
 };
-// CSP v3, stored literals are original samples; compressed literals remain
-// gradient residuals. Fixed 1 MiB bands; borrow distinct streams synchronously.
-// Encode reads exactly height*width*channels interleaved RGB8/RGBA8 bytes.
-// Errors throw and can leave partial stream output. Internal owners retain
-// neither a complete image nor a complete file. Workspace sums all owned
-// capacities and the cngcompress handle; process RSS is separate.
-// Version 2 inputs are rejected before pixel output; use the v2 release to migrate.
+// CNG standalone image: the phase codec in independent 128x128 frames (stream CNGPHI07). Encode reads exactly
+// height*width*channels interleaved RGB8/RGBA8 bytes and writes one complete file. Decode reads one complete file.
+// Frames carry a CRC32 each in a checksummed directory; a corrupted frame is reported and decoding stops there.
+// Errors throw; stream output may be partial after an error. The whole compressed file is held in memory during a
+// call, together with the image samples; frame engine state is a few hundred kilobytes.
 void encode(std::istream& source, std::ostream& destination,
             Dimensions dimensions, Measurements& measurements);
 [[nodiscard]] Dimensions decode(std::istream& source, std::ostream& destination,

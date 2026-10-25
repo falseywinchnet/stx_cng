@@ -1,0 +1,10 @@
+1:PASS: 40 image cases, both decode interfaces, both collection forms, legacy rejection, frame checksum detection
+2:PASS: 70844 malformed inputs, 3962 accepted, 3218 of those exact, no sanitizer report
+Build: cmake -DCMAKE_BUILD_TYPE=Debug -DSTX_CNG_SANITIZE=ON (Apple clang 21, -fsanitize=address,undefined -fno-sanitize-recover=all), macOS arm64, 2026-10-25.
+Inputs: six images (1x1 RGB, 1x1 RGBA, 7x5 RGB, 3x17 RGBA, 300x40 RGB, 129x130 RGBA) and two collections (packed, composite):
+every truncation length; every single-bit flip of the header, directory and first/last 64 payload bytes; 160 forged
+payloads per image (arbitrary, all-zero, all-one, perturbed real bytes, lengths 0..2x) with recomputed checksums and
+mirrored directory; header claims of zero, oversized and off-by-one dimensions, bad channel counts and frame sides,
+with the front copy forged and with both copies forged; the front index zeroed (repaired from the tail copy) and the
+tail index filled (decoded from the front copy). Every unforged acceptance reproduced the original samples; no write
+reached the guard region after the destination; no sanitizer report. The run took 10 minutes under the sanitizers.

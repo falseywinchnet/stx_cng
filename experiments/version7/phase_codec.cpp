@@ -46,6 +46,8 @@ constexpr std::uint32_t kRepeatMaxLog = 22;   // REPEAT_MAX_LOG
 constexpr std::array<std::uint8_t, 8> kSignature = {0x43, 0x4E, 0x47, 0x50, 0x48, 0x49, 0x30, 0x37};  // "CNGPHI07"
 constexpr std::uint32_t kFrame = 128;                                                              // default frame side in pixels
 constexpr std::uint32_t kMinFrame = 16;
+constexpr std::size_t kFieldBytes = 10;                 // width u32, height u32, channels u8, frame side u8
+constexpr std::size_t kTailBytes = kFieldBytes + 4;      // trailing copy of the header fields and their CRC32
 
 // Causal offsets as (rows above, columns left). The activity sum uses (0,1) (1,0) (1,1) (1,-1) (0,2) (2,0): the
 // row pass above_energy_row sums the four offsets in the rows above, the pixel loop adds the two on the current row.
@@ -779,7 +781,37 @@ struct FrameRect { std::uint32_t x0 = 0, y0 = 0, width = 0, height = 0; };
     r.width = std::min(side, d.width - r.x0); r.height = std::min(side, d.height - r.y0);
     return r;
 }
+// The directory block: (payload length u32, payload CRC32 u32) per frame in raster order, then the CRC32 of those
+// entries. It is written twice, after the header and again before the trailing header copy, so that damage to
+// either copy leaves the other to parse from.
 [[nodiscard]] std::size_t directory_bytes(std::uint32_t frames) { return static_cast<std::size_t>(frames) * 8 + 4; }
+[[nodiscard]] bool directory_valid(const std::uint8_t* block, std::uint32_t frames) {
+    return read_u32(block + static_cast<std::size_t>(frames) * 8) == crc32_of(std::span<const std::uint8_t>(block, static_cast<std::size_t>(frames) * 8));
+}
+// Parses the ten header fields from `fields` when the CRC32 that follows them matches.
+[[nodiscard]] bool fields_valid(const std::uint8_t* fields) {
+    return read_u32(fields + kFieldBytes) == crc32_of(std::span<const std::uint8_t>(fields, kFieldBytes));
+}
+void parse_fields(const std::uint8_t* fields, Dimensions& dimensions, std::uint32_t& side) {
+    dimensions.width = read_u32(fields); dimensions.height = read_u32(fields + 4); dimensions.channels = fields[8]; side = fields[9];
+}
+// Header: signature, fields and their CRC32 at the front; the fields and CRC32 again at the end of the stream. The
+// front copy is used when its checksum matches, otherwise the trailing copy; a stream with neither is rejected.
+Status parse_header(std::span<const std::uint8_t> stream, Dimensions& dimensions, std::uint32_t& side) {
+    if (stream.size() < kHeaderBytes + kTailBytes) { return Status::bad_header; }
+    for (std::size_t index = 0; index < kSignature.size(); ++index) {
+        if (stream[index] != kSignature[index]) { return Status::bad_header; }
+    }
+    const std::uint8_t* front = stream.data() + kSignature.size();
+    const std::uint8_t* tail = stream.data() + stream.size() - kTailBytes;
+    Dimensions parsed; std::uint32_t parsed_side = 0;
+    if (fields_valid(front)) { parse_fields(front, parsed, parsed_side); }
+    else if (fields_valid(tail)) { parse_fields(tail, parsed, parsed_side); }
+    else { return Status::bad_header; }
+    if (parsed_side < kMinFrame || !valid_dimensions(parsed)) { return Status::bad_header; }
+    dimensions = parsed; side = parsed_side;
+    return Status::ok;
+}
 // Encodes one frame of `samples` (interleaved image, row stride = image width) into `payload` (cleared first).
 Status encode_frame(Workspace& workspace, const std::uint8_t* samples, Dimensions image, FrameRect r, std::vector<std::uint8_t>& payload, std::vector<SymbolTrace>* trace) {
     payload.clear();
@@ -819,38 +851,49 @@ Status encode_frames(std::span<const std::uint8_t> samples, Dimensions dimension
         Status status = encode_frame(workspace, samples.data(), dimensions, frame_rect(dimensions, side, index), payloads[index], trace);
         if (status != Status::ok) { return status; }
     }
-    std::size_t total = kHeaderBytes + directory_bytes(frames);
+    std::vector<std::uint8_t> fields;
+    fields.reserve(kFieldBytes + 4);
+    write_u32(fields, dimensions.width);
+    write_u32(fields, dimensions.height);
+    fields.push_back(static_cast<std::uint8_t>(dimensions.channels));
+    fields.push_back(static_cast<std::uint8_t>(side));
+    write_u32(fields, crc32_of(std::span<const std::uint8_t>(fields.data(), kFieldBytes)));
+    std::vector<std::uint8_t> directory;
+    directory.reserve(directory_bytes(frames));
+    for (const std::vector<std::uint8_t>& p : payloads) {
+        write_u32(directory, static_cast<std::uint32_t>(p.size()));
+        write_u32(directory, crc32_of(std::span<const std::uint8_t>(p.data(), p.size())));
+    }
+    write_u32(directory, crc32_of(std::span<const std::uint8_t>(directory.data(), static_cast<std::size_t>(frames) * 8)));
+    std::size_t total = kHeaderBytes + 2 * directory.size() + kTailBytes;
     for (const std::vector<std::uint8_t>& p : payloads) { total += p.size(); }
     destination.reserve(total);
-    for (std::uint8_t byte : kSignature) { destination.push_back(byte); }
-    write_u32(destination, dimensions.width);
-    write_u32(destination, dimensions.height);
-    destination.push_back(static_cast<std::uint8_t>(dimensions.channels));
-    destination.push_back(static_cast<std::uint8_t>(side));
-    std::size_t directory_start = destination.size();
-    for (const std::vector<std::uint8_t>& p : payloads) {
-        write_u32(destination, static_cast<std::uint32_t>(p.size()));
-        write_u32(destination, crc32_of(std::span<const std::uint8_t>(p.data(), p.size())));
-    }
-    std::uint32_t directory_crc = crc32_of(std::span<const std::uint8_t>(destination.data() + directory_start, static_cast<std::size_t>(frames) * 8));
-    write_u32(destination, directory_crc);
+    destination.insert(destination.end(), kSignature.begin(), kSignature.end());
+    destination.insert(destination.end(), fields.begin(), fields.end());
+    destination.insert(destination.end(), directory.begin(), directory.end());
     for (const std::vector<std::uint8_t>& p : payloads) { destination.insert(destination.end(), p.begin(), p.end()); }
+    destination.insert(destination.end(), directory.begin(), directory.end());
+    destination.insert(destination.end(), fields.begin(), fields.end());
     return Status::ok;
 }
 // Reads and validates the directory; fills offsets (from the start of the stream), lengths and checksums of every frame payload.
 Status read_directory(std::span<const std::uint8_t> stream, Dimensions dimensions, std::uint32_t side, std::vector<std::size_t>& offsets, std::vector<std::uint32_t>& lengths, std::vector<std::uint32_t>& checksums) {
     const std::uint32_t frames = frames_of(dimensions, side);
-    if (stream.size() < kHeaderBytes + directory_bytes(frames)) { return Status::bad_directory; }
-    const std::uint8_t* directory = stream.data() + kHeaderBytes;
-    if (read_u32(directory + static_cast<std::size_t>(frames) * 8) != crc32_of(std::span<const std::uint8_t>(directory, static_cast<std::size_t>(frames) * 8))) { return Status::bad_directory; }
+    const std::size_t block = directory_bytes(frames);
+    if (stream.size() < kHeaderBytes + 2 * block + kTailBytes) { return Status::bad_directory; }
+    const std::uint8_t* front = stream.data() + kHeaderBytes;
+    const std::uint8_t* mirror = stream.data() + stream.size() - kTailBytes - block;
+    const std::uint8_t* directory = directory_valid(front, frames) ? front : directory_valid(mirror, frames) ? mirror : nullptr;
+    if (directory == nullptr) { return Status::bad_directory; }
     offsets.assign(frames, 0); lengths.assign(frames, 0); checksums.assign(frames, 0);
-    std::size_t position = kHeaderBytes + directory_bytes(frames);
+    const std::size_t payload_end = stream.size() - kTailBytes - block;
+    std::size_t position = kHeaderBytes + block;
     for (std::uint32_t index = 0; index < frames; ++index) {
         lengths[index] = read_u32(directory + static_cast<std::size_t>(index) * 8); checksums[index] = read_u32(directory + static_cast<std::size_t>(index) * 8 + 4);
         offsets[index] = position; position += lengths[index];
-        if (position > stream.size()) { return Status::bad_directory; }
+        if (position > payload_end) { return Status::bad_directory; }
     }
-    if (position != stream.size()) { return Status::bad_directory; }
+    if (position != payload_end) { return Status::bad_directory; }
     return Status::ok;
 }
 }  // namespace
@@ -868,34 +911,45 @@ Status encode_traced(std::span<const std::uint8_t> samples, Dimensions dimension
 }
 
 Status read_header(std::span<const std::uint8_t> stream, Dimensions& dimensions) {
-    if (stream.size() < kHeaderBytes) { return Status::bad_header; }
-    for (std::size_t index = 0; index < kSignature.size(); ++index) {
-        if (stream[index] != kSignature[index]) { return Status::bad_header; }
-    }
-    Dimensions parsed;
-    parsed.width = read_u32(stream.data() + 8);
-    parsed.height = read_u32(stream.data() + 12);
-    parsed.channels = stream[16];
-    if (stream[17] < kMinFrame) { return Status::bad_header; }
-    if (!valid_dimensions(parsed)) { return Status::bad_header; }
-    dimensions = parsed;
-    return Status::ok;
+    std::uint32_t side = 0;
+    return parse_header(stream, dimensions, side);
 }
 
-[[nodiscard]] std::uint32_t frame_side_of(std::span<const std::uint8_t> stream) { return stream.size() > 17 ? stream[17] : kFrame; }
+
+std::size_t frame_workspace_bytes(Dimensions dimensions, std::uint32_t frame_side) {
+    // The engine's owned storage for one frame: row rings, column sums and prefixes, row scratch, repetition table
+    // and adaptive models, as prepare() allocates them for the frame's width and height.
+    std::size_t width = std::min<std::size_t>(frame_side, dimensions.width);
+    std::size_t height = std::min<std::size_t>(frame_side, dimensions.height);
+    std::size_t planes = static_cast<std::size_t>(dimensions.channels) * 2 + 6;   // samples, cleaned, opponent, cleaned opponent
+    std::size_t rings = planes * kWindowRows * width * sizeof(std::int32_t) + 3 * width;
+    std::size_t prefixes = kPlaneSlots * (2 * width * sizeof(std::int32_t) + 3 * (width + 1) * sizeof(std::int64_t));
+    std::size_t scratch = width * (sizeof(std::int32_t) + sizeof(RepeatKey));
+    std::uint64_t capacity = 1ull << kRepeatMinLog;
+    while (capacity < (1ull << kRepeatMaxLog) && capacity * 2 < static_cast<std::uint64_t>(width) * height) { capacity *= 2; }
+    std::size_t table = static_cast<std::size_t>(capacity) * 2 * sizeof(std::uint32_t);
+    std::size_t models = (ZeroFamilies::total + SignFamilies::total + 2 * static_cast<std::size_t>(CoarseFamilies::total) * kPrefixStates) * sizeof(BitModel);
+    return rings + prefixes + scratch + table + models;
+}
 
 std::uint32_t frame_count(std::span<const std::uint8_t> stream, Dimensions dimensions) {
-    return frames_of(dimensions, frame_side_of(stream));
+    Dimensions parsed; std::uint32_t side = 0;
+    if (parse_header(stream, parsed, side) != Status::ok) { return 0; }
+    return frames_of(dimensions, side);
+}
+
+std::uint32_t frame_side(std::span<const std::uint8_t> stream) {
+    Dimensions parsed; std::uint32_t side = 0;
+    return parse_header(stream, parsed, side) == Status::ok ? side : 0;
 }
 
 Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, std::span<std::uint8_t> destination) {
-    Dimensions dimensions;
-    Status header = read_header(stream, dimensions);
+    Dimensions dimensions; std::uint32_t side = 0;
+    Status header = parse_header(stream, dimensions, side);
     if (header != Status::ok) { return header; }
     std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
     if (destination.size() != expected) { return Status::bad_sample_count; }
     std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
-    const std::uint32_t side = frame_side_of(stream);
     Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
     if (directory != Status::ok) { return directory; }
     if (index >= offsets.size()) { return Status::bad_directory; }
@@ -906,13 +960,12 @@ Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, s
 }
 
 Status decode(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination) {
-    Dimensions dimensions;
-    Status header = read_header(stream, dimensions);
+    Dimensions dimensions; std::uint32_t side = 0;
+    Status header = parse_header(stream, dimensions, side);
     if (header != Status::ok) { return header; }
     std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
     if (destination.size() != expected) { return Status::bad_sample_count; }
     std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
-    const std::uint32_t side = frame_side_of(stream);
     Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
     if (directory != Status::ok) { return directory; }
     Workspace workspace;   // one per call; prepare() refills it for each frame

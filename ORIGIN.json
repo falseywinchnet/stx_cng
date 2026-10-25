@@ -1,67 +1,104 @@
 {
-  "include/stx_cng/codec.hpp": {
-    "source": "native/source_match/raw_codec.hpp",
-    "source_sha256": "58268155172cc07812e203d5db1790d8f3b7204875cc28b4500181d12b1f2a3a",
-    "prepared_sha256": "484dd78881e9960a9e4b622734705069d595c23678a0d66763998ca097c9b571"
+ "release": "0.3.0",
+ "note": "Provenance of the consolidated implementation in the research tree. Paths are historical, not build dependencies. prepared_sha256 identifies the file in this repository.",
+ "files": {
+  "src/phase_codec.cpp": {
+   "source": "native/phase/phase_codec.cpp",
+   "source_sha256": "8cc553e3cc68c6e187f0e53bd40c5feb6405c78bd38dcb639e542c3f37dd1723",
+   "prepared_sha256": "8cc553e3cc68c6e187f0e53bd40c5feb6405c78bd38dcb639e542c3f37dd1723"
   },
-  "include/stx_cng/collection.hpp": {
-    "source": "native/collection/container.hpp",
-    "source_sha256": "c17e4e1eb64c2e3667731e70448ae878c5b9105e215700758d1f4758d3486bca",
-    "prepared_sha256": "71090734d96c5ff91c3552ba31dd9f0f64d09abd784548b25f8d211496a2e876"
+  "src/phase_codec.hpp": {
+   "source": "native/phase/phase_codec.hpp",
+   "source_sha256": "0d3e68b2289bd35ebfb95070ead6fdcbf914472c03d9d51ca882d933398634b4",
+   "prepared_sha256": "0d3e68b2289bd35ebfb95070ead6fdcbf914472c03d9d51ca882d933398634b4"
   },
-  "src/collection.cpp": {
-    "source": "native/collection/container.cpp",
-    "source_sha256": "b27181d5d4a48e4b869615a21061553cca25d5826390cc34793bfcfc69124e86",
-    "prepared_sha256": "2cef006021abce3e56be3915f73466c2acc2c3c32a9beb2a78f9ed0494df2480"
+  "src/range_coder.hpp": {
+   "source": "native/phase/range_coder.hpp",
+   "source_sha256": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4",
+   "prepared_sha256": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4"
   },
-  "src/prediction_parse.cpp": {
-    "source": "native/source_match/prediction_parse.cpp",
-    "source_sha256": "75258df9a49dc5cdcc466f6864d538fd6010559d8fbab926d8222ba8feedcc1b",
-    "prepared_sha256": "b2cc1bbea18a360e57a68712eeff3231d4822f68077a836f897ea4b3e5389d14"
-  },
-  "src/prediction_restore.cpp": {
-    "source": "native/source_match/prediction_restore.cpp",
-    "source_sha256": "6b100c16b513c1fdd6c7a36d9f86ac4e0f2752d2abf95c3ea3952eefa6b6d278",
-    "prepared_sha256": "8a67e62c98ac2c32c29cf88ac859e21d8bba576dd045ef76cb34ee8d8d80ed72"
-  },
-  "src/raw_restore.cpp": {
-    "source": "native/source_match/raw_restore.cpp",
-    "source_sha256": "d858741ef5b511a6189ff7e66f03cf876e5721f2d7e5a1a4190820c3e8c50979",
-    "prepared_sha256": "4dd4fd53f30270fd1af36eccccc41938100df955ee66ae1273d9ce10d0a53397"
-  },
-  "src/parse.hpp": {
-    "source": "native/source_match/parse.hpp",
-    "source_sha256": "12e3a2594aec19b85f2963e69a157a10bb0ce01a4162ecfb90d006fd329760d7",
-    "prepared_sha256": "e24547574f50fa8d088e047c70bab77a0bb05568f0f4b0ce50a06288311024a1"
-  },
-  "src/prediction.hpp": {
-    "source": "native/source_match/prediction.hpp",
-    "source_sha256": "603c742cc3977215eb681eea2b83b5087bdc23e9b7d9ded1062d71c574a9fee8",
-    "prepared_sha256": "a15629de8200bcfa35ff980d579641dd247e248498107458e5343aaeeb9ee0a6"
-  },
-  "src/raw.hpp": {
-    "source": "native/source_match/raw.hpp",
-    "source_sha256": "e8f3b1b5567c06e344aac7cbb1b6172be9b5997610010cde3abe411e1446b708",
-    "prepared_sha256": "6023456d37ad7b10e11ddb68b965faaac14768ce07bce89c3f60735bb3c4a53a"
-  },
-  "src/direct_words.cpp": {
-    "source": "native/short_runs/direct_words.cpp",
-    "source_sha256": "3696b98c30b526c29c777eaf1abeb5fd327332453143517420800d402354b6d1",
-    "prepared_sha256": "81247bc0cf87865a15e3f577f26f028c9f7852b6805ab85672e1e9c47fc85bb9"
-  },
-  "src/direct_words.hpp": {
-    "source": "native/short_runs/direct_words.hpp",
-    "source_sha256": "60e65a1eb3ea71dd6d70944b0f6a55da2b6d45b738261f157d601abde03a15cd",
-    "prepared_sha256": "526ffb5b460fc8fd5b607b86a399cb0332aa30eb17bd561c28a478088c2fba6f"
-  },
-  "src/context.hpp": {
-    "source": "native/bounded/context.hpp",
-    "source_sha256": "8a184a7b43d162189b7383c8939bccf03f3b6bf9b69f5a06bdf6d6219163516f",
-    "prepared_sha256": "bfbbbd0665238826440e5ef4c5f5fd5f1fcddc4604d276782025e619bdedf3cc"
+  "src/phase_tables.hpp": {
+   "source": "native/phase/phase_tables.hpp",
+   "source_sha256": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46",
+   "prepared_sha256": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46"
   },
   "src/codec.cpp": {
-    "source": ".build/bounded-context/codec.cpp",
-    "source_sha256": "4d9b8606c6742d9b93448c08772396fab5c6ddd1d73c0c50f4e4f6aff22993e1",
-    "prepared_sha256": "00cdedaa2f7784bb2a15351c515be20327fc70469897592ed847d03123be43e9"
+   "source": "written for release 0.3.0: stream adapter over native/phase",
+   "prepared_sha256": "25b7e962d23068fd9e07f02b39a7bc2275cb07fa77a13a40932ff45d395d2e47"
+  },
+  "include/stx_cng/codec.hpp": {
+   "source": "native/source_match/raw_codec.hpp",
+   "source_sha256": "58268155172cc07812e203d5db1790d8f3b7204875cc28b4500181d12b1f2a3a",
+   "prepared_sha256": "70b8cea3c51797c3804a6dbf76b6e292e368b9ef2dc261b8fab5336e97358acb",
+   "note": "interface retained; Measurements fields changed in 0.3.0"
+  },
+  "include/stx_cng/collection.hpp": {
+   "source": "native/collection/container.hpp",
+   "source_sha256": "c17e4e1eb64c2e3667731e70448ae878c5b9105e215700758d1f4758d3486bca",
+   "prepared_sha256": "62218882126022daaa02b35598969e60a0c319fd75ec506b51b19377bd6e8149"
+  },
+  "src/collection.cpp": {
+   "source": "native/collection/container.cpp",
+   "source_sha256": "b27181d5d4a48e4b869615a21061553cca25d5826390cc34793bfcfc69124e86",
+   "prepared_sha256": "2cef006021abce3e56be3915f73466c2acc2c3c32a9beb2a78f9ed0494df2480"
+  },
+  "experiments/version7/reference.py": {
+   "source": "research/phase_codec_v7.py",
+   "source_sha256": "c22039c5242058c079255ebf56448b4f1ebdadafd543007e12de05601b219263",
+   "prepared_sha256": "f7fe9c3b051516a11ba3e3aba94d6de8bad75bf1c8c04b589d82bc2e5f31fc87",
+   "note": "import line differs"
+  },
+  "experiments/version7/reference_frame_engine.py": {
+   "source": "research/phase_codec.py",
+   "source_sha256": "4dbefb313b5f921602d33a26ea112c87117ed6583d640479436a62cc4e4dbcc8",
+   "prepared_sha256": "957a065c1c8ad0b03aa42d5f15eb9bd33d9fe6c76e59494414c676ebe927ac35"
   }
+ },
+ "removed_in_0_3_0": {
+  "src/prediction_parse.cpp": {
+   "source": "native/source_match/prediction_parse.cpp",
+   "source_sha256": "75258df9a49dc5cdcc466f6864d538fd6010559d8fbab926d8222ba8feedcc1b",
+   "prepared_sha256": "b2cc1bbea18a360e57a68712eeff3231d4822f68077a836f897ea4b3e5389d14"
+  },
+  "src/prediction_restore.cpp": {
+   "source": "native/source_match/prediction_restore.cpp",
+   "source_sha256": "6b100c16b513c1fdd6c7a36d9f86ac4e0f2752d2abf95c3ea3952eefa6b6d278",
+   "prepared_sha256": "8a67e62c98ac2c32c29cf88ac859e21d8bba576dd045ef76cb34ee8d8d80ed72"
+  },
+  "src/raw_restore.cpp": {
+   "source": "native/source_match/raw_restore.cpp",
+   "source_sha256": "d858741ef5b511a6189ff7e66f03cf876e5721f2d7e5a1a4190820c3e8c50979",
+   "prepared_sha256": "4dd4fd53f30270fd1af36eccccc41938100df955ee66ae1273d9ce10d0a53397"
+  },
+  "src/parse.hpp": {
+   "source": "native/source_match/parse.hpp",
+   "source_sha256": "12e3a2594aec19b85f2963e69a157a10bb0ce01a4162ecfb90d006fd329760d7",
+   "prepared_sha256": "e24547574f50fa8d088e047c70bab77a0bb05568f0f4b0ce50a06288311024a1"
+  },
+  "src/prediction.hpp": {
+   "source": "native/source_match/prediction.hpp",
+   "source_sha256": "603c742cc3977215eb681eea2b83b5087bdc23e9b7d9ded1062d71c574a9fee8",
+   "prepared_sha256": "a15629de8200bcfa35ff980d579641dd247e248498107458e5343aaeeb9ee0a6"
+  },
+  "src/raw.hpp": {
+   "source": "native/source_match/raw.hpp",
+   "source_sha256": "e8f3b1b5567c06e344aac7cbb1b6172be9b5997610010cde3abe411e1446b708",
+   "prepared_sha256": "6023456d37ad7b10e11ddb68b965faaac14768ce07bce89c3f60735bb3c4a53a"
+  },
+  "src/direct_words.cpp": {
+   "source": "native/short_runs/direct_words.cpp",
+   "source_sha256": "3696b98c30b526c29c777eaf1abeb5fd327332453143517420800d402354b6d1",
+   "prepared_sha256": "81247bc0cf87865a15e3f577f26f028c9f7852b6805ab85672e1e9c47fc85bb9"
+  },
+  "src/direct_words.hpp": {
+   "source": "native/short_runs/direct_words.hpp",
+   "source_sha256": "60e65a1eb3ea71dd6d70944b0f6a55da2b6d45b738261f157d601abde03a15cd",
+   "prepared_sha256": "526ffb5b460fc8fd5b607b86a399cb0332aa30eb17bd561c28a478088c2fba6f"
+  },
+  "src/context.hpp": {
+   "source": "native/bounded/context.hpp",
+   "source_sha256": "8a184a7b43d162189b7383c8939bccf03f3b6bf9b69f5a06bdf6d6219163516f",
+   "prepared_sha256": "bfbbbd0665238826440e5ef4c5f5fd5f1fcddc4604d276782025e619bdedf3cc"
+  }
+ }
 }

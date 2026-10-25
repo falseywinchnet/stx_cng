@@ -1,0 +1,85 @@
+{
+  "complete": true,
+  "scope": "Build the native phase codec with the non-Apple LLVM toolchain, check it against the bit-exact vectors,\nthen cross-check it against the Python reference on the pinned corpus: native encode must equal Python encode\nbyte for byte and native decode must reproduce every sample. Writes results/native_phase.json. Intended to run\non the M4 through m4build; the Python reference encodes are the slow part (about 50 us per pixel) and run in a\nprocess pool. Usage: python -B -m research.run_native_phase [--workers N] [--limit N] [--skip-corpus]",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "command": [
+    "/opt/homebrew/opt/llvm/bin/clang++",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "-Inative/phase",
+    "native/phase/phase_codec.cpp",
+    "native/phase/phase_driver.cpp",
+    "-o",
+    ".build/phase-native/phase_driver"
+  ],
+  "compiler": "Homebrew clang version 23.1.2\nTarget: arm64-apple-darwin25.5.0\nThread model: posix\nInstalledDir: /opt/homebrew/Cellar/llvm/23.1.2/bin\nConfiguration file: /opt/homebrew/Cellar/llvm/23.1.2/etc/clang/arm64-apple-darwin25.cfg\n",
+  "code_sha256": {
+    "native/phase/phase_codec.cpp": "8cc553e3cc68c6e187f0e53bd40c5feb6405c78bd38dcb639e542c3f37dd1723",
+    "native/phase/phase_driver.cpp": "6610ec64ae9871c0e7dba9407213dc2de5b6bc19a782a488d065bbaa8b3f8817",
+    "native/phase/phase_codec.hpp": "0d3e68b2289bd35ebfb95070ead6fdcbf914472c03d9d51ca882d933398634b4",
+    "native/phase/range_coder.hpp": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4",
+    "native/phase/phase_tables.hpp": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46",
+    "research/phase_codec.py": "4dbefb313b5f921602d33a26ea112c87117ed6583d640479436a62cc4e4dbcc8",
+    "research/phase_codec_wavefront.py": "62447acf41dfb8be1bf6524f913c233ee34251f2edfd97c393e2a6c79aa0d7b3",
+    "research/run_native_phase.py": "80f5a29c910e95b797e4fc0d533f2280579e8472c6eb0148726da2e0dadada8c",
+    "data/phase_moment_coefficients.json": "97cedbc4b76e37e20ca5436961abb416b1199ddf14c9ac1edf6514213b0ab0d4"
+  },
+  "vectors": [
+    {
+      "name": "checker",
+      "returncode": 0,
+      "output": "bytes_match samples_match 179 179"
+    },
+    {
+      "name": "tile_7_phase_0",
+      "returncode": 0,
+      "output": "bytes_match samples_match 573 573"
+    },
+    {
+      "name": "smooth_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 273 273"
+    },
+    {
+      "name": "noise_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 2032 2032"
+    },
+    {
+      "name": "rgba_face_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 1065 1065"
+    },
+    {
+      "name": "one_pixel",
+      "returncode": 0,
+      "output": "bytes_match samples_match 68 68"
+    },
+    {
+      "name": "row_rgba",
+      "returncode": 0,
+      "output": "bytes_match samples_match 233 233"
+    },
+    {
+      "name": "column",
+      "returncode": 0,
+      "output": "bytes_match samples_match 166 166"
+    },
+    {
+      "name": "gradient_exact",
+      "returncode": 0,
+      "output": "bytes_match samples_match 194 194"
+    },
+    {
+      "name": "frames_300x200",
+      "returncode": 0,
+      "output": "bytes_match samples_match 87121 87121"
+    }
+  ],
+  "corpus": []
+}

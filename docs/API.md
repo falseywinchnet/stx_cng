@@ -1,9 +1,9 @@
 # Library interfaces
 
 The public interfaces use standard C++20 streams, spans and owned containers.
-Calls implement CSP v3 and are synchronous. Version 2 requires explicit migration;
-see [compatibility](FORMAT.md#4-compatibility-boundary). Arguments are borrowed only for the duration of the call;
-the library retains no caller buffers or streams afterward.
+Calls write and read `CNGPHI07` streams and are synchronous. Arguments are
+borrowed only for the duration of the call; the library retains no caller
+buffers or streams afterward.
 
 ## Standalone images
 
@@ -37,24 +37,30 @@ stx_cng::Measurements decoding{};
 stx_cng::Dimensions restored = stx_cng::decode(encoded_input, raw_output, decoding);
 ```
 
-The input must end where the operation expects it to end; trailing raw samples or
-trailing encoded bytes are rejected. Standalone operations do not require
-seekable streams. Internal source storage is band-sized rather than image-sized.
+`encode` reads exactly the stated sample count and fails on a short input.
+`decode` and `decode_into` read the input stream to its end; the whole file is
+the unit of decoding, and its trailing index copy is part of the file.
+Standalone operations do not require seekable streams.
 
 `decode_into` requires exactly the decoded sample count and storage disjoint from
 all bytes backing its input stream. The caller is responsible for obtaining the
 expected dimensions and allocating that storage. This release has no public
-header-probe function. The stream decoder is available when dimensions are not
-known ahead of time.
+header-probe function; the stream decoder serves the case where dimensions are
+not known ahead of time.
 
 ## Failure and ownership
 
-Expected validation or stream failures are reported as exceptions. Allocation
-failure may also propagate. The boundary contract is deliberately explicit:
+Validation and stream failures are reported as `std::runtime_error`. Allocation
+failure may also propagate. The messages name the boundary that failed: the
+header (not a `CNGPHI07` stream, or both header copies damaged), the frame
+directory (both copies damaged, or lengths that do not account for the file),
+a frame checksum, or an exhausted stream.
 
 - Stream operations may leave a partial output after failure.
-- `decode_into` leaves output intact on header or output-extent failure; later
-  failures may leave partial pixels.
+- `decode_into` leaves its output intact on header, directory or output-extent
+  failure. A frame checksum failure is detected before that frame is
+  reconstructed, so frames earlier in raster order are complete and the failed
+  frame and later frames are untouched.
 - `Measurements` is reset at entry; a failed call does not provide a complete
   measurement record.
 - Input and output must not alias. Separate operations may run concurrently when
@@ -66,14 +72,14 @@ implicitly rolled-back file transaction.
 
 ## Measurements
 
-`Measurements` reports `workspace_bytes`, stored/compressed band counts, and
-selected internal phase durations in seconds. Workspace includes owned array
-capacities and entropy-context storage. It excludes caller storage, process
-mappings, stack and allocator overhead. It is not process RSS.
-
-Phase fields describe different internal portions of the call. Some aggregates
-overlap with detailed fields; do not add every timing field together to obtain
-wall-clock time. Measure the complete API call externally for throughput claims.
+`Measurements` reports `workspace_bytes`, `frames` and `codec_seconds`.
+`workspace_bytes` is the storage the call owned: the sample buffer (for `encode`
+and `decode`), the complete compressed stream, and the frame engine's state for
+one frame, which is at most a few hundred kilobytes. It excludes caller
+storage, process mappings, stack and allocator overhead; it is not process RSS.
+`frames` is the number of frames of the image. `codec_seconds` is the time
+spent inside the frame engine, excluding stream reads and writes; measure the
+complete call externally for throughput claims.
 
 ## Collections
 

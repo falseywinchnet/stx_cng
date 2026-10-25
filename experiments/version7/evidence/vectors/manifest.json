@@ -1,14 +1,14 @@
 {
  "signature": "CNGPHI07",
- "note": "Encoder output must match byte for byte; decoder must reproduce the .rgb samples (interleaved, row-major).",
+ "note": "Encoder output must match byte for byte; decoder must reproduce the .rgb samples (interleaved, row-major). Container: checksummed header fields and directory, each stored twice (front and trailing copy).",
  "vectors": [
   {
    "name": "checker",
    "width": 67,
    "height": 65,
    "channels": 3,
-   "encoded_bytes": 149,
-   "encoded_sha256": "696abb45fb6f33d819fc524c38f631a7105823055424ddaf6d62f3e76f91ebfe",
+   "encoded_bytes": 179,
+   "encoded_sha256": "35705569e4a7ecbb8547a173284114865e07453c64f688e09492a185b835a1a8",
    "rgb_sha256": "13dd3db0e5b1b8b516f47e085c840597b58c04352b916a53b3806eb62644e2e0"
   },
   {
@@ -16,8 +16,8 @@
    "width": 96,
    "height": 64,
    "channels": 3,
-   "encoded_bytes": 543,
-   "encoded_sha256": "7bec3b67b9be43957513109e9c3c193febcced2623a645b4bdf2fe757f3580e9",
+   "encoded_bytes": 573,
+   "encoded_sha256": "8d38a272087a41bf17696690db3ecf6e667f75db55c09f8f9ae044d6f4bc2d8c",
    "rgb_sha256": "2b87a77b6cdacc6df624e7e0e7f45a992bd3b4a982b3cc8ad655780d8f52026c"
   },
   {
@@ -25,8 +25,8 @@
    "width": 64,
    "height": 48,
    "channels": 3,
-   "encoded_bytes": 243,
-   "encoded_sha256": "e7aa3e7ae1c0229658a0a8d44caff4b63864bb923b1a148f15dd083c135de11f",
+   "encoded_bytes": 273,
+   "encoded_sha256": "1cbe7f4d508f7a7c1a6163203ba0f99ec2f28e948c6b5b78ada783d67251aa49",
    "rgb_sha256": "8b2f12aeea7ce458ea7054dfe0f91cacd42e0fed59f89b7a0d0d1b8321da3665"
   },
   {
@@ -34,8 +34,8 @@
    "width": 32,
    "height": 32,
    "channels": 3,
-   "encoded_bytes": 2002,
-   "encoded_sha256": "7b57c5ad40f0fd201e02f191d12b9af8d52bc3e46c5ca883c1d509f0b3bab9c6",
+   "encoded_bytes": 2032,
+   "encoded_sha256": "2f838c3f6bc8d4506c63eb5b24d43367f918bc3b8a98d8fb181e6064504929e7",
    "rgb_sha256": "2b400e1fb38328eec1cc69fa5005a537de7fc166446bc95ca9fe3c2a71aa4c04"
   },
   {
@@ -43,8 +43,8 @@
    "width": 48,
    "height": 48,
    "channels": 4,
-   "encoded_bytes": 1035,
-   "encoded_sha256": "e0fb8ef466b1756ac9640e6d05f9584a9b986877061397a9bd599d761d060344",
+   "encoded_bytes": 1065,
+   "encoded_sha256": "2d2c7bf572c41f1059ea32bce4475b2597af1e5a00a0376488788903ecdbbcbb",
    "rgb_sha256": "5138e128927044083f16f330e40076ba3d697a2e3596270405976b25cb54f143"
   },
   {
@@ -52,8 +52,8 @@
    "width": 1,
    "height": 1,
    "channels": 3,
-   "encoded_bytes": 38,
-   "encoded_sha256": "57190ae9eda57519b19bc7edf2a9eca3117966b57b623afc36ab6383d2e2839a",
+   "encoded_bytes": 68,
+   "encoded_sha256": "5fbe1c51066279c615a031230023f6a06ba984c0c98975d14c4b407422faaac1",
    "rgb_sha256": "5c4e6736862568b683e0d7718e662f98ec3145fba9feac9d073c3679488e6747"
   },
   {
@@ -61,8 +61,8 @@
    "width": 37,
    "height": 1,
    "channels": 4,
-   "encoded_bytes": 203,
-   "encoded_sha256": "e12e58c9d1214f51abb38fef17a08a05eff9241a7a8e8c588245209eb85f5d93",
+   "encoded_bytes": 233,
+   "encoded_sha256": "f14d81593bc3921e134223a7006178b1e5f4c4c11092a7705ae50965f3611326",
    "rgb_sha256": "7776ebb9ca69cd59186417b54424d48e75c842df4fdc6ae913fad8309a948449"
   },
   {
@@ -70,8 +70,8 @@
    "width": 1,
    "height": 29,
    "channels": 3,
-   "encoded_bytes": 136,
-   "encoded_sha256": "be80704d950e96adbb0903145f6b3a89c8040f17310aef575a64ea6c39b08a54",
+   "encoded_bytes": 166,
+   "encoded_sha256": "4293709dd10f137163015447393b817da5fb7acc5e123dbc5f06a55be5107410",
    "rgb_sha256": "67cb9763a550eb2d69fdd8d1a12494fea2f525830fb21754b3248143051fe08f"
   },
   {
@@ -79,8 +79,8 @@
    "width": 64,
    "height": 40,
    "channels": 3,
-   "encoded_bytes": 164,
-   "encoded_sha256": "979a05bf1240bf0ce57efe01d9cca4b7905663249c1504fddb2d1cfd42a78fb2",
+   "encoded_bytes": 194,
+   "encoded_sha256": "308fd4bfc61af88b851507277b28f1fedf0129b3f391454ffb576aebcd407a47",
    "rgb_sha256": "18dbea742f0922af06e7792dc667cb14bb08ee8e73b3d53389908c6aad8f97ad"
   },
   {
@@ -89,8 +89,8 @@
    "height": 200,
    "channels": 3,
    "note": "six frames, partial last column and row; crop of dog-half",
-   "encoded_bytes": 87051,
-   "encoded_sha256": "abaa9a09ec90007c3a7e9cf414a82b5af835c04714cbcf805c0782401b1c206a"
+   "encoded_bytes": 87121,
+   "encoded_sha256": "20f5b305b0f120512224821fbc5ebe875f701c1580e6b3fff3dfe3c9979b4dc3"
   }
  ]
 }

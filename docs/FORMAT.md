@@ -1,190 +1,88 @@
 # CNG format reference
 
-**Release:** 0.2.0-rc1 · **Standalone schema:** CSP v3 · **Collection schema:** SHDR v0
+**Release:** 0.3.0 · **Standalone stream:** `CNGPHI07` · **Collection schema:** SHDR v0
 
-This document describes the bytes implemented by this release. CNG means
-**Computational Network Graphics**. The standalone `CSP` signature is retained
-from development; a CNG collection has the `CNG` signature. CHDR distinguishes
-the entropy grammar version. Retaining a signature does not make v2 and v3
-payloads interchangeable; see the compatibility boundary below.
+This document describes the bytes written and read by this release. CNG means
+**Computational Network Graphics**. A standalone image is a `CNGPHI07` stream; a
+collection has the `CNG` signature and embeds complete standalone streams.
 
 The format is lossless for interleaved RGB8 and RGBA8 samples. It carries neither
 colour-profile metadata nor an implicit conversion to a different colour space.
-The coding transform is reversible integer arithmetic on sample bytes.
+Every transform is reversible integer arithmetic on sample bytes.
 
-## 1. Conventions and framing
+## 1. Conventions
 
-Unless stated otherwise, integers are unsigned and big-endian. Offsets are byte
-offsets from the beginning of the containing file. A chunk is:
-
-| Field | Bytes | Meaning |
-| --- | ---: | --- |
-| Length | 4 | Payload length, excluding type and checksum |
-| Type | 4 | Exact ASCII chunk identifier |
-| Payload | Length | Chunk-specific data |
-| CRC32 | 4 | CRC of type followed by payload |
-
-The checksum uses the CRC32 convention supplied by zlib's `crc32`, initialized by
-`crc32(0, type, 4)` and continued over the payload. Length bytes are excluded.
-Checksums are stored big-endian. A checksum detects accidental corruption; it is
-not authentication.
-
-Chunk order is fixed. The current readers reject unexpected chunks and trailing
-data. PNG-style framing does not imply PNG ancillary-chunk semantics or PNG
-compatibility.
+Integers are unsigned and big-endian. CRC32 is the IEEE polynomial as zlib's
+`crc32` computes it over the stated bytes, stored big-endian. A checksum detects
+accidental corruption; it is not authentication.
 
 ## 2. Standalone image
 
-The eight-byte signature is `89 43 53 50 0D 0A 1A 0A` in hexadecimal.
-It is followed by `CHDR`, one or more `BAND` chunks, and an empty `CEND`.
-
-### CHDR: image header
-
-The payload is exactly 16 bytes.
-
-| Offset | Bytes | Value |
+| Field | Bytes | Meaning |
 | --- | ---: | --- |
-| 0 | 1 | Version: 3 |
-| 1 | 1 | Channels: 3 for RGB, 4 for RGBA |
-| 2 | 1 | Flags: 0 |
-| 3 | 1 | Reserved: 0 |
-| 4 | 4 | Width |
-| 8 | 4 | Height |
-| 12 | 4 | Band budget: 1,048,576 |
+| Signature | 8 | ASCII `CNGPHI07` |
+| Header fields | 10 | Width u32, height u32, channels u8 (3 or 4), frame side u8 |
+| Header CRC32 | 4 | CRC32 of the ten header-field bytes |
+| Directory | 8 per frame | Payload length u32, payload CRC32 u32; frames in raster order |
+| Directory CRC32 | 4 | CRC32 of the directory entries |
+| Payloads | | One per frame, in raster order, back to back |
+| Directory, again | 8 per frame + 4 | The same bytes as the directory and its CRC32 |
+| Header fields, again | 14 | The same bytes as the header fields and their CRC32 |
 
-Width and height are positive and at most 65,536. Let `PW` and `PH` be width and
-height rounded upward to multiples of 128. Admission requires
-`PW * PH <= 4,194,304` and `PW + PH <= 65,536`. This is a dimension limit;
-rounded-up pixels are not encoded or reconstructed.
+Width and height are at least 1 and width × height × channels is at most 2³¹.
+The frame side as written is 128; a reader honours any side from 16 to 255. The
+frame grid is `ceil(width / side) × ceil(height / side)` frames in raster order,
+the last column and row of frames being smaller when the dimensions are not
+multiples of the side.
 
-For width `W`, channels `C`, and budget `B`, the number of full rows per band is:
+A reader takes the header fields from the front copy when its CRC32 matches,
+otherwise from the trailing copy, and rejects the stream when neither matches.
+It takes the directory the same way, requires the payload lengths to account
+for exactly the bytes between the two directory copies, and checks each
+payload's CRC32 before reconstructing its frame. A frame whose checksum fails
+is reported by index; the other frames remain decodable. Damage confined to one
+copy of the header or directory therefore costs nothing, and the index costs
+`8 × frames + 22` bytes over a single copy.
 
-```text
-rows = floor((B - C) / (W * C))
-```
+### Frame payload
 
-Bands follow raster order. The final band contains the remaining rows. There are
-no per-band dimensions in the file; the header determines each band's extent.
-Pixel-copy history resets at each band. Gradient prediction retains the previous
-original row; above the first image row, that row is all zero.
+A frame's payload is the frame coded as an image of its own: the adaptive
+models, the binary range coder and the repetition table start fresh for every
+frame, and the frame's top and left edges take the image-edge boundary rules.
+Nothing in a frame depends on another frame.
 
-### BAND: instructions and literals
+Within the frame, pixels are coded in raster order by one fixed construction:
+median-edge prediction per plane; a sub-integer phase context from the
+extrapolation of a cleaned causal plane, through exact window moments and a
+fixed Q24 coefficient table; an activity measure from the causal residual
+energy that gates direct RGB coding against an exactly reversible modular
+opponent-colour coding; a hash of the four neighbouring pixels predicting
+exact repetitions through a bounded direct-mapped table; and binarization of
+every residual (zero flag, sign, exp-Golomb prefix, suffix bits) into adaptive
+binary contexts coded by a 32-bit range coder that ends with five flush bytes.
+Bytes read past the end of a payload are zero.
 
-| Offset | Bytes | Meaning |
-| --- | ---: | --- |
-| 0 | 4 | Sequence count `N` |
-| 4 | 4 | Literal pixel count `L` |
-| 8 | 4 | Compressed sequence-frame length `S` |
-| 12 | S | cngcompress v1 sequence frame |
-| 12 + S | 1 | Literal coding: 0 stored, 1 compressed |
-| 13 + S | Remainder | Literal payload |
-
-The sequence frame decompresses to exactly `12 * N` bytes. Its records have
-three unsigned 32-bit fields: literal count, run length, and distance, all measured
-in **pixels**. The raw frame is byte-planar. For sequence `i`, field `f` and
-little-endian byte position `b`, the byte is at `(4*f + b)*N + i`. This ordering
-is the deliberate exception to the outer big-endian integer convention.
-
-Each sequence emits its literals first, then its run:
-
-- Positive length and positive distance copy earlier pixels in the current band.
-  References may overlap; repeated output grows from the reconstructed prefix.
-- Positive length and distance zero emit exact gradient predictions.
-- The final sequence has length zero and distance zero. It may carry trailing
-  literals. No earlier sequence may have zero length.
-
-Nonterminal runs contain at least four pixels. A copy distance is at most 262,144
-pixels and cannot exceed the number already produced in that band. Sequence
-counts, literal consumption and total output must agree exactly with the band.
-The reference decoder requires `1 <= N <= floor(band_pixels/4) + 1`.
-
-The cngcompress frame grammar is specified in
-[`stx_cngcompress/docs/FORMAT.md`](../stx_cngcompress/docs/FORMAT.md). It is an
-independent byte frame with a bounded eight-byte matcher and compact Huffman
-coding. Sequence and literal frames reset entropy history independently; the
-outer chunk CRC covers their bytes. No Zstandard frame is admitted in v3.
-
-### Gradient prediction
-
-For each channel, prediction is `(left + above - upper_left) mod 256`.
-At column zero, `left` and `upper_left` are zero. Above the first image row,
-`above` is zero; later bands use the saved previous row.
-
-Compressed literals encode `(sample - prediction) mod 256`. Prediction runs
-supply zero residual. Stored literals instead contain **original samples**, so
-they bypass residual inversion. Copy runs always copy original sample pixels.
-
-### Stored literals: coding 0
-
-The payload is exactly `L * C` original sample bytes, interleaved by pixel in
-literal-consumption order. Zero literals use this coding with an empty payload.
-
-### Compressed literals: coding 1
-
-The literal payload is one cngcompress v1 frame. After decompression, reverse-tail
-run separation is inverted to obtain `2*C*ceil(L/2)` packed bytes. Those bytes
-contain paired nibbles of zigzag-mapped colour residuals.
-
-For each literal's three colour residuals, first interpret each modular byte as
-a signed value in `[-128,127]`. Define `wrap(v) = ((v + 128) mod 256) - 128`,
-where modulo gives a nonnegative remainder, and use floor division throughout:
-
-```text
-difference = wrap(red - green)
-second     = wrap(blue - green - floor(difference / 2))
-centre     = wrap(green + floor(difference / 2))
-third      = floor((second + (difference mod 2) + 1) / 3)
-brightness = wrap(centre + third)
-```
-
-The transformed coordinates are `brightness, difference, second`. Alpha, when
-present, retains its signed residual. The inverse is:
-
-```text
-third  = floor((second + (difference mod 2) + 1) / 3)
-centre = wrap(brightness - third)
-green  = wrap(centre - floor(difference / 2))
-red    = wrap(green + difference)
-blue   = wrap(green + second + floor(difference / 2))
-```
-
-Map each signed coordinate `v` to `2*v` when nonnegative, otherwise `-2*v - 1`.
-For `G = ceil(L/2)`, channel `c` has its low-nibble plane at offset `2*c*G` and
-high-nibble plane at `(2*c + 1)*G`. Literal `i` uses byte `floor(i/2)` in each
-plane, shifted by `4*(i mod 2)`. Even literals occupy the low nibble of each
-packed byte; odd literals occupy the high nibble. The encoder zeroes unused
-padding for an odd literal count. Only the declared `L` pixels are reconstructed.
-
-### Reverse-tail run separation
-
-The decompressed literal frame consists of un-repeated bytes at the front and
-descriptors consumed backward from the end. A descriptor integer is read from
-right to left using seven payload bits per byte, least-significant group first;
-bit 7 requests another byte. The reference reader admits at most five groups and
-rejects a redundant zero final group.
-
-For descriptor value `code`, `length = floor(code/2) + 1`:
-
-- Even `code`: copy `length` bytes from the front literal cursor.
-- Odd `code`: consume one more byte backward as the repeated value and emit it
-  `length` times. Repeated runs have length at least four.
-
-Stop at the exact packed-byte count. The front and back cursors must then meet.
-The decompressed frame is bounded by twice the packed size plus four bytes.
-
-### CEND: termination
-
-`CEND` has no payload and is followed immediately by end of input.
+The normative description of the per-pixel construction is the Python
+reference [`experiments/version7/reference.py`](../experiments/version7/reference.py)
+with its frame engine `reference_frame_engine.py` and the moment coefficient
+table `phase_moment_coefficients.json`; the field-by-field account is
+[`experiments/version7/FORMAT.md`](../experiments/version7/FORMAT.md) together
+with the per-pixel section of
+[`experiments/version6/FORMAT.md`](../experiments/version6/FORMAT.md). The C++
+kernel is byte-identical to the reference on the retained vectors and the
+measurement corpus. There are no transmitted tables, no selectable modes and
+no encoder parameters: a given image has exactly one `CNGPHI07` encoding at a
+given frame side.
 
 ## 3. Collections
 
-The signature is `89 43 4E 47 0D 0A 1A 0A`. Chunk order is `SHDR`, `DIRE`,
-one or more `IMAG` chunks, then an empty `SEND`.
+A collection uses PNG-style chunks: length u32, four-character type, payload,
+CRC32 of type and payload. The signature is `89 43 4E 47 0D 0A 1A 0A`. Chunk
+order is `SHDR`, `DIRE`, one or more `IMAG` chunks, then an empty `SEND`.
 
-`SHDR` is six big-endian u32 fields: version 0, form, image count, canvas width,
-canvas height, and canvas channels. Form 0 is packed; form 1 is composite.
-Image count is between 1 and 4,096. Packed canvas fields are zero. Composite
-canvas dimensions obey the standalone image limits.
+`SHDR` is six u32 fields: version 0, form, image count, canvas width, canvas
+height and canvas channels. Form 0 is packed; form 1 is composite. Image count
+is between 1 and 4,096. Packed canvas fields are zero.
 
 `DIRE` contains exactly one 40-byte entry per image:
 
@@ -199,43 +97,35 @@ canvas dimensions obey the standalone image limits.
 | 24 | 8 | Absolute offset of the IMAG chunk's length field |
 | 32 | 8 | Total IMAG chunk length, including its 12 framing bytes |
 
-Each `IMAG` payload is a complete standalone CSP v3 file, including its own
-signature and checksums. In packed form, each entry refers to its own contiguous
-IMAG chunk and has slice origin `(0,0)`. In composite form, all entries refer to
-one IMAG chunk. The reference layout has `x = 0` and consecutive vertical slices
-covering the canvas height. Slice width may be smaller than canvas width.
+Each `IMAG` payload is a complete standalone `CNGPHI07` stream. In packed form,
+each entry refers to its own IMAG chunk and has slice origin `(0,0)`. In
+composite form, all entries refer to one IMAG chunk holding the canvas: members
+are stacked vertically at x = 0, the canvas width is the largest member width
+and its height the sum of member heights, pixels to the right of a narrower
+member are zero, and an RGB member in an RGBA canvas receives alpha 255. The
+directory preserves original dimensions and channels, so extraction removes only
+padding and synthetic alpha. The reader validates the vertical layout and
+decodes the complete canvas before slicing.
 
-The composite encoder uses maximum member width and summed member heights.
-It preserves RGB when all members are RGB, otherwise uses RGBA with alpha 255
-for promoted RGB samples. Right-side padding is zero. The directory preserves
-original dimensions and channels, so extraction removes only padding and
-synthetic alpha. The current reader validates vertical layout rather than
-arbitrary rectangles. Complete decoding precedes slicing.
+Collection members and the composite canvas are limited to 65,536 on a side;
+with `PW` and `PH` the width and height rounded up to multiples of 128,
+`PW × PH ≤ 4,194,304` and `PW + PH ≤ 65,536`. A canvas that exceeds these
+limits is rejected rather than silently switched to packed form.
 
 `SEND` is empty and ends the collection. The directory and image chunks are
-contiguous in declared order, with no trailing bytes. Complete framing overhead
-is `68 + 52*N` bytes for packed form and `80 + 40*N` for composite form, in
-addition to the complete embedded standalone file or files.
+contiguous in declared order, with no trailing bytes. Framing overhead is
+`68 + 52N` bytes for packed form and `80 + 40N` for composite form, in addition
+to the embedded standalone stream or streams.
 
 ## 4. Compatibility boundary
 
-This specification describes the release candidate, including its limits.
-Unknown flags, versions and chunks are rejected. Wider dimensions, metadata,
-preview layers and new sample types require deliberate format evolution.
-Encoder match-search choices may change without changing the instruction grammar;
-a decoder must implement the grammar, not depend on one encoder's greedy choices.
+This release reads and writes `CNGPHI07` streams and SHDR v0 collections that
+embed them. Streams with another signature, including the `CSP` v2 and v3
+streams of releases 0.1 and 0.2, are rejected at the header before any pixel
+is produced; a collection embedding such a stream is rejected when that
+stream is reached. Migration is pixel-preserving: decode with the release that
+wrote the file and encode the exact raw samples with this one.
 
-Version 3 replaces v2's two Zstandard frame uses with cngcompress v1. All image
-transforms, instruction meanings, collection layouts and eight-byte signatures
-remain unchanged. Version 2 readers cannot read v3 payloads; v3 readers explicitly
-reject v2 at CHDR before emitting pixels. SHDR remains v0 because its directory
-and framing are unchanged; embedded images now carry CHDR v3. Older collections
-are rejected when their first embedded v2 image is reached.
-
-To migrate, decode using the 0.1.0-rc1 library and encode the exact raw samples
-using 0.2.0-rc1. For a collection, extract each original member with the old
-library, preserve its identity/dimensions/channels and collection form, then encode
-with the new library. This is pixel-preserving conversion, not a header edit.
-The frozen v2 sources in `experiments/release_v2` support reproduction and
-migration and are excluded from the production target. They require Zstandard
-1.5.7. A build that only consumes stx_cng has no Zstandard dependency.
+Unknown signatures, channel counts, frame sides and chunks are rejected. Wider
+sample types, metadata, preview layers and animation require deliberate format
+evolution, as does any change to the per-pixel construction.

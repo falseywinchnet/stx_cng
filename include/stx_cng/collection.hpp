@@ -30,7 +30,7 @@ struct Measurements {
     std::size_t workspace_bytes = 0;
 };
 // Explicit collection form, not an automatic codec selector. Packed members
-// are complete CSP v3 images. Composite is one complete CSP v3 canvas with
+// are complete CNGPHI07 images. Composite is one complete CNGPHI07 canvas with
 // slices, decoded in full. Input paths must remain unchanged during encoding.
 // The output is distinct, seekable, and at zero. Errors can leave partial output.
 // Composite input is synthesized one row at a time; no full canvas is retained.

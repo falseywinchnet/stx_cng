@@ -6,7 +6,7 @@ on each member separately, or on one canvas containing the whole set.
 | | Packed images | Composite image |
 | --- | --- | --- |
 | Encoded payload | One complete standalone file per member | One complete standalone file for the canvas |
-| Shared image coding | None across members | Available within the canvas's band history |
+| Shared image coding | None across members | Within each 128×128 frame of the canvas |
 | Decoder ownership | One decoded plane per member | One decoded canvas |
 | Extraction | Copy the selected decoded plane | Copy its rectangle, restoring original channels |
 | Typical reason to choose it | Preserve each image as its own encoding | Encode related controls, glyphs or artwork together |
@@ -26,14 +26,15 @@ members receive alpha 255. Extraction restores each member's original channel
 count. Existing RGBA samples, including RGB below alpha zero, survive exactly.
 
 The encoder synthesizes the canvas one row at a time, keeping one source file
-open. It does not allocate the complete canvas. The decoder owns the complete
-canvas, as required for subsequent slicing. Arbitrary rectangle packing and
-unrestricted cross-band matching are outside this release.
+open, and then encodes the complete canvas. The decoder owns the complete
+canvas, as required for subsequent slicing. Arbitrary rectangle packing is
+outside this release.
 
 ## Bounds and file access
 
-A set contains 1–4,096 uniquely identified images. Every member must satisfy the
-standalone dimension limits. The composite canvas must also satisfy them; a
+A set contains 1–4,096 uniquely identified images. Members and the composite
+canvas are limited to 65,536 on a side and, with dimensions rounded up to
+multiples of 128, to 4,194,304 pixels and a width-plus-height of 65,536. A
 canvas that is too large is rejected rather than silently switched to packed
 form. Packed collections may exceed one canvas's total pixel count because each
 member is encoded separately.

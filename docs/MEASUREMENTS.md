@@ -1,151 +1,114 @@
 # Measurements and verification
 
-CNG's release evidence distinguishes three questions: whether every sample is
-preserved, how much storage the implementation owns, and whether a measured
-change improves complete encoding or decoding. These are separate claims.
+Three separate questions are answered separately: whether every sample is
+preserved, what the files cost in bytes against optimized PNG, and what the
+codec costs in time and memory. Machine-readable records are in
+[`experiments/version7/evidence`](../experiments/version7/evidence).
 
-## Current v3 integration
+## Exactness
 
-The production v3 library uses the public stx_cngcompress API and no Zstandard
-runtime dependency. Two complete runs over the same 222 image bodies preserve
-all samples through both decode interfaces and reproduce the selected candidate's
-entropy bytes exactly. Only the public signature/header/CRC framing differs from
-the private experimental files.
+| Check | Result | Record |
+| --- | --- | --- |
+| C++ kernel against the Python reference, bit-exact vectors | 10 of 10 streams byte-identical, samples exact | `vectors/`, `native_phase_v7d_vectors.json` |
+| C++ kernel against the Python reference, corpus frames | 80 smallest corpus images byte-identical | `native_phase_v7_frames_pod_python.json` |
+| Round trip of the 236-image corpus, arm64 | 236 of 236 exact | `native_phase_hashes_arm64_v7d.json` |
+| Round trip of the 236-image corpus, x86-64 | 236 of 236 exact; frame payloads identical to arm64 (record of the previous index layout; the index is a deterministic function of the payloads) | `native_phase_v7_frames_pod_x86.json`, `native_phase_hashes_arm64_v7.json` |
+| Bundled round-trip test | 40 generated cases, both decode interfaces, both collection forms | `tests/roundtrip.cpp` |
+| Malformed-input sweep under ASan/UBSan | 70,844 damaged inputs: 3,962 accepted, every unforged acceptance exact, no sanitizer report | `tests/malformed.cpp`, `malformed_sweep.txt` |
 
-Ratios are v3 divided by the released Zstandard-based v2 library; lower is better.
-Each image has seven alternating paired trials after warmup. Summed per-image
-medians include codec allocation and discarded compression attempts, excluding
-file I/O, caller pixel allocation and verification. Non-Apple LLVM 23.1.2 builds
-on M4; measurements execute on Apple A18 Pro.
+The corpus is 140 research images (24 Kodak photographs, 14 screen captures,
+smooth, noisy, mixed and structured fixtures, 3 reference images) and 96 Noto
+emoji at 128 px (32 faces and 64 hash-selected mixed glyphs). Third-party images
+are identified by hash in the records and are not redistributed.
 
-| Group | Bytes | Encode first / repeat | Decode first / repeat |
-| --- | ---: | ---: | ---: |
-| General, 131 | 0.992910 | 0.916669 / 0.922655 | 0.917105 / 0.913335 |
-| RGBA derivatives, 80 | 0.990180 | 0.906523 / 0.905705 | 0.917470 / 0.924759 |
-| Composite bodies, 11 | 1.004546 | 0.959251 / 0.995323 | 0.947886 / 0.923136 |
-| All 222 | **0.991584** | **0.911137 / 0.913406** | **0.917460 / 0.920074** |
+## Size against optimized PNG
 
-This is approximately 8.0–8.3% less complete decode time, 8.7–8.9% less encode
-time and 0.84% fewer bytes in aggregate. There are still **116 larger files**,
-and 52/62 slower decodes in the two runs. In the complete collection checks,
-64 packed glyphs take 121/104 microseconds versus 89/75 microseconds for v2,
-and grow from 16,622 to 16,889 bytes. Those losses remain part of the result.
+Every corpus image was optimized with OptiPNG 7.9.1 at `-o7 -strip all` (its
+maximum level: every zlib level, strategy and filter, metadata removed). CNG
+sizes are complete files including the duplicated index. Ratios are summed
+bytes; lower is better.
 
-On the measured 64-bit ABI, enumeration over all admitted widths/channel counts
-bounds owned encoder capacity at 10,450,883 bytes, stream decoding at 8,614,818
-bytes and supplied-output decoding at 7,566,276 bytes. These exclude caller
-storage, stack, allocator metadata and process mappings. Decoder storage is
-slightly higher than v2. The standalone compressor handles occupy 656,400 and
-131,088 bytes respectively, already included in these totals.
+| Set | n | CNG / OptiPNG | Smaller | CNG / PNG level 9 |
+| --- | ---: | ---: | ---: | ---: |
+| Photographs (Kodak) | 24 | 0.754 | 24 | 0.725 |
+| Screen captures | 14 | 0.684 | 14 | — |
+| Smooth graphics | 10 | 0.566 | 10 | 0.493 |
+| Mixed photographic and graphic | 13 | 0.827 | 7 | 0.810 |
+| Noise | 23 | 1.011 | 7 | 0.823 |
+| Emoji 128 px, faces | 32 | 1.014 | 11 | 0.862 |
+| Emoji 128 px, mixed | 64 | 1.133 | 21 | 0.906 |
+| Small periodic tile patterns | 56 | 1.890 | 1 | 1.527 |
+| All | 236 | 0.777 | 95 | 0.753 |
 
-The installed CNG consumer passes after moving its prefix and links only zlib,
-the C++ runtime and the system runtime. The separate compressor consumer needs
-no zlib. See the [integration report](../experiments/cngcompress_integration/README.md)
-for source pins, complete records, exactness checks, collection scope and
-reproduction commands. The historical v2 results below remain unchanged.
+PNG level 9 is Pillow's libpng output at compression level 9 with filtering;
+the screen captures have no recorded PNG level 9 size. Per-image bytes are in
+`optipng_reference.json`.
 
-## Historical v2 release-source verification
+The losses are of two kinds. Noise and palette-like emoji sit near 1: there is
+little to predict, and PNG's palette and byte matching are as good a model.
+The small periodic tile fixtures (16 to 64 pixel tiles repeated across an
+image of a few hundred pixels) are PNG's best case and CNG's worst: the
+repetition predictor recovers exact repeats pixel by pixel, while PNG copies
+whole rows by reference, and in a 128×128 frame the repetition history is
+cut at every frame edge. The largest single loss is a 7-pixel tile over a ramp
+at 34 times the OptiPNG size (70 KB against 2 KB). These are retained
+counterexamples; no per-image mode exists to avoid them.
 
-The 0.1.0-rc1 source was built using non-Apple LLVM 23.1.2 with warnings treated as
-errors, Zstandard 1.5.7, and zlib on macOS arm64. CMake configuration, build,
-ordinary tests, installation and compilation of a consumer against the installed
-headers/library succeeded. The immutable files in `experiments/release_v2` match the
-verified implementation; [verification.json](../evidence/verification.json)
-records their SHA-256 hashes.
+The duplicated header and directory cost `8 × frames + 22` bytes per file:
+0.10% of all corpus bytes, 0.05% on the photographs and 0.53% on the 128 px
+emoji (one frame, 30 bytes each).
 
-The bundled test covers 40 generated image cases through two decoding interfaces,
-then both collection forms. Separately, a frozen battery of 222 image bodies was
-encoded and decoded using the installed library. Every encoded file matched its
-accepted reference byte for byte, and every decoded sample matched the source.
+## Time
 
-| Group | Image bodies | Composition |
-| --- | ---: | --- |
-| General | 131 | Photographs and generated structure, alpha and noise controls |
-| RGBA derivatives | 80 | Variants of 64 photographs, including smooth/noisy alpha |
-| Composite bodies | 11 | Full canvases used by collection experiments |
+Complete in-process encode and decode of fixed images, median of seven
+alternating trials, paired with libpng level 9 through Pillow in the same
+process on an Apple M4 (one thread, LLVM 23.1.2, idle machine). Times are
+milliseconds for the whole image.
 
-The 80 RGBA variants are not 80 independent photographs. The 11 composite cases
-measure inner image bodies, not the size or opening cost of a complete collection.
-Third-party image files remain outside this source release; the evidence includes
-names and hashes for identifying the frozen inputs. The bundled tests can be
-reproduced from this checkout alone; the entire external battery cannot.
+| Image | Size | CNG encode | CNG decode | PNG 9 encode | PNG 9 decode |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Kodak 01 | 768×512 RGB | 44 | 43 | 45 | 5.0 |
+| Kodak 23 | 768×512 RGB | 42 | 41 | 78 | 4.2 |
+| Photograph (dog) | 512×512 RGB | 31 | 31 | 35 | 3.1 |
+| Screen capture | 1259×760 RGB | 69 | 69 | 139 | 8.7 |
+| Mail client capture | 1120×720 RGBA | 32 | 29 | 34 | 3.2 |
+| Smooth gradient | 384×256 RGB | 5.8 | 6.0 | 36 | 0.7 |
+| Smooth with noise | 512×512 RGB | 26 | 26 | 120 | 2.7 |
+| Noise | 128×128 RGB | 2.1 | 2.1 | 0.9 | 0.2 |
 
-## Historical v2 complete image sizes
+The encoder and decoder perform the same modelling work, so the two times are
+equal; the encoder is at or below PNG level 9 on every image but pure noise,
+and the one-thread decoder is 8 to 11 times libpng's. OptiPNG at its maximum
+level is many times slower than PNG level 9 to encode and decodes as PNG.
 
-These sizes refer to accepted CSP v2 files reproduced exactly by the release
-library. PNG references were generated with libpng 1.6.59 and zlib 1.2.12 at
-compression level 9, with filtering enabled. They are not OxiPNG-optimized files.
-All framing bytes in the standalone files are counted.
+Frames are independent, so a decoder running N frames at once divides the
+time. Measured with the research driver's threaded frame decode on an x86-64
+pod (nanoseconds per pixel, minimum of five):
 
-| Group | CNG bytes | PNG9 bytes | CNG smaller |
-| --- | ---: | ---: | ---: |
-| General | 98,399,047 | 111,663,405 | 130 / 131 |
-| RGBA derivatives | 99,791,531 | 131,452,553 | 80 / 80 |
-| Composite bodies | 741,327 | 1,000,504 | 9 / 11 |
+| Image | Frames | 1 thread | 2 threads | 4 threads |
+| --- | ---: | ---: | ---: | ---: |
+| Kodak 23, 768×512 | 24 | 159 | 82 | 57 |
+| Photograph (dog), 512×512 | 16 | 174 | 89 | 62 |
+| Screen capture, 1259×760 | 60 | 99 | 52 | 38 |
+| Smooth, 512×512 | 16 | 95 | 55 | 38 |
 
-The general battery retains a rectangle-on-texture counterexample; tiny image
-bodies also expose framing costs. These results do not establish universal PNG
-superiority or a result against optimized PNG encoders. Per-image byte counts
-and source/file hashes are retained in the evidence.
+The library's `decode` is single-threaded; the kernel's `decode_frame` decodes
+one frame into its rectangle of a shared buffer for callers that schedule
+frames themselves.
 
-## Historical v2 memory
+## Memory
 
-The encoder's complete owned-array capacity was enumerated across the admitted
-width/channel domain at maximum valid height. Including a 4 MiB ceiling for its
-entropy context, the maximum is **14,000,967 bytes**. With the measured Zstandard
-1.5.7 context requirement, the enumerated maximum is **11,110,239 bytes**.
+A call owns the complete compressed stream, the image samples (for `encode`
+and the stream decoder) and the frame engine's state for one frame: row rings
+and prefix sums at the frame width, a repetition table of at most 2¹⁴ slots
+for a 128×128 frame, and 175 KiB of adaptive models, under 400 KiB in all. A
+decoder running N frames concurrently owns N frame states. `Measurements`
+reports the owned total per call; it is not process RSS.
 
-These counts exclude caller stream buffers, stack, allocator overhead and process
-mappings. They are not a universal process-memory bound. The decoder owns
-band workspace for streaming; `decode_into` additionally relies on caller-owned
-image storage, and collection decoding owns the entire decoded collection.
+## Frame size
 
-Fresh-process checks of the consolidated library observed:
-
-| Quantity | Maximum bytes over 222 image bodies |
-| --- | ---: |
-| Encoder reported owned capacity | 11,015,234 |
-| Encoder process peak RSS | 8,962,048 |
-| Stream decoder reported owned capacity | 8,489,004 |
-| Stream decoder process peak RSS | 7,356,416 |
-
-Peak RSS may be lower than allocated capacity because allocation does not imply
-that every page is resident or touched. These single-call checks establish
-sample equality and observed resource use, not comparative throughput.
-
-## Why literal unpacking remains separate
-
-A final experiment fused nibble unpacking, inverse colour and reconstruction.
-It removed approximately one MiB of scratch capacity on large bands and a logical
-intermediate write/read pair for each compressed residual byte. It nevertheless
-lost complete-decoder speed in both full repeats:
-
-| Group | Fused / separate, first run | Fused / separate, repeat |
-| --- | ---: | ---: |
-| General | 1.02362 | 1.01119 |
-| RGBA derivatives | 1.07544 | 1.04179 |
-| Composite bodies | 1.03368 | 1.05445 |
-
-Ratios compare sums of per-image median decode times. Each image received a
-warm-up and 31 rotated trials per implementation in one binary. Output allocation
-was included; equality checks followed timing. Both runs used the local Apple
-A18 Pro and Zstandard 1.5.7. Host activity was recorded, but the machine was not
-hardware-isolated. All images were exact, as were 108 additional directed cases
-that forced compressed literals through small and odd-tail inputs.
-
-Compiler remarks reported both the separate unpack loop and fused literal loops
-as not loop-vectorized. A claim that fusion simply disabled SIMD is unsupported.
-Fewer intermediate bytes did not translate to lower runtime. The release keeps
-the faster separate stages. [Raw paired timings](../evidence/literal-fusion.json)
-are published without local process inventories or machine paths.
-
-## Historical interpretation
-
-Earlier research measured useful speed gains against PNG using closely related
-candidates. The consolidated source package has its own equality/resource check,
-but no new full controlled encode/decode throughput comparison is claimed here.
-The package should be measured in the consuming application with its actual input,
-output ownership, allocator, compiler and workload.
-
-No automated memory integrity review was completed for this release. Ordinary
-round trips, compiler warnings and capacity accounting do not substitute for it.
+The frame side is carried in the stream and the decoder honours 16 to 255. The
+containment cost against a single-stream encoding of the same construction
+halves with each step of frame size (+5.4% at 64, +1.5% at 128, +0.7% at 192,
++0.3% at 255 over the corpus); 128 is the written default. The record is
+`native_phase_v7_frame_sides_pod.json`.

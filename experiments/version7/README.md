@@ -1,10 +1,14 @@
 # V7: phase coding in independent frames
 
-V7 puts the V6 phase codec (`../version6`) inside independently decodable
-frames: 128×128 by default, each with its own adaptive state, listed in a
-directory with a CRC32 per frame. Frames decode in any order and in
-parallel; a damaged frame is detected and does not affect the others. See
-`FORMAT.md` for the bytes and `RESULTS.md` for the measurements.
+V7 is the standalone codec of release 0.3.0 (`src/phase_codec.cpp` is this
+kernel). It puts the V6 phase codec (`../version6`) inside independently
+decodable frames: 128×128 by default, each with its own adaptive state,
+listed in a directory with a CRC32 per frame; the header fields and the
+directory are checksummed and stored twice. Frames decode in any order and
+in parallel; a damaged frame is detected and does not affect the others; a
+damaged index copy is repaired from the other. See `FORMAT.md` for the bytes
+and `RESULTS.md` for the measurements, including the OptiPNG comparison and
+the malformed-input sweep.
 
 Against the one-stream V6: files are 1.5% larger at side 128 (0.3% at
 side 255), serial encode and decode time are at or below V6's, and four
@@ -25,7 +29,8 @@ decoded concurrently.
   the exact Python reference.
 - `evidence/vectors/`: ten bit-exact vectors (one of six frames) and their
   manifest; `evidence/*.json`: corpus exactness, cross-platform hashes,
-  sizes, frame-side sweep, frame-parallel timing and the oracle studies.
+  sizes, OptiPNG reference sizes, frame-side sweep, frame-parallel timing
+  and the oracle studies; `evidence/malformed_sweep.txt`: the sanitizer run.
 - `run.py`: checks the probe against the vectors (used by `ctest`).
 
 ## Reproduce

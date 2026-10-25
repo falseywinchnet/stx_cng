@@ -1,5 +1,11 @@
 # Release evidence
 
+The evidence for release 0.3.0 (the `CNGPHI07` frame codec) is in
+[`experiments/version7/evidence`](../experiments/version7/evidence): bit-exact
+vectors, corpus exactness and cross-platform hashes, OptiPNG reference sizes,
+frame-side and frame-parallel measurements and the malformed-input sweep. The
+files below are the evidence of releases 0.1 and 0.2.
+
 `verification.json` records source hashes, the 222 frozen image identities,
 complete-file sizes, exactness results and fresh-process resource measurements.
 `literal-fusion.json` retains both 31-trial paired decoder experiments and their

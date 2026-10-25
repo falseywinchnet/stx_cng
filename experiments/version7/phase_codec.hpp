@@ -25,7 +25,7 @@ enum class Status : std::uint8_t {
     bad_checksum         // a frame payload does not match its directory checksum
 };
 
-constexpr std::size_t kHeaderBytes = 18;  // 8 signature + 4 width + 4 height + 1 channels + 1 frame side, big-endian
+constexpr std::size_t kHeaderBytes = 22;  // 8 signature + 4 width + 4 height + 1 channels + 1 frame side + 4 CRC32 of those ten bytes, big-endian
 
 // Encodes samples (exactly width*height*channels bytes) into destination, which is cleared first.
 // Workspace is allocated once per call and released on return; samples and destination are disjoint.
@@ -53,8 +53,14 @@ struct SymbolTrace {
 [[nodiscard]] Status encode_with_frame(std::span<const std::uint8_t> samples, Dimensions dimensions, std::uint32_t frame_side,
                                        std::vector<std::uint8_t>& destination);
 
+// Owned working storage of the engine for one frame of an image with these dimensions and frame side.
+[[nodiscard]] std::size_t frame_workspace_bytes(Dimensions dimensions, std::uint32_t frame_side);
+
 // Number of frames (raster order; the last column and row may be smaller) of a stream with these dimensions.
 [[nodiscard]] std::uint32_t frame_count(std::span<const std::uint8_t> stream, Dimensions dimensions);
+
+// Frame side recorded in a stream whose header (front or trailing copy) is valid; 0 otherwise.
+[[nodiscard]] std::uint32_t frame_side(std::span<const std::uint8_t> stream);
 
 // Decodes one frame into its rectangle of caller-owned storage of exactly width*height*channels bytes; frames are
 // independent, so callers may decode them in any order or concurrently into disjoint rectangles of one buffer.
