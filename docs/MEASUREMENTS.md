@@ -12,7 +12,7 @@ codec costs in time and memory. Machine-readable records are in
 | C++ kernel against the Python reference, bit-exact vectors | 10 of 10 streams byte-identical, samples exact | `vectors/`, `native_phase_v7d_vectors.json` |
 | C++ kernel against the Python reference, corpus frames | 80 smallest corpus images byte-identical | `native_phase_v7_frames_pod_python.json` |
 | Round trip of the 236-image corpus, arm64 | 236 of 236 exact | `native_phase_hashes_arm64_v7d.json` |
-| Round trip of the 236-image corpus, x86-64 | 236 of 236 exact; frame payloads identical to arm64 (record of the previous index layout; the index is a deterministic function of the payloads) | `native_phase_v7_frames_pod_x86.json`, `native_phase_hashes_arm64_v7.json` |
+| Round trip of the 236-image corpus, x86-64 (GCC 13.3, Linux) | 236 of 236 exact; every stream's SHA-256 identical to the arm64 stream | `native_phase_hashes_x86_v7d.json` |
 | Bundled round-trip test | 40 generated cases, both decode interfaces, both collection forms | `tests/roundtrip.cpp` |
 | Malformed-input sweep under ASan/UBSan | 70,844 damaged inputs: 3,962 accepted, every unforged acceptance exact, no sanitizer report | `tests/malformed.cpp`, `malformed_sweep.txt` |
 

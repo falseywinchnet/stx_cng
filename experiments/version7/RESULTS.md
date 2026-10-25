@@ -194,7 +194,7 @@ the 236 images, 0.10% of all bytes (0.05% on photographs, 0.53% on the
 one-frame 128 px emoji). Verified on the ten rewrapped vectors (Python
 reference and native kernel byte-identical, `native_phase_v7d_vectors.json`)
 and on the 236-image corpus (all exact, every size equal to the previous
-size plus `8 × frames + 22`, `native_phase_hashes_arm64_v7d.json`). The
+size plus `8 × frames + 22`, `native_phase_hashes_arm64_v7d.json`); the x86-64 build (GCC 13.3) produces the identical 236 streams (`native_phase_hashes_x86_v7d.json`). The
 motivation came from the sweep below: with the frame side unprotected, a
 flipped side bit on a 300×40 image kept the frame count at three and decoded
 garbage with a success status.
