@@ -1,16 +1,16 @@
 {
- "release": "0.3.0",
+ "release": "0.4.0",
  "note": "Provenance of the consolidated implementation in the research tree. Paths are historical, not build dependencies. prepared_sha256 identifies the file in this repository.",
  "files": {
   "src/phase_codec.cpp": {
    "source": "native/phase/phase_codec.cpp",
-   "source_sha256": "8cc553e3cc68c6e187f0e53bd40c5feb6405c78bd38dcb639e542c3f37dd1723",
-   "prepared_sha256": "8cc553e3cc68c6e187f0e53bd40c5feb6405c78bd38dcb639e542c3f37dd1723"
+   "source_sha256": "46bc4b10ab27f1dbc038d6360fdb240c3888f5d044ae71bf42c93b5f72924150",
+   "prepared_sha256": "46bc4b10ab27f1dbc038d6360fdb240c3888f5d044ae71bf42c93b5f72924150"
   },
   "src/phase_codec.hpp": {
    "source": "native/phase/phase_codec.hpp",
-   "source_sha256": "0d3e68b2289bd35ebfb95070ead6fdcbf914472c03d9d51ca882d933398634b4",
-   "prepared_sha256": "0d3e68b2289bd35ebfb95070ead6fdcbf914472c03d9d51ca882d933398634b4"
+   "source_sha256": "0dc9438eaa4a4f68ca95bb442f0b1fe46bbae79439d378b08abd27ec47058d6e",
+   "prepared_sha256": "0dc9438eaa4a4f68ca95bb442f0b1fe46bbae79439d378b08abd27ec47058d6e"
   },
   "src/range_coder.hpp": {
    "source": "native/phase/range_coder.hpp",
@@ -24,12 +24,12 @@
   },
   "src/codec.cpp": {
    "source": "written for release 0.3.0: stream adapter over native/phase",
-   "prepared_sha256": "25b7e962d23068fd9e07f02b39a7bc2275cb07fa77a13a40932ff45d395d2e47"
+   "prepared_sha256": "56073e58c763a8802cd331f120fbde0468a7cc534724ca53e814d13ef5c746fe"
   },
   "include/stx_cng/codec.hpp": {
    "source": "native/source_match/raw_codec.hpp",
    "source_sha256": "58268155172cc07812e203d5db1790d8f3b7204875cc28b4500181d12b1f2a3a",
-   "prepared_sha256": "70b8cea3c51797c3804a6dbf76b6e292e368b9ef2dc261b8fab5336e97358acb",
+   "prepared_sha256": "3ddb4e9a28180c231635e10debc8be76ca2bf443c55c4e18319ac377b5f92fb8",
    "note": "interface retained; Measurements fields changed in 0.3.0"
   },
   "include/stx_cng/collection.hpp": {
@@ -44,8 +44,8 @@
   },
   "experiments/version7/reference.py": {
    "source": "research/phase_codec_v7.py",
-   "source_sha256": "c22039c5242058c079255ebf56448b4f1ebdadafd543007e12de05601b219263",
-   "prepared_sha256": "f7fe9c3b051516a11ba3e3aba94d6de8bad75bf1c8c04b589d82bc2e5f31fc87",
+   "source_sha256": "d772069ffd4e9693d222ef5c4b3f9c4a07bc15bf69eaf795a999cb0d8e6d1157",
+   "prepared_sha256": "890dd46d467ba186ddfa5cc765473ec268642b9f63d405ada40ce875212026cc",
    "note": "import line differs"
   },
   "experiments/version7/reference_frame_engine.py": {

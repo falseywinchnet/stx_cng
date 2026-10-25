@@ -1,0 +1,278 @@
+{
+  "complete": true,
+  "scope": "Build the native phase codec with the non-Apple LLVM toolchain, check it against the bit-exact vectors,\nthen cross-check it against the Python reference on the pinned corpus: native encode must equal Python encode\nbyte for byte and native decode must reproduce every sample. Writes results/native_phase.json. Intended to run\non the M4 through m4build; the Python reference encodes are the slow part (about 50 us per pixel) and run in a\nprocess pool. Usage: python -B -m research.run_native_phase [--workers N] [--limit N] [--skip-corpus]",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "command": [
+    "/opt/homebrew/opt/llvm/bin/clang++",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "-Inative/phase",
+    "native/phase/phase_codec.cpp",
+    "native/phase/phase_driver.cpp",
+    "-o",
+    ".build/phase-native/phase_driver"
+  ],
+  "compiler": "Homebrew clang version 23.1.2\nTarget: arm64-apple-darwin25.5.0\nThread model: posix\nInstalledDir: /opt/homebrew/Cellar/llvm/23.1.2/bin\nConfiguration file: /opt/homebrew/Cellar/llvm/23.1.2/etc/clang/arm64-apple-darwin25.cfg\n",
+  "code_sha256": {
+    "native/phase/phase_codec.cpp": "46bc4b10ab27f1dbc038d6360fdb240c3888f5d044ae71bf42c93b5f72924150",
+    "native/phase/phase_driver.cpp": "d3970aeef692bf8e2ce5897321795fc36900fda44c013cc3a80013bd3fb60565",
+    "native/phase/phase_codec.hpp": "0dc9438eaa4a4f68ca95bb442f0b1fe46bbae79439d378b08abd27ec47058d6e",
+    "native/phase/range_coder.hpp": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4",
+    "native/phase/phase_tables.hpp": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46",
+    "research/phase_codec.py": "4dbefb313b5f921602d33a26ea112c87117ed6583d640479436a62cc4e4dbcc8",
+    "research/phase_codec_wavefront.py": "62447acf41dfb8be1bf6524f913c233ee34251f2edfd97c393e2a6c79aa0d7b3",
+    "research/run_native_phase.py": "80f5a29c910e95b797e4fc0d533f2280579e8472c6eb0148726da2e0dadada8c",
+    "data/phase_moment_coefficients.json": "97cedbc4b76e37e20ca5436961abb416b1199ddf14c9ac1edf6514213b0ab0d4"
+  },
+  "vectors": [
+    {
+      "name": "checker",
+      "returncode": 0,
+      "output": "bytes_match samples_match 261 261"
+    },
+    {
+      "name": "tile_7_phase_0",
+      "returncode": 0,
+      "output": "bytes_match samples_match 685 685"
+    },
+    {
+      "name": "smooth_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 353 353"
+    },
+    {
+      "name": "noise_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 2090 2090"
+    },
+    {
+      "name": "rgba_face_crop",
+      "returncode": 0,
+      "output": "bytes_match samples_match 1151 1151"
+    },
+    {
+      "name": "one_pixel",
+      "returncode": 0,
+      "output": "bytes_match samples_match 100 100"
+    },
+    {
+      "name": "row_rgba",
+      "returncode": 0,
+      "output": "bytes_match samples_match 293 293"
+    },
+    {
+      "name": "column",
+      "returncode": 0,
+      "output": "bytes_match samples_match 210 210"
+    },
+    {
+      "name": "gradient_exact",
+      "returncode": 0,
+      "output": "bytes_match samples_match 246 246"
+    },
+    {
+      "name": "frames_300x200",
+      "returncode": 0,
+      "output": "bytes_match samples_match 88115 88115"
+    }
+  ],
+  "corpus": [
+    {
+      "group": "research_smooth",
+      "name": "odd_surface_31_19",
+      "shape": [
+        31,
+        19,
+        3
+      ],
+      "python_sha256": "b3c73a85d637c527e090bc722865846c7ea19c74053d2af3e1e1bd3a7e6dbb4a",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 879,
+      "python_bytes": 879
+    },
+    {
+      "group": "research_smooth",
+      "name": "surface_64_noise_0",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "109797aeec76c0986e5c1712cce4d2df7338653ce2970652e0b0c1af1f4a86e4",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 2977,
+      "python_bytes": 2977
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_2",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "0c8250eaf7cb0b177015edc32fd1802cbc99f00089a8a00fc018b2a8f56a24ce",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 5521,
+      "python_bytes": 5521
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_8",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "ddc54417d80ccf4e0312e3c0f164d3c43a4eda435e10d9069faea972f730dde9",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 7887,
+      "python_bytes": 7887
+    },
+    {
+      "group": "research_noisy",
+      "name": "surface_64_noise_32",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "python_sha256": "a24764bc2c4cdb67e1f0c6dfdc11a5844a2ddfd0a1ca1a9ebe69d558c1f7e4d5",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 10856,
+      "python_bytes": 10856
+    },
+    {
+      "group": "research_structured",
+      "name": "checker",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "5bea387ccdb497f1dc54402fec8273f3fa44fe72bde9b2b7542510e30321e930",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 261,
+      "python_bytes": 261
+    },
+    {
+      "group": "research_noisy",
+      "name": "retained_random_rgb",
+      "shape": [
+        63,
+        67,
+        3
+      ],
+      "python_sha256": "c84a12b4b9f5a023a9c9a8479dd32a36cff54ba76cad71cbb97e79185faad2fa",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 13142,
+      "python_bytes": 13142
+    },
+    {
+      "group": "research_noisy",
+      "name": "random",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "cc01a0e6228546134e83a63d8cf86ad334400187a02a6c2fa9fd56e1d676c4bb",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 13581,
+      "python_bytes": 13581
+    },
+    {
+      "group": "research_smooth",
+      "name": "odd_surface_65_67",
+      "shape": [
+        65,
+        67,
+        3
+      ],
+      "python_sha256": "b4e23eae89b7e1f3f06d8afa0ea0e127e15bd5378f878f025f7a724532bef777",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 3291,
+      "python_bytes": 3291
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise1",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "39abfa43e9113121513b761fe5db402cfd128028dd1d6aafb6bba79ce4be214d",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 15679,
+      "python_bytes": 15679
+    },
+    {
+      "group": "research_mixed",
+      "name": "half_noise",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "71d86f385bbabc9d704f5ac684552bde092ca7e143976319a0741b78171ae639",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 29458,
+      "python_bytes": 29458
+    },
+    {
+      "group": "research_noisy",
+      "name": "noise2",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "python_sha256": "d25c6c6751f7c2ae3eda84aed69a47a178961228272b7ae607fcb9352086974b",
+      "native_encode_rc": 0,
+      "native_decode_rc": 0,
+      "bytes_equal": true,
+      "samples_equal": true,
+      "native_bytes": 19583,
+      "python_bytes": 19583
+    }
+  ]
+}

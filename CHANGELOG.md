@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.4.0 — 2026-10-25
+
+Stream `CNGPHI08`: the frame codec of 0.3.0 with a mosaic layer.
+
+- A mosaic layer, the mean colour of every 16×16 cell coded as a small image by
+  the same engine, is stored twice: after the front directory and before the
+  mirrored one. It is the first picture of a progressive decode (3–5% of the
+  file) and the fill for frames lost to damage. It costs 1.5% of the corpus
+  bytes (1.1% on photographs, 7% on 128 px emoji).
+- `decode_mosaic` returns the layer alone; `decode_salvage` decodes every
+  intact frame, fills the others from the mosaic and reports per frame.
+- Header fields carry the mosaic length and CRC32; the header is 30 bytes and
+  its trailing copy 22. `CNGPHI07` files of 0.3.0 are rejected at the header.
+- Complete files are 0.79 of OptiPNG's maximum level over the 236-image corpus.
+- The malformed-input sweep grows to about 79,000 inputs, including mosaic
+  length claims and salvage decodes, and passes under ASan/UBSan.
+
+
 ## 0.3.0 — 2026-10-25
 
 The standalone codec is now the phase-aware frame codec, stream `CNGPHI07`.

@@ -60,14 +60,17 @@ For manual linking, use `libstx_cng`, zlib and the C++ runtime.
 images, ramps, sharp steps, repeated patterns, noise and narrow dimensions. It
 checks both stream output and caller-supplied output, round-trips both
 collection forms with mixed channel counts, checks that a `CSP` v3 header of
-the previous release is rejected before pixel output, and that a flipped
-payload byte is reported as a frame checksum failure.
+an earlier release is rejected before pixel output, that the mosaic layer equals
+the image's 16×16 block means, and that a flipped payload byte is reported as a
+frame checksum failure by `decode_into` and filled from the mosaic by
+`decode_salvage`.
 
-`stx_cng_malformed` decodes about 70,000 damaged inputs through the public
+`stx_cng_malformed` decodes about 79,000 damaged inputs through the public
 interfaces: every truncation of six images and two collections, every
 single-bit flip of their headers, directories and payload edges, forged
 payloads of arbitrary bytes with recomputed checksums, header fields claiming
-impossible or oversized dimensions, and whole index copies zeroed or filled.
+impossible or oversized dimensions or mosaic lengths, whole index and mosaic
+copies zeroed or filled, and salvage decodes of damaged payloads.
 Each input must be rejected or decode exactly (a forged payload may decode to
 anything), must never write outside the destination, and, when the tests are
 configured with `-DSTX_CNG_SANITIZE=ON`, must raise no address or

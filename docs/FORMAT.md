@@ -1,9 +1,9 @@
 # CNG format reference
 
-**Release:** 0.3.0 · **Standalone stream:** `CNGPHI07` · **Collection schema:** SHDR v0
+**Release:** 0.4.0 · **Standalone stream:** `CNGPHI08` · **Collection schema:** SHDR v0
 
 This document describes the bytes written and read by this release. CNG means
-**Computational Network Graphics**. A standalone image is a `CNGPHI07` stream; a
+**Computational Network Graphics**. A standalone image is a `CNGPHI08` stream; a
 collection has the `CNG` signature and embeds complete standalone streams.
 
 The format is lossless for interleaved RGB8 and RGBA8 samples. It carries neither
@@ -20,14 +20,16 @@ accidental corruption; it is not authentication.
 
 | Field | Bytes | Meaning |
 | --- | ---: | --- |
-| Signature | 8 | ASCII `CNGPHI07` |
-| Header fields | 10 | Width u32, height u32, channels u8 (3 or 4), frame side u8 |
-| Header CRC32 | 4 | CRC32 of the ten header-field bytes |
+| Signature | 8 | ASCII `CNGPHI08` |
+| Header fields | 18 | Width u32, height u32, channels u8 (3 or 4), frame side u8, mosaic payload length u32, mosaic payload CRC32 |
+| Header CRC32 | 4 | CRC32 of the eighteen header-field bytes |
 | Directory | 8 per frame | Payload length u32, payload CRC32 u32; frames in raster order |
 | Directory CRC32 | 4 | CRC32 of the directory entries |
+| Mosaic | mosaic length | The mosaic layer's payload |
 | Payloads | | One per frame, in raster order, back to back |
+| Mosaic, again | mosaic length | The same bytes as the mosaic payload |
 | Directory, again | 8 per frame + 4 | The same bytes as the directory and its CRC32 |
-| Header fields, again | 14 | The same bytes as the header fields and their CRC32 |
+| Header fields, again | 22 | The same bytes as the header fields and their CRC32 |
 
 Width and height are at least 1 and width × height × channels is at most 2³¹.
 The frame side as written is 128; a reader honours any side from 16 to 255. The
@@ -37,12 +39,24 @@ multiples of the side.
 
 A reader takes the header fields from the front copy when its CRC32 matches,
 otherwise from the trailing copy, and rejects the stream when neither matches.
-It takes the directory the same way, requires the payload lengths to account
-for exactly the bytes between the two directory copies, and checks each
-payload's CRC32 before reconstructing its frame. A frame whose checksum fails
-is reported by index; the other frames remain decodable. Damage confined to one
-copy of the header or directory therefore costs nothing, and the index costs
-`8 × frames + 22` bytes over a single copy.
+It takes the directory and the mosaic the same way, requires the payload
+lengths to account for exactly the bytes between the two mosaic copies, and
+checks each payload's CRC32 before reconstructing its frame. A frame whose
+checksum fails is reported by index; the other frames remain decodable, and a
+salvaging decoder fills the lost frame with the mosaic colours of its cells.
+Damage confined to one copy of the header, directory or mosaic therefore costs
+nothing; the duplicated index costs `8 × frames + 30` bytes over a single copy
+and the mosaic its coded size twice.
+
+### Mosaic layer
+
+The mosaic is the mean colour of every 16×16 cell of the image, cells at the
+right and bottom edges being smaller: for each channel the integer sum over
+the cell plus half the cell's pixel count, divided by the pixel count. It is an
+image of `ceil(width / 16) × ceil(height / 16)` pixels with the image's channel
+count, coded by the frame engine as a single frame of its own size (fresh
+models, image-edge boundary rules), and its payload is stored twice. It is the
+first picture of a progressive decode and the fill for lost frames.
 
 ### Frame payload
 
@@ -71,7 +85,7 @@ with the per-pixel section of
 [`experiments/version6/FORMAT.md`](../experiments/version6/FORMAT.md). The C++
 kernel is byte-identical to the reference on the retained vectors and the
 measurement corpus. There are no transmitted tables, no selectable modes and
-no encoder parameters: a given image has exactly one `CNGPHI07` encoding at a
+no encoder parameters: a given image has exactly one `CNGPHI08` encoding at a
 given frame side.
 
 ## 3. Collections
@@ -97,7 +111,7 @@ is between 1 and 4,096. Packed canvas fields are zero.
 | 24 | 8 | Absolute offset of the IMAG chunk's length field |
 | 32 | 8 | Total IMAG chunk length, including its 12 framing bytes |
 
-Each `IMAG` payload is a complete standalone `CNGPHI07` stream. In packed form,
+Each `IMAG` payload is a complete standalone `CNGPHI08` stream. In packed form,
 each entry refers to its own IMAG chunk and has slice origin `(0,0)`. In
 composite form, all entries refer to one IMAG chunk holding the canvas: members
 are stacked vertically at x = 0, the canvas width is the largest member width
@@ -119,10 +133,10 @@ to the embedded standalone stream or streams.
 
 ## 4. Compatibility boundary
 
-This release reads and writes `CNGPHI07` streams and SHDR v0 collections that
+This release reads and writes `CNGPHI08` streams and SHDR v0 collections that
 embed them. Streams with another signature, including the `CSP` v2 and v3
-streams of releases 0.1 and 0.2, are rejected at the header before any pixel
-is produced; a collection embedding such a stream is rejected when that
+streams of releases 0.1 and 0.2 and the `CNGPHI07` streams of release 0.3,
+are rejected at the header before any pixel is produced; a collection embedding such a stream is rejected when that
 stream is reached. Migration is pixel-preserving: decode with the release that
 wrote the file and encode the exact raw samples with this one.
 

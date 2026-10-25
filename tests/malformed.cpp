@@ -4,6 +4,7 @@
 // undefined-behaviour sanitizers by the stx_cng_malformed target, so a violation aborts the run.
 #include "stx_cng/codec.hpp"
 #include "stx_cng/collection.hpp"
+#include <algorithm>
 #include <array>
 #include <cstdint>
 #include <cstdlib>
@@ -120,7 +121,8 @@ void sweep_image(stx_cng::Dimensions d, std::uint32_t seed, Counts& counts, std:
     std::uint32_t side = static_cast<unsigned char>(stream[17]);
     std::uint32_t across = (d.width + side - 1) / side, down = (d.height + side - 1) / side;
     std::size_t directory_block = static_cast<std::size_t>(across) * down * 8 + 4;
-    std::size_t header_and_directory = 22 + directory_block;
+    std::size_t mosaic_length = get_u32(stream, 18);
+    std::size_t header_and_directory = 30 + directory_block + mosaic_length;   // the front mosaic copy sits between directory and payloads
     for (std::size_t byte = 0; byte < stream.size(); ++byte) {
         bool near_edge = byte < header_and_directory + 64 || byte + 64 >= stream.size();
         if (!near_edge) { continue; }
@@ -134,7 +136,7 @@ void sweep_image(stx_cng::Dimensions d, std::uint32_t seed, Counts& counts, std:
     std::size_t first_payload = header_and_directory;
     for (int trial = 0; trial < 160; ++trial) {
         std::string damaged = stream;
-        std::uint32_t length0 = get_u32(stream, 22);
+        std::uint32_t length0 = get_u32(stream, 30);
         std::string payload;
         rng = rng * 1664525u + 1013904223u;
         std::size_t length = (trial % 4 == 0) ? 0 : (trial % 4 == 1) ? 1 + (rng >> 20) % 8 : (trial % 4 == 2) ? length0 : (rng >> 8) % (2 * length0 + 1);
@@ -147,11 +149,11 @@ void sweep_image(stx_cng::Dimensions d, std::uint32_t seed, Counts& counts, std:
             payload.push_back(static_cast<char>(b));
         }
         damaged.replace(first_payload, length0, payload);
-        put_u32(damaged, 22, static_cast<std::uint32_t>(payload.size()));
-        put_u32(damaged, 26, crc32_of(payload));
-        std::string directory = damaged.substr(22, directory_block - 4);
-        put_u32(damaged, 22 + directory.size(), crc32_of(directory));
-        damaged.replace(damaged.size() - 14 - directory_block, directory_block, damaged.substr(22, directory_block));
+        put_u32(damaged, 30, static_cast<std::uint32_t>(payload.size()));
+        put_u32(damaged, 34, crc32_of(payload));
+        std::string directory = damaged.substr(30, directory_block - 4);
+        put_u32(damaged, 30 + directory.size(), crc32_of(directory));
+        damaged.replace(damaged.size() - 22 - directory_block, directory_block, damaged.substr(30, directory_block));
         check(damaged, true);
     }
     // Header claims: huge dimensions, zero dimensions, odd channels, frame side extremes, with the rest intact.
@@ -159,22 +161,50 @@ void sweep_image(stx_cng::Dimensions d, std::uint32_t seed, Counts& counts, std:
     auto claim = [&](std::uint32_t w, std::uint32_t h, unsigned channels, unsigned side_value) {
         std::string damaged = stream;
         put_u32(damaged, 8, w); put_u32(damaged, 12, h); damaged[16] = static_cast<char>(channels); damaged[17] = static_cast<char>(side_value);
-        put_u32(damaged, 18, crc32_of(damaged.substr(8, 10)));
+        put_u32(damaged, 26, crc32_of(damaged.substr(8, 18)));
         check(damaged, true);                                    // front copy forged, tail copy intact
-        damaged.replace(damaged.size() - 14, 14, damaged.substr(8, 14));
+        damaged.replace(damaged.size() - 22, 22, damaged.substr(8, 22));
         check(damaged, true);                                    // both copies forged
     };
     for (const auto& wh : dims) { claim(wh[0], wh[1], static_cast<unsigned>(d.channels), side); }
     for (unsigned channels : {0u, 1u, 2u, 5u, 255u}) { claim(static_cast<std::uint32_t>(d.width), static_cast<std::uint32_t>(d.height), channels, side); }
     for (unsigned side_value : {0u, 1u, 15u, 16u, 17u, 127u, 129u, 255u}) { claim(static_cast<std::uint32_t>(d.width), static_cast<std::uint32_t>(d.height), static_cast<unsigned>(d.channels), side_value); }
+    for (std::uint32_t length : {0u, 1u, static_cast<std::uint32_t>(mosaic_length + 1), static_cast<std::uint32_t>(stream.size()), 0xFFFFFFFFu}) {   // mosaic length claims
+        std::string damaged = stream;
+        put_u32(damaged, 18, length); put_u32(damaged, 26, crc32_of(damaged.substr(8, 18)));
+        check(damaged, true);
+        damaged.replace(damaged.size() - 22, 22, damaged.substr(8, 22));
+        check(damaged, true);
+    }
+    // salvage through the public interface on single-bit flips of the first payload: intact frames exact, lost frame filled
+    {
+        std::uint32_t length0 = get_u32(stream, 30);
+        for (std::size_t byte = header_and_directory; byte < header_and_directory + std::min<std::size_t>(length0, 16); ++byte) {
+            std::string damaged = stream; damaged[byte] = static_cast<char>(damaged[byte] ^ 0x01);
+            std::istringstream source(damaged);
+            std::vector<std::uint8_t> out(raw.size() + 64, 0x7E);
+            std::vector<std::uint8_t> ok; bool mosaic_ok = false;
+            stx_cng::Measurements m;
+            ++counts.inputs;
+            try {
+                stx_cng::Dimensions ignored = stx_cng::decode_salvage(source, std::span<std::uint8_t>(out.data(), raw.size()), ok, mosaic_ok, m);
+                static_cast<void>(ignored);
+                require(ok[0] == 0 && mosaic_ok, "salvage reports the damaged first frame and an intact mosaic");
+                for (std::size_t i = 1; i < ok.size(); ++i) { require(ok[i] == 1, "salvage keeps the other frames"); }
+            } catch (const std::runtime_error&) {
+                require(false, "salvage must not throw on a damaged payload");
+            }
+            for (std::size_t i = raw.size(); i < out.size(); ++i) { require(out[i] == 0x7E, "guard region written by salvage"); }
+        }
+    }
     // Damage confined to one index copy must be repaired from the other: zero the whole front index, then the tail.
     {
         std::string damaged = stream;
         for (std::size_t i = 8; i < header_and_directory; ++i) { damaged[i] = 0; }
         require(decode_guarded(damaged, raw.size(), pixels) && pixels.compare(0, raw.size(), raw) == 0, "repair from the trailing index copy");
         damaged = stream;
-        for (std::size_t i = stream.size() - 14 - directory_block; i < stream.size(); ++i) { damaged[i] = static_cast<char>(0xFF); }
-        require(decode_guarded(damaged, raw.size(), pixels) && pixels.compare(0, raw.size(), raw) == 0, "decode with a damaged trailing index copy");
+        for (std::size_t i = stream.size() - 22 - directory_block - mosaic_length; i < stream.size(); ++i) { damaged[i] = static_cast<char>(0xFF); }
+        require(decode_guarded(damaged, raw.size(), pixels) && pixels.compare(0, raw.size(), raw) == 0, "decode with a damaged trailing index and mosaic copy");
         ++counts.inputs; ++counts.inputs; counts.accepted += 2; counts.exact += 2;
     }
 }

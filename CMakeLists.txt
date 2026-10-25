@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(stx_cng VERSION 0.3.0 LANGUAGES C CXX)
+project(stx_cng VERSION 0.4.0 LANGUAGES C CXX)
 include(GNUInstallDirs)
 include(CTest)
 find_package(ZLIB REQUIRED)

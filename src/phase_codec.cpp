@@ -43,10 +43,10 @@ constexpr std::uint32_t kRadius = static_cast<std::uint32_t>(kWindowRadius);   /
 constexpr std::uint32_t kWindowRows = kRadius + 2;                               // rows y-1-K .. y kept per cleaned plane
 constexpr std::uint32_t kRepeatMinLog = 6;    // REPEAT_MIN_LOG
 constexpr std::uint32_t kRepeatMaxLog = 22;   // REPEAT_MAX_LOG
-constexpr std::array<std::uint8_t, 8> kSignature = {0x43, 0x4E, 0x47, 0x50, 0x48, 0x49, 0x30, 0x37};  // "CNGPHI07"
+constexpr std::array<std::uint8_t, 8> kSignature = {0x43, 0x4E, 0x47, 0x50, 0x48, 0x49, 0x30, 0x38};  // "CNGPHI08"
 constexpr std::uint32_t kFrame = 128;                                                              // default frame side in pixels
 constexpr std::uint32_t kMinFrame = 16;
-constexpr std::size_t kFieldBytes = 10;                 // width u32, height u32, channels u8, frame side u8
+constexpr std::size_t kFieldBytes = 18;                 // width u32, height u32, channels u8, frame side u8, mosaic length u32, mosaic CRC32
 constexpr std::size_t kTailBytes = kFieldBytes + 4;      // trailing copy of the header fields and their CRC32
 
 // Causal offsets as (rows above, columns left). The activity sum uses (0,1) (1,0) (1,1) (1,-1) (0,2) (2,0): the
@@ -792,25 +792,57 @@ struct FrameRect { std::uint32_t x0 = 0, y0 = 0, width = 0, height = 0; };
 [[nodiscard]] bool fields_valid(const std::uint8_t* fields) {
     return read_u32(fields + kFieldBytes) == crc32_of(std::span<const std::uint8_t>(fields, kFieldBytes));
 }
-void parse_fields(const std::uint8_t* fields, Dimensions& dimensions, std::uint32_t& side) {
-    dimensions.width = read_u32(fields); dimensions.height = read_u32(fields + 4); dimensions.channels = fields[8]; side = fields[9];
+struct Header { Dimensions dimensions; std::uint32_t side = 0; std::uint32_t mosaic_length = 0; std::uint32_t mosaic_crc = 0; };
+void parse_fields(const std::uint8_t* fields, Header& h) {
+    h.dimensions.width = read_u32(fields); h.dimensions.height = read_u32(fields + 4); h.dimensions.channels = fields[8]; h.side = fields[9];
+    h.mosaic_length = read_u32(fields + 10); h.mosaic_crc = read_u32(fields + 14);
 }
 // Header: signature, fields and their CRC32 at the front; the fields and CRC32 again at the end of the stream. The
 // front copy is used when its checksum matches, otherwise the trailing copy; a stream with neither is rejected.
-Status parse_header(std::span<const std::uint8_t> stream, Dimensions& dimensions, std::uint32_t& side) {
+Status parse_header(std::span<const std::uint8_t> stream, Header& header) {
     if (stream.size() < kHeaderBytes + kTailBytes) { return Status::bad_header; }
     for (std::size_t index = 0; index < kSignature.size(); ++index) {
         if (stream[index] != kSignature[index]) { return Status::bad_header; }
     }
     const std::uint8_t* front = stream.data() + kSignature.size();
     const std::uint8_t* tail = stream.data() + stream.size() - kTailBytes;
-    Dimensions parsed; std::uint32_t parsed_side = 0;
-    if (fields_valid(front)) { parse_fields(front, parsed, parsed_side); }
-    else if (fields_valid(tail)) { parse_fields(tail, parsed, parsed_side); }
+    Header parsed;
+    if (fields_valid(front)) { parse_fields(front, parsed); }
+    else if (fields_valid(tail)) { parse_fields(tail, parsed); }
     else { return Status::bad_header; }
-    if (parsed_side < kMinFrame || !valid_dimensions(parsed)) { return Status::bad_header; }
-    dimensions = parsed; side = parsed_side;
+    if (parsed.side < kMinFrame || !valid_dimensions(parsed.dimensions)) { return Status::bad_header; }
+    if (parsed.mosaic_length > stream.size()) { return Status::bad_header; }
+    header = parsed;
     return Status::ok;
+}
+// The mosaic layer: the mean colour of every kMosaicCell x kMosaicCell cell (cells at the right and bottom edges are
+// smaller), rounded half up, as an image of ceil(width/16) x ceil(height/16) coded by the frame engine as one frame.
+// It is stored twice, after the front directory and before the mirrored directory, and is the progressive first
+// picture and the fill for frames lost to damage.
+[[nodiscard]] Dimensions mosaic_of(Dimensions d) {
+    Dimensions m; m.width = (d.width + kMosaicCell - 1) / kMosaicCell; m.height = (d.height + kMosaicCell - 1) / kMosaicCell; m.channels = d.channels;
+    return m;
+}
+void block_means(std::span<const std::uint8_t> samples, Dimensions d, std::vector<std::uint8_t>& mosaic) {
+    Dimensions m = mosaic_of(d);
+    mosaic.assign(static_cast<std::size_t>(m.width) * m.height * d.channels, 0);
+    std::vector<std::uint32_t> sums(static_cast<std::size_t>(m.width) * d.channels);
+    for (std::uint32_t my = 0; my < m.height; ++my) {
+        std::fill(sums.begin(), sums.end(), 0u);
+        const std::uint32_t y0 = my * kMosaicCell, y1 = std::min(d.height, y0 + kMosaicCell);
+        for (std::uint32_t y = y0; y < y1; ++y) {
+            const std::uint8_t* row = samples.data() + static_cast<std::size_t>(y) * d.width * d.channels;
+            for (std::uint32_t x = 0; x < d.width; ++x) {
+                std::uint32_t* cell = sums.data() + static_cast<std::size_t>(x / kMosaicCell) * d.channels;
+                for (std::uint32_t c = 0; c < d.channels; ++c) { cell[c] += row[static_cast<std::size_t>(x) * d.channels + c]; }
+            }
+        }
+        for (std::uint32_t mx = 0; mx < m.width; ++mx) {
+            const std::uint32_t count = (y1 - y0) * (std::min(d.width, (mx + 1) * kMosaicCell) - mx * kMosaicCell);
+            std::uint8_t* out = mosaic.data() + (static_cast<std::size_t>(my) * m.width + mx) * d.channels;
+            for (std::uint32_t c = 0; c < d.channels; ++c) { out[c] = static_cast<std::uint8_t>((sums[static_cast<std::size_t>(mx) * d.channels + c] + count / 2) / count); }
+        }
+    }
 }
 // Encodes one frame of `samples` (interleaved image, row stride = image width) into `payload` (cleared first).
 Status encode_frame(Workspace& workspace, const std::uint8_t* samples, Dimensions image, FrameRect r, std::vector<std::uint8_t>& payload, std::vector<SymbolTrace>* trace) {
@@ -851,12 +883,20 @@ Status encode_frames(std::span<const std::uint8_t> samples, Dimensions dimension
         Status status = encode_frame(workspace, samples.data(), dimensions, frame_rect(dimensions, side, index), payloads[index], trace);
         if (status != Status::ok) { return status; }
     }
+    std::vector<std::uint8_t> mosaic_samples, mosaic;
+    block_means(samples, dimensions, mosaic_samples);
+    const Dimensions mosaic_dimensions = mosaic_of(dimensions);
+    FrameRect whole; whole.width = mosaic_dimensions.width; whole.height = mosaic_dimensions.height;
+    Status mosaic_status = encode_frame(workspace, mosaic_samples.data(), mosaic_dimensions, whole, mosaic, nullptr);
+    if (mosaic_status != Status::ok) { return mosaic_status; }
     std::vector<std::uint8_t> fields;
     fields.reserve(kFieldBytes + 4);
     write_u32(fields, dimensions.width);
     write_u32(fields, dimensions.height);
     fields.push_back(static_cast<std::uint8_t>(dimensions.channels));
     fields.push_back(static_cast<std::uint8_t>(side));
+    write_u32(fields, static_cast<std::uint32_t>(mosaic.size()));
+    write_u32(fields, crc32_of(std::span<const std::uint8_t>(mosaic.data(), mosaic.size())));
     write_u32(fields, crc32_of(std::span<const std::uint8_t>(fields.data(), kFieldBytes)));
     std::vector<std::uint8_t> directory;
     directory.reserve(directory_bytes(frames));
@@ -865,29 +905,32 @@ Status encode_frames(std::span<const std::uint8_t> samples, Dimensions dimension
         write_u32(directory, crc32_of(std::span<const std::uint8_t>(p.data(), p.size())));
     }
     write_u32(directory, crc32_of(std::span<const std::uint8_t>(directory.data(), static_cast<std::size_t>(frames) * 8)));
-    std::size_t total = kHeaderBytes + 2 * directory.size() + kTailBytes;
+    std::size_t total = kHeaderBytes + 2 * directory.size() + 2 * mosaic.size() + kTailBytes;
     for (const std::vector<std::uint8_t>& p : payloads) { total += p.size(); }
     destination.reserve(total);
     destination.insert(destination.end(), kSignature.begin(), kSignature.end());
     destination.insert(destination.end(), fields.begin(), fields.end());
     destination.insert(destination.end(), directory.begin(), directory.end());
+    destination.insert(destination.end(), mosaic.begin(), mosaic.end());
     for (const std::vector<std::uint8_t>& p : payloads) { destination.insert(destination.end(), p.begin(), p.end()); }
+    destination.insert(destination.end(), mosaic.begin(), mosaic.end());
     destination.insert(destination.end(), directory.begin(), directory.end());
     destination.insert(destination.end(), fields.begin(), fields.end());
     return Status::ok;
 }
 // Reads and validates the directory; fills offsets (from the start of the stream), lengths and checksums of every frame payload.
-Status read_directory(std::span<const std::uint8_t> stream, Dimensions dimensions, std::uint32_t side, std::vector<std::size_t>& offsets, std::vector<std::uint32_t>& lengths, std::vector<std::uint32_t>& checksums) {
-    const std::uint32_t frames = frames_of(dimensions, side);
+Status read_directory(std::span<const std::uint8_t> stream, const Header& header, std::vector<std::size_t>& offsets, std::vector<std::uint32_t>& lengths, std::vector<std::uint32_t>& checksums) {
+    const std::uint32_t frames = frames_of(header.dimensions, header.side);
     const std::size_t block = directory_bytes(frames);
-    if (stream.size() < kHeaderBytes + 2 * block + kTailBytes) { return Status::bad_directory; }
+    const std::size_t mosaic = header.mosaic_length;
+    if (stream.size() < kHeaderBytes + 2 * block + 2 * mosaic + kTailBytes) { return Status::bad_directory; }
     const std::uint8_t* front = stream.data() + kHeaderBytes;
     const std::uint8_t* mirror = stream.data() + stream.size() - kTailBytes - block;
     const std::uint8_t* directory = directory_valid(front, frames) ? front : directory_valid(mirror, frames) ? mirror : nullptr;
     if (directory == nullptr) { return Status::bad_directory; }
     offsets.assign(frames, 0); lengths.assign(frames, 0); checksums.assign(frames, 0);
-    const std::size_t payload_end = stream.size() - kTailBytes - block;
-    std::size_t position = kHeaderBytes + block;
+    const std::size_t payload_end = stream.size() - kTailBytes - block - mosaic;
+    std::size_t position = kHeaderBytes + block + mosaic;
     for (std::uint32_t index = 0; index < frames; ++index) {
         lengths[index] = read_u32(directory + static_cast<std::size_t>(index) * 8); checksums[index] = read_u32(directory + static_cast<std::size_t>(index) * 8 + 4);
         offsets[index] = position; position += lengths[index];
@@ -895,6 +938,26 @@ Status read_directory(std::span<const std::uint8_t> stream, Dimensions dimension
     }
     if (position != payload_end) { return Status::bad_directory; }
     return Status::ok;
+}
+// The mosaic payload: the copy after the front directory when its checksum matches, otherwise the copy before the
+// mirrored directory; an empty span when neither does.
+[[nodiscard]] std::span<const std::uint8_t> mosaic_payload(std::span<const std::uint8_t> stream, const Header& header) {
+    const std::size_t block = directory_bytes(frames_of(header.dimensions, header.side));
+    const std::size_t m = header.mosaic_length;
+    if (stream.size() < kHeaderBytes + 2 * block + 2 * m + kTailBytes) { return {}; }
+    std::span<const std::uint8_t> front = stream.subspan(kHeaderBytes + block, m);
+    if (crc32_of(front) == header.mosaic_crc) { return front; }
+    std::span<const std::uint8_t> back = stream.subspan(stream.size() - kTailBytes - block - m, m);
+    if (crc32_of(back) == header.mosaic_crc) { return back; }
+    return {};
+}
+Status decode_mosaic_payload(std::span<const std::uint8_t> payload, const Header& header, std::span<std::uint8_t> destination) {
+    const Dimensions m = mosaic_of(header.dimensions);
+    if (destination.size() != static_cast<std::size_t>(m.width) * m.height * m.channels) { return Status::bad_sample_count; }
+    if (payload.empty()) { return Status::bad_checksum; }
+    Workspace workspace;
+    FrameRect whole; whole.width = m.width; whole.height = m.height;
+    return decode_frame_payload(workspace, payload, m, whole, destination.data());
 }
 }  // namespace
 
@@ -911,8 +974,19 @@ Status encode_traced(std::span<const std::uint8_t> samples, Dimensions dimension
 }
 
 Status read_header(std::span<const std::uint8_t> stream, Dimensions& dimensions) {
-    std::uint32_t side = 0;
-    return parse_header(stream, dimensions, side);
+    Header header;
+    Status status = parse_header(stream, header);
+    if (status == Status::ok) { dimensions = header.dimensions; }
+    return status;
+}
+
+Dimensions mosaic_dimensions(Dimensions dimensions) { return mosaic_of(dimensions); }
+
+Status decode_mosaic(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination) {
+    Header header;
+    Status status = parse_header(stream, header);
+    if (status != Status::ok) { return status; }
+    return decode_mosaic_payload(mosaic_payload(stream, header), header, destination);
 }
 
 
@@ -933,24 +1007,25 @@ std::size_t frame_workspace_bytes(Dimensions dimensions, std::uint32_t frame_sid
 }
 
 std::uint32_t frame_count(std::span<const std::uint8_t> stream, Dimensions dimensions) {
-    Dimensions parsed; std::uint32_t side = 0;
-    if (parse_header(stream, parsed, side) != Status::ok) { return 0; }
-    return frames_of(dimensions, side);
+    Header header;
+    if (parse_header(stream, header) != Status::ok) { return 0; }
+    return frames_of(dimensions, header.side);
 }
 
 std::uint32_t frame_side(std::span<const std::uint8_t> stream) {
-    Dimensions parsed; std::uint32_t side = 0;
-    return parse_header(stream, parsed, side) == Status::ok ? side : 0;
+    Header header;
+    return parse_header(stream, header) == Status::ok ? header.side : 0;
 }
 
 Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, std::span<std::uint8_t> destination) {
-    Dimensions dimensions; std::uint32_t side = 0;
-    Status header = parse_header(stream, dimensions, side);
+    Header parsed;
+    Status header = parse_header(stream, parsed);
     if (header != Status::ok) { return header; }
+    const Dimensions dimensions = parsed.dimensions; const std::uint32_t side = parsed.side;
     std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
     if (destination.size() != expected) { return Status::bad_sample_count; }
     std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
-    Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
+    Status directory = read_directory(stream, parsed, offsets, lengths, checksums);
     if (directory != Status::ok) { return directory; }
     if (index >= offsets.size()) { return Status::bad_directory; }
     std::span<const std::uint8_t> payload = stream.subspan(offsets[index], lengths[index]);
@@ -960,14 +1035,15 @@ Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, s
 }
 
 Status decode_frame_range(std::span<const std::uint8_t> stream, std::uint32_t first, std::uint32_t stride, std::span<std::uint8_t> destination) {
-    Dimensions dimensions; std::uint32_t side = 0;
-    Status header = parse_header(stream, dimensions, side);
+    Header parsed;
+    Status header = parse_header(stream, parsed);
     if (header != Status::ok) { return header; }
+    const Dimensions dimensions = parsed.dimensions; const std::uint32_t side = parsed.side;
     std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
     if (destination.size() != expected) { return Status::bad_sample_count; }
     if (stride == 0) { return Status::bad_directory; }
     std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
-    Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
+    Status directory = read_directory(stream, parsed, offsets, lengths, checksums);
     if (directory != Status::ok) { return directory; }
     Workspace workspace;
     for (std::uint32_t index = first; index < offsets.size(); index += stride) {
@@ -980,13 +1056,14 @@ Status decode_frame_range(std::span<const std::uint8_t> stream, std::uint32_t fi
 }
 
 Status decode(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination) {
-    Dimensions dimensions; std::uint32_t side = 0;
-    Status header = parse_header(stream, dimensions, side);
+    Header parsed;
+    Status header = parse_header(stream, parsed);
     if (header != Status::ok) { return header; }
+    const Dimensions dimensions = parsed.dimensions; const std::uint32_t side = parsed.side;
     std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
     if (destination.size() != expected) { return Status::bad_sample_count; }
     std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
-    Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
+    Status directory = read_directory(stream, parsed, offsets, lengths, checksums);
     if (directory != Status::ok) { return directory; }
     Workspace workspace;   // one per call; prepare() refills it for each frame
     for (std::uint32_t index = 0; index < offsets.size(); ++index) {
@@ -994,6 +1071,42 @@ Status decode(std::span<const std::uint8_t> stream, std::span<std::uint8_t> dest
         if (crc32_of(payload) != checksums[index]) { return Status::bad_checksum; }
         Status status = decode_frame_payload(workspace, payload, dimensions, frame_rect(dimensions, side, index), destination.data());
         if (status != Status::ok) { return status; }
+    }
+    return Status::ok;
+}
+
+Status decode_salvage(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination, std::vector<std::uint8_t>& frames_ok, bool& mosaic_ok) {
+    Header parsed;
+    Status header = parse_header(stream, parsed);
+    if (header != Status::ok) { return header; }
+    const Dimensions dimensions = parsed.dimensions; const std::uint32_t side = parsed.side;
+    std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
+    if (destination.size() != expected) { return Status::bad_sample_count; }
+    std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
+    Status directory = read_directory(stream, parsed, offsets, lengths, checksums);
+    if (directory != Status::ok) { return directory; }
+    const Dimensions m = mosaic_of(dimensions);
+    std::vector<std::uint8_t> mosaic(static_cast<std::size_t>(m.width) * m.height * m.channels);
+    mosaic_ok = decode_mosaic_payload(mosaic_payload(stream, parsed), parsed, mosaic) == Status::ok;
+    frames_ok.assign(offsets.size(), 0);
+    Workspace workspace;
+    for (std::uint32_t index = 0; index < offsets.size(); ++index) {
+        const FrameRect r = frame_rect(dimensions, side, index);
+        std::span<const std::uint8_t> payload = stream.subspan(offsets[index], lengths[index]);
+        if (crc32_of(payload) == checksums[index] && decode_frame_payload(workspace, payload, dimensions, r, destination.data()) == Status::ok) {
+            frames_ok[index] = 1;
+            continue;
+        }
+        // a lost frame: its cells take the mosaic colour when the mosaic decoded, otherwise mid grey
+        for (std::uint32_t y = r.y0; y < r.y0 + r.height; ++y) {
+            std::uint8_t* row = destination.data() + (static_cast<std::size_t>(y) * dimensions.width + r.x0) * dimensions.channels;
+            for (std::uint32_t x = 0; x < r.width; ++x) {
+                for (std::uint32_t c = 0; c < dimensions.channels; ++c) {
+                    row[static_cast<std::size_t>(x) * dimensions.channels + c] = mosaic_ok
+                        ? mosaic[(static_cast<std::size_t>(y / kMosaicCell) * m.width + (r.x0 + x) / kMosaicCell) * dimensions.channels + c] : static_cast<std::uint8_t>(128);
+                }
+            }
+        }
     }
     return Status::ok;
 }

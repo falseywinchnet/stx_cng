@@ -155,24 +155,34 @@ int run(int argc, char** argv) {
         std::cout << stream.size() << "\n";
         return 0;
     }
-    if (mode == "salvage" && argc == 5) {   // decode every frame whose checksum passes; zero the others; write a per-frame mask (1 = decoded)
+    if (mode == "salvage" && argc == 5) {   // decode every intact frame, fill the lost ones from the mosaic; write a per-frame mask (1 = decoded)
         std::vector<std::uint8_t> stream = read_file(argv[2]);
         cng_phase::Dimensions dimensions;
         cng_phase::Status header = cng_phase::read_header(stream, dimensions);
         if (header != cng_phase::Status::ok) { std::cerr << status_name(header) << "\n"; return 3; }
-        const std::uint32_t frames = cng_phase::frame_count(stream, dimensions);
         std::vector<std::uint8_t> samples(static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels, 0);
-        std::vector<std::uint8_t> mask(frames, 0);
+        std::vector<std::uint8_t> mask;
+        bool mosaic_ok = false;
+        cng_phase::Status status = cng_phase::decode_salvage(stream, samples, mask, mosaic_ok);
+        if (status != cng_phase::Status::ok) { std::cerr << status_name(status) << "\n"; return 3; }
         std::uint32_t decoded = 0;
-        for (std::uint32_t index = 0; index < frames; ++index) {
-            cng_phase::Status status = cng_phase::decode_frame(stream, index, samples);
-            if (status == cng_phase::Status::bad_directory && index == 0) { std::cerr << status_name(status) << "\n"; return 3; }
-            mask[index] = status == cng_phase::Status::ok ? 1 : 0;
-            decoded += mask[index];
-        }
+        for (std::uint8_t ok : mask) { decoded += ok; }
         write_file(argv[3], samples);
         write_file(argv[4], mask);
-        std::cout << dimensions.width << " " << dimensions.height << " " << dimensions.channels << " " << frames << " " << decoded << "\n";
+        std::cout << dimensions.width << " " << dimensions.height << " " << dimensions.channels << " " << mask.size() << " " << decoded << " mosaic " << (mosaic_ok ? 1 : 0) << "\n";
+        return 0;
+    }
+    if (mode == "mosaic" && argc == 4) {   // decode the mosaic layer alone
+        std::vector<std::uint8_t> stream = read_file(argv[2]);
+        cng_phase::Dimensions dimensions;
+        cng_phase::Status header = cng_phase::read_header(stream, dimensions);
+        if (header != cng_phase::Status::ok) { std::cerr << status_name(header) << "\n"; return 2; }
+        cng_phase::Dimensions m = cng_phase::mosaic_dimensions(dimensions);
+        std::vector<std::uint8_t> samples(static_cast<std::size_t>(m.width) * m.height * m.channels);
+        cng_phase::Status status = cng_phase::decode_mosaic(stream, samples);
+        if (status != cng_phase::Status::ok) { std::cerr << status_name(status) << "\n"; return 2; }
+        write_file(argv[3], samples);
+        std::cout << m.width << " " << m.height << " " << m.channels << "\n";
         return 0;
     }
     if (mode == "frames" && argc == 8) {
@@ -209,7 +219,7 @@ int run(int argc, char** argv) {
                   << " decode_ns_per_pixel_median " << decode_seconds[repeats / 2] * scale << " bytes " << stream.size() << "\n";
         return 0;
     }
-    std::cerr << "usage: phase_driver encode W H C in.rgb out.cngphi | decode in.cngphi out.rgb | check W H C in.rgb expected.cngphi | time W H C in.rgb repeats | trace W H C in.rgb out.trace | frames W H C in.rgb repeats threads | encode-side W H C in.rgb out.cngphi side | salvage in.cngphi out.rgb out.mask\n";
+    std::cerr << "usage: phase_driver encode W H C in.rgb out.cngphi | decode in.cngphi out.rgb | check W H C in.rgb expected.cngphi | time W H C in.rgb repeats | trace W H C in.rgb out.trace | frames W H C in.rgb repeats threads | encode-side W H C in.rgb out.cngphi side | salvage in.cngphi out.rgb out.mask | mosaic in.cngphi out.rgb\n";
     return 64;
 }
 }  // namespace

@@ -25,7 +25,8 @@ enum class Status : std::uint8_t {
     bad_checksum         // a frame payload does not match its directory checksum
 };
 
-constexpr std::size_t kHeaderBytes = 22;  // 8 signature + 4 width + 4 height + 1 channels + 1 frame side + 4 CRC32 of those ten bytes, big-endian
+constexpr std::size_t kHeaderBytes = 30;  // 8 signature + 18 header fields (width, height, channels, frame side, mosaic length, mosaic CRC32) + 4 CRC32 of the fields, big-endian
+constexpr std::uint32_t kMosaicCell = 16;  // side of the cells whose mean colours form the mosaic layer
 
 // Encodes samples (exactly width*height*channels bytes) into destination, which is cleared first.
 // Workspace is allocated once per call and released on return; samples and destination are disjoint.
@@ -58,6 +59,18 @@ struct SymbolTrace {
 
 // Number of frames (raster order; the last column and row may be smaller) of a stream with these dimensions.
 [[nodiscard]] std::uint32_t frame_count(std::span<const std::uint8_t> stream, Dimensions dimensions);
+
+// Dimensions of the mosaic layer of an image: ceil(width / kMosaicCell) x ceil(height / kMosaicCell), same channels.
+[[nodiscard]] Dimensions mosaic_dimensions(Dimensions dimensions);
+
+// Decodes the mosaic layer (the mean colour of every kMosaicCell x kMosaicCell cell) into caller-owned storage of
+// exactly its sample count, from whichever stored copy has a valid checksum; bad_checksum when neither does.
+[[nodiscard]] Status decode_mosaic(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination);
+
+// Decodes every frame whose checksum passes and fills the others from the mosaic layer (mid grey when the mosaic is
+// lost too); frames_ok gets one byte per frame (1 = decoded exactly), mosaic_ok whether the mosaic decoded. Fails
+// only when the header or the directory cannot be read from either copy.
+[[nodiscard]] Status decode_salvage(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination, std::vector<std::uint8_t>& frames_ok, bool& mosaic_ok);
 
 // Frame side recorded in a stream whose header (front or trailing copy) is valid; 0 otherwise.
 [[nodiscard]] std::uint32_t frame_side(std::span<const std::uint8_t> stream);

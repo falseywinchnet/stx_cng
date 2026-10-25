@@ -7,7 +7,7 @@ from pathlib import Path
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--binary", required=True); ap.add_argument("--vectors", required=True); ap.add_argument("--time", type=int, default=0)
     a = ap.parse_args(); folder = Path(a.vectors); manifest = json.load(open(folder / "manifest.json"))
-    if manifest.get("signature") != "CNGPHI07": print("manifest signature", manifest.get("signature"), "is not CNGPHI05"); sys.exit(1)
+    if manifest.get("signature") != "CNGPHI08": print("manifest signature", manifest.get("signature"), "is not CNGPHI08"); sys.exit(1)
     failures = 0
     for v in manifest["vectors"]:
         run = subprocess.run([a.binary, "check", str(v["width"]), str(v["height"]), str(v["channels"]), str(folder / (v["name"] + ".rgb")), str(folder / (v["name"] + ".cngphi"))], capture_output=True, text=True)

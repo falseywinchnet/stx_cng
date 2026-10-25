@@ -9,12 +9,13 @@ codec costs in time and memory. Machine-readable records are in
 
 | Check | Result | Record |
 | --- | --- | --- |
-| C++ kernel against the Python reference, bit-exact vectors | 10 of 10 streams byte-identical, samples exact | `vectors/`, `native_phase_v7d_vectors.json` |
-| C++ kernel against the Python reference, corpus frames | 80 smallest corpus images byte-identical | `native_phase_v7_frames_pod_python.json` |
-| Round trip of the 236-image corpus, arm64 | 236 of 236 exact | `native_phase_hashes_arm64_v7d.json` |
-| Round trip of the 236-image corpus, x86-64 (GCC 13.3, Linux) | 236 of 236 exact; every stream's SHA-256 identical to the arm64 stream | `native_phase_hashes_x86_v7d.json` |
+| C++ kernel against the Python reference, bit-exact vectors | 10 of 10 streams byte-identical, samples exact | `vectors/`, `native_phase_v7e_vectors.json` |
+| C++ kernel against the Python reference, complete streams with mosaic | 12 smallest corpus images byte-identical | `native_phase_v7e_vectors.json` |
+| C++ kernel against the Python reference, corpus frames | 80 smallest corpus images byte-identical (frame payloads, previous container) | `native_phase_v7_frames_pod_python.json` |
+| Round trip of the 236-image corpus, arm64 | 236 of 236 exact | `native_phase_hashes_arm64_v7e.json` |
+| Round trip of the 236-image corpus, x86-64 (GCC 13.3, Linux) | 236 of 236 exact; every stream's SHA-256 identical to the arm64 stream | `native_phase_hashes_x86_v7e.json` |
 | Bundled round-trip test | 40 generated cases, both decode interfaces, both collection forms | `tests/roundtrip.cpp` |
-| Malformed-input sweep under ASan/UBSan | 70,844 damaged inputs: 3,962 accepted, every unforged acceptance exact, no sanitizer report | `tests/malformed.cpp`, `malformed_sweep.txt` |
+| Malformed-input sweep under ASan/UBSan | 78,940 damaged inputs: 9,650 accepted, every unforged acceptance exact, salvage never throws on payload damage, no sanitizer report | `tests/malformed.cpp`, `malformed_sweep.txt` |
 
 The corpus is 140 research images (24 Kodak photographs, 14 screen captures,
 smooth, noisy, mixed and structured fixtures, 3 reference images) and 96 Noto
@@ -30,15 +31,15 @@ bytes; lower is better.
 
 | Set | n | CNG / OptiPNG | Smaller | CNG / PNG level 9 |
 | --- | ---: | ---: | ---: | ---: |
-| Photographs (Kodak) | 24 | 0.754 | 24 | 0.725 |
-| Screen captures | 14 | 0.684 | 14 | — |
-| Smooth graphics | 10 | 0.566 | 10 | 0.493 |
-| Mixed photographic and graphic | 13 | 0.827 | 7 | 0.810 |
-| Noise | 23 | 1.011 | 7 | 0.823 |
-| Emoji 128 px, faces | 32 | 1.014 | 11 | 0.862 |
-| Emoji 128 px, mixed | 64 | 1.133 | 21 | 0.906 |
-| Small periodic tile patterns | 56 | 1.890 | 1 | 1.527 |
-| All | 236 | 0.777 | 95 | 0.753 |
+| Photographs (Kodak) | 24 | 0.762 | 24 | 0.733 |
+| Screen captures | 14 | 0.699 | 13 | — |
+| Smooth graphics | 10 | 0.607 | 9 | 0.529 |
+| Mixed photographic and graphic | 13 | 0.838 | 7 | 0.821 |
+| Noise | 23 | 1.019 | 6 | 0.830 |
+| Emoji 128 px, faces | 32 | 1.094 | 3 | 0.930 |
+| Emoji 128 px, mixed | 64 | 1.226 | 8 | 0.980 |
+| Small periodic tile patterns | 56 | 1.943 | 1 | 1.570 |
+| All | 236 | 0.789 | 71 | 0.764 |
 
 PNG level 9 is Pillow's libpng output at compression level 9 with filtering;
 the screen captures have no recorded PNG level 9 size. Per-image bytes are in
@@ -54,9 +55,12 @@ cut at every frame edge. The largest single loss is a 7-pixel tile over a ramp
 at 34 times the OptiPNG size (70 KB against 2 KB). These are retained
 counterexamples; no per-image mode exists to avoid them.
 
-The duplicated header and directory cost `8 × frames + 22` bytes per file:
-0.10% of all corpus bytes, 0.05% on the photographs and 0.53% on the 128 px
-emoji (one frame, 30 bytes each).
+The duplicated header and directory cost `8 × frames + 30` bytes per file,
+about 0.1% of all corpus bytes. The mosaic layer stored twice costs 1.5% of
+all corpus bytes: 1.1% on the photographs, 2.2% on screen captures, 7.4–7.6%
+on the 128 px emoji (one frame, where the layer is as large as the index) and
+6.8% on the small smooth fixtures. Against the previous container the
+whole corpus grew 1.52%.
 
 ## Time
 
@@ -92,9 +96,21 @@ pod (nanoseconds per pixel, minimum of five):
 | Screen capture, 1259×760 | 60 | 99 | 52 | 38 |
 | Smooth, 512×512 | 16 | 95 | 55 | 38 |
 
-The library's `decode` is single-threaded; the kernel's `decode_frame` decodes
-one frame into its rectangle of a shared buffer for callers that schedule
-frames themselves.
+The library's `decode` is single-threaded; the kernel's `decode_frame` and
+`decode_frame_range` decode frames into their rectangles of a shared buffer for
+callers that schedule frames themselves. The mosaic layer decodes in a few
+hundred microseconds for a megapixel image (1/256 of the pixels).
+
+## Progressive decode and damage
+
+The four-axis tradeoff study that led to the mosaic layer is in
+[`experiments/version7/TRADEOFF.md`](../experiments/version7/TRADEOFF.md):
+one 16-cell layer stored twice gives a first picture after 3–5% of the file
+(median 21 dB against the original on photographs, 19 dB on captures) and fills
+the frames lost to burst damage; a second, 4-cell layer would cost 7% of the
+file per copy and was not adopted. Under scattered 512-byte bursts amounting to
+1% of a large file, about two thirds of the pixels decode exactly and the rest
+take their mosaic colour.
 
 ## Memory
 

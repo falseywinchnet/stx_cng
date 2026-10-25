@@ -1,10 +1,12 @@
 # V7: phase coding in independent frames
 
-V7 is the standalone codec of release 0.3.0 (`src/phase_codec.cpp` is this
-kernel). It puts the V6 phase codec (`../version6`) inside independently
+V7 is the standalone codec of release 0.4.0 (`src/phase_codec.cpp` is this
+kernel; stream `CNGPHI08`). It puts the V6 phase codec (`../version6`) inside independently
 decodable frames: 128×128 by default, each with its own adaptive state,
-listed in a directory with a CRC32 per frame; the header fields and the
-directory are checksummed and stored twice. Frames decode in any order and
+listed in a directory with a CRC32 per frame; the header fields, the
+directory and a 16-cell mosaic layer are checksummed and stored twice; the
+mosaic is the progressive first picture and the fill for lost frames
+(`decode_mosaic`, `decode_salvage`). Frames decode in any order and
 in parallel; a damaged frame is detected and does not affect the others; a
 damaged index copy is repaired from the other. See `FORMAT.md` for the bytes
 and `RESULTS.md` for the measurements, including the OptiPNG comparison and

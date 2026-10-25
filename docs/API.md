@@ -1,7 +1,7 @@
 # Library interfaces
 
 The public interfaces use standard C++20 streams, spans and owned containers.
-Calls write and read `CNGPHI07` streams and are synchronous. Arguments are
+Calls write and read `CNGPHI08` streams and are synchronous. Arguments are
 borrowed only for the duration of the call; the library retains no caller
 buffers or streams afterward.
 
@@ -26,6 +26,8 @@ colour-profile conversion or premultiplication.
 | `encode` | Exactly `height * width * channels` raw bytes and dimensions | One complete standalone file |
 | `decode` | One complete standalone file | Raw interleaved samples and returned dimensions |
 | `decode_into` | One complete standalone file and an exactly sized destination span | Samples in the supplied storage and returned dimensions |
+| `decode_mosaic` | One complete standalone file | The mosaic layer's samples (`mosaic_dimensions` of the image) and the image dimensions |
+| `decode_salvage` | One complete standalone file and an exactly sized destination span | Every intact frame exactly, lost frames filled from the mosaic, a per-frame report |
 
 For example, with distinct, already-open binary streams:
 
@@ -48,11 +50,19 @@ expected dimensions and allocating that storage. This release has no public
 header-probe function; the stream decoder serves the case where dimensions are
 not known ahead of time.
 
+`decode_mosaic` writes the mean colour of every 16×16 cell (`mosaic_cell`) as
+an interleaved image of `mosaic_dimensions(image)`, decoded from whichever
+stored copy is intact. `decode_salvage` is the decoder for a file that may be
+damaged: it decodes every frame whose checksum passes, fills the cells of the
+others with their mosaic colour (mid grey when both mosaic copies are lost),
+sets one byte per frame in `frames_ok` and `mosaic_ok`, and throws only when
+neither copy of the header or of the directory can be read.
+
 ## Failure and ownership
 
 Validation and stream failures are reported as `std::runtime_error`. Allocation
 failure may also propagate. The messages name the boundary that failed: the
-header (not a `CNGPHI07` stream, or both header copies damaged), the frame
+header (not a `CNGPHI08` stream, or both header copies damaged), the frame
 directory (both copies damaged, or lengths that do not account for the file),
 a frame checksum, or an exhausted stream.
 

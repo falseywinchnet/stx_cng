@@ -6,8 +6,10 @@ CNG is a lossless image format for RGB8 and RGBA8 images and image sets, with a
 portable C++20 reference implementation, **stx_cng**. Every sample is
 reconstructed exactly, including the colour of fully transparent pixels. Images
 are coded in independent 128×128 frames: frames decode in any order and in
-parallel, every frame carries a checksum, and the file's header and frame
-directory are stored twice so that damage to one copy is repaired from the other.
+parallel, every frame carries a checksum, and a mosaic layer of 16×16-cell mean
+colours gives a first picture from the first few percent of the file and fills
+any frame that damage has taken. The header, directory and mosaic are stored
+twice, so damage to one copy is repaired from the other.
 
 [Format](docs/FORMAT.md) · [Collections](docs/COLLECTIONS.md) · [API](docs/API.md) ·
 [Build](docs/BUILDING.md) · [Measurements](docs/MEASUREMENTS.md) · [MIT license](LICENSE)
@@ -22,9 +24,10 @@ directory are stored twice so that damage to one copy is repaired from the other
 | Coding | Phase-aware causal prediction, repetition prediction, adaptive binary arithmetic coding |
 | Construction | One fixed construction for every image: no image-specific models, modes or transmitted tables |
 | Frames | Independent 128×128 frames, each with its own CRC32; decodable in any order and in parallel |
-| Integrity | Header and frame directory checksummed and stored twice; a damaged frame is reported, the others decode |
+| Progressive | A 16×16-cell mosaic layer, decodable from the first 3–5% of the file |
+| Integrity | Header, directory and mosaic checksummed and stored twice; a damaged frame is reported, or filled from the mosaic by the salvage decoder, while the others decode exactly |
 | Collections | A packed set of standalone images, or one composite canvas sliced into its members |
-| Decoding | Into caller-owned storage, or streamed |
+| Decoding | Into caller-owned storage, or streamed; mosaic alone; salvage with per-frame report |
 | Implementation | C++20, portable; no platform intrinsics |
 | Dependencies | zlib for collection checksums |
 | License | MIT |
@@ -37,19 +40,20 @@ over 236 images.
 
 | Image set | CNG / OptiPNG size | Smaller than OptiPNG |
 | --- | ---: | ---: |
-| Photographs (24) | 0.75 | 24 of 24 |
-| Screen captures (14) | 0.68 | 14 of 14 |
-| Smooth graphics (10) | 0.57 | 10 of 10 |
-| Mixed photographic and graphic content (13) | 0.83 | 7 of 13 |
-| Noise (23) | 1.01 | 7 of 23 |
-| 128 px emoji (96) | 1.09 | 32 of 96 |
-| Small periodic tile patterns (56) | 1.89 | 1 of 56 |
-| All (236) | 0.78 | 95 of 236 |
+| Photographs (24) | 0.76 | 24 of 24 |
+| Screen captures (14) | 0.70 | 13 of 14 |
+| Smooth graphics (10) | 0.61 | 9 of 10 |
+| Mixed photographic and graphic content (13) | 0.84 | 7 of 13 |
+| Noise (23) | 1.02 | 6 of 23 |
+| 128 px emoji (96) | 1.18 | 11 of 96 |
+| Small periodic tile patterns (56) | 1.94 | 1 of 56 |
+| All (236) | 0.79 | 71 of 236 |
 
 CNG is smaller wherever an image has photographic, smooth or rendered
 content. It is larger on pure noise, on palette-like emoji and on small
 images made of an exactly repeating tile, where PNG's byte matching is the
-better model. Per-image byte counts are in [Measurements](docs/MEASUREMENTS.md).
+better model. The mosaic layer, stored twice, is 1.5% of these bytes overall
+and 7% on a 128 px emoji, where it is as large as the index. Per-image byte counts are in [Measurements](docs/MEASUREMENTS.md).
 
 ## Time against PNG
 
@@ -82,11 +86,14 @@ an exactly reversible opponent-colour form, a hash of the four neighbouring
 pixels predicts exact repetitions, and every decision is coded by an adaptive
 binary arithmetic coder. The construction is the same for every image.
 
-A file is a signature, the header fields with their CRC32, a directory of
-frame lengths and CRC32s with its own CRC32, the frame payloads, and then the
-directory and header fields again. The decoder takes whichever copy of the
-header and directory checks, validates each frame before reconstructing it,
-and reports a frame whose checksum fails rather than decoding it.
+The mosaic layer is the mean colour of every 16×16 cell, coded as a small
+image by the same engine. A file is a signature, the header fields with their
+CRC32, a directory of frame lengths and CRC32s with its own CRC32, the mosaic,
+the frame payloads, and then the mosaic, directory and header fields again.
+The decoder takes whichever copy of each checks, validates each frame before
+reconstructing it, and either reports a frame whose checksum fails or, in the
+salvage decoder, fills it with the mosaic colours of its cells while the other
+frames decode exactly.
 
 ## Collections
 
@@ -131,16 +138,19 @@ Samples are interleaved rows with no padding. The codec performs no colour
 conversion and no premultiplication. Arguments are borrowed for the duration of
 a call only. `decode_into` writes into a caller-supplied span of the exact size;
 the stream decoder serves the case where dimensions are not known in advance.
+`decode_mosaic` returns the mosaic layer alone, and `decode_salvage` decodes a
+damaged file as far as it goes, reporting which frames were lost.
 
 The exact Python reference of the codec, its bit-exact vectors and the
 measurement record are in [`experiments/version7`](experiments/version7).
 
 ## Release
 
-Release 0.3.0 writes stream `CNGPHI07` and collection schema SHDR v0. The
+Release 0.4.0 writes stream `CNGPHI08` and collection schema SHDR v0. The
 format carries image samples only: no colour profile, metadata, preview layer,
-16-bit samples or animation. Files written by releases 0.1 and 0.2 (`CSP` v2
-and v3) are rejected by this release; re-encode them from their decoded samples.
+16-bit samples or animation. Files written by releases 0.1 to 0.3 (`CSP` v2
+and v3, `CNGPHI07`) are rejected by this release; re-encode them from their
+decoded samples.
 
 ## License
 

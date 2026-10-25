@@ -1,5 +1,6 @@
 #include "stx_cng/codec.hpp"
 #include "stx_cng/collection.hpp"
+#include <algorithm>
 #include <array>
 #include <filesystem>
 #include <fstream>
@@ -39,7 +40,7 @@ void image_case(stx_cng::Dimensions dimensions, unsigned pattern) {
     stx_cng::encode(source, encoded, dimensions, measurements);
     require(measurements.workspace_bytes < raw.size() * 3 + 1500000, "encoder workspace ceiling");
     std::string packet = encoded.str();
-    require(packet.size() > 36 && packet.compare(0, 8, "CNGPHI07") == 0 && static_cast<unsigned char>(packet[17]) == 128, "CNGPHI07 header");
+    require(packet.size() > 52 && packet.compare(0, 8, "CNGPHI08") == 0 && static_cast<unsigned char>(packet[17]) == 128, "CNGPHI08 header");
     std::istringstream stream(packet);
     std::ostringstream restored;
     stx_cng::Dimensions actual = stx_cng::decode(stream, restored, measurements);
@@ -66,12 +67,17 @@ void version_case() {
         static_cast<void>(ignored);
     } catch (const std::runtime_error& error) {
         std::string message(error.what());
-        rejected = message.find("CNGPHI07") != std::string::npos;
+        rejected = message.find("CNGPHI08") != std::string::npos;
     }
     require(rejected && output[0] == 17 && output[1] == 23 && output[2] == 41, "legacy format boundary");
 }
+std::uint32_t big_endian(const std::string& bytes, std::size_t at) {
+    return (static_cast<std::uint32_t>(static_cast<unsigned char>(bytes[at])) << 24) | (static_cast<std::uint32_t>(static_cast<unsigned char>(bytes[at + 1])) << 16)
+           | (static_cast<std::uint32_t>(static_cast<unsigned char>(bytes[at + 2])) << 8) | static_cast<std::uint32_t>(static_cast<unsigned char>(bytes[at + 3]));
+}
 void corruption_case() {
-    // A flipped payload byte is reported as a frame checksum failure; the header and directory still parse.
+    // A flipped payload byte is reported as a frame checksum failure by decode_into; decode_salvage decodes the
+    // other frames exactly and fills the lost one from the mosaic layer, which equals the block means of the image.
     stx_cng::Dimensions dimensions{40, 300, 3};
     std::string raw = samples(dimensions, 2);
     std::istringstream source(raw);
@@ -80,8 +86,28 @@ void corruption_case() {
     stx_cng::encode(source, encoded, dimensions, measurements);
     std::string packet = encoded.str();
     require(measurements.frames == 3, "three frames across 300 columns");
-    std::size_t index_copy = 3 * 8 + 4 + 14;                      // trailing directory copy and header copy
-    packet[packet.size() - index_copy - 1] = static_cast<char>(packet[packet.size() - index_copy - 1] ^ 0x5A);
+    std::istringstream for_mosaic(packet);
+    std::ostringstream mosaic_out;
+    stx_cng::Dimensions from_mosaic = stx_cng::decode_mosaic(for_mosaic, mosaic_out, measurements);
+    stx_cng::Dimensions mosaic = stx_cng::mosaic_dimensions(dimensions);
+    require(from_mosaic.width == 300 && mosaic.width == 19 && mosaic.height == 3, "mosaic dimensions");
+    std::string mosaic_samples = mosaic_out.str();
+    require(mosaic_samples.size() == 19 * 3 * 3, "mosaic extent");
+    for (std::size_t my = 0; my < 3; ++my) {
+        for (std::size_t mx = 0; mx < 19; ++mx) {
+            for (std::size_t c = 0; c < 3; ++c) {
+                std::uint32_t sum = 0, count = 0;
+                for (std::size_t y = my * 16; y < std::min<std::size_t>(40, my * 16 + 16); ++y) {
+                    for (std::size_t x = mx * 16; x < std::min<std::size_t>(300, mx * 16 + 16); ++x) { sum += static_cast<unsigned char>(raw[(y * 300 + x) * 3 + c]); ++count; }
+                }
+                require(static_cast<unsigned char>(mosaic_samples[(my * 19 + mx) * 3 + c]) == (sum + count / 2) / count, "mosaic cell mean");
+            }
+        }
+    }
+    const std::size_t mosaic_length = big_endian(packet, 18);
+    const std::size_t first_payload = 30 + 3 * 8 + 4 + mosaic_length;        // header, directory, mosaic copy
+    const std::size_t flipped = first_payload + big_endian(packet, 30) + 5;  // inside the second frame's payload
+    packet[flipped] = static_cast<char>(packet[flipped] ^ 0x5A);
     std::istringstream damaged(packet);
     std::vector<std::uint8_t> pixels(raw.size());
     bool reported = false;
@@ -92,6 +118,20 @@ void corruption_case() {
         reported = std::string(error.what()).find("checksum") != std::string::npos;
     }
     require(reported, "frame checksum detection");
+    std::istringstream salvage(packet);
+    std::vector<std::uint8_t> frames_ok;
+    bool mosaic_ok = false;
+    stx_cng::Dimensions salvaged = stx_cng::decode_salvage(salvage, pixels, frames_ok, mosaic_ok, measurements);
+    require(salvaged.width == 300 && frames_ok.size() == 3 && frames_ok[0] == 1 && frames_ok[1] == 0 && frames_ok[2] == 1 && mosaic_ok, "salvage mask");
+    for (std::size_t y = 0; y < 40; ++y) {
+        for (std::size_t x = 0; x < 300; ++x) {
+            for (std::size_t c = 0; c < 3; ++c) {
+                std::size_t at = (y * 300 + x) * 3 + c;
+                unsigned char expected = (x >= 128 && x < 256) ? static_cast<unsigned char>(mosaic_samples[((y / 16) * 19 + x / 16) * 3 + c]) : static_cast<unsigned char>(raw[at]);
+                require(pixels[at] == expected, "salvaged samples: exact frames, mosaic fill for the lost frame");
+            }
+        }
+    }
 }
 void collection_cases(const std::filesystem::path& folder) {
     std::vector<stx_cng_collection::ImageSource> images;
@@ -137,7 +177,7 @@ int main() {
         corruption_case();
         collection_cases(folder);
         std::filesystem::remove_all(folder);
-        std::cout << "PASS: 40 image cases, both decode interfaces, both collection forms, legacy rejection, frame checksum detection\n";
+        std::cout << "PASS: 40 image cases, both decode interfaces, both collection forms, legacy rejection, frame checksum detection, mosaic and salvage\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

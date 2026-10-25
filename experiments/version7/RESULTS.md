@@ -235,3 +235,29 @@ copies forged, and whole index copies destroyed (repaired from the other).
 of forward error correction beyond duplication (a Reed–Solomon index would
 survive damage to both copies); PNG-class single-thread decode speed, which
 the construction does not have.
+
+
+## 6. Release 0.4.0: the mosaic layer (CNGPHI08)
+
+After the tradeoff front (`TRADEOFF.md`) the owner adopted the redundant
+16-cell mosaic layer into the stream. The header fields carry the mosaic
+payload length and CRC32 (18 field bytes; header 30, trailing copy 22), and
+the mosaic payload is stored after the front directory and again before the
+mirrored one. The kernel gained `mosaic_dimensions`, `decode_mosaic` and
+`decode_salvage` (intact frames exact, lost frames filled from the mosaic,
+per-frame report); the driver `mosaic` and `salvage`. The Python reference
+codes the mosaic as one CNGPHI05 frame of the block-mean image.
+
+**Verified.** Ten vectors rewrapped with the mosaic coded by the reference and
+byte-identical to the native kernel; twelve complete corpus streams
+byte-identical between Python and C++ (`evidence/native_phase_v7e_vectors.json`);
+236 of 236 corpus images exact on arm64 and identical streams on x86-64 (`evidence/native_phase_hashes_arm64_v7e.json`, `evidence/native_phase_hashes_x86_v7e.json`);
+78,940 malformed inputs under ASan/UBSan with no report
+(`evidence/malformed_sweep.txt`).
+
+**Cost against CNGPHI07** (same frame payloads; the mosaic twice plus 16 more
+header bytes per file): +1.52% over the corpus; photographs +1.11%, screen
+captures +2.16%, Noto emoji +7.4–7.6%, structured fixtures +2.76%, smooth
+fixtures +6.8%. Complete files are 0.789 of OptiPNG `-o7` over the 236 images
+(0.762 photographs, 0.699 captures, 0.602 smooth, 1.094 and 1.226 emoji,
+1.943 tiles).
