@@ -1,0 +1,87 @@
+{
+ "signature": "CNGPHI05",
+ "note": "Encoder output must match byte for byte; decoder must reproduce the .rgb samples (interleaved, row-major).",
+ "vectors": [
+  {
+   "name": "checker",
+   "width": 67,
+   "height": 65,
+   "channels": 3,
+   "encoded_bytes": 136,
+   "encoded_sha256": "b44ef1fde57799e665673990b28ae9c85716cf113ad6729cd5a1c463d8663bc5",
+   "rgb_sha256": "13dd3db0e5b1b8b516f47e085c840597b58c04352b916a53b3806eb62644e2e0"
+  },
+  {
+   "name": "tile_7_phase_0",
+   "width": 96,
+   "height": 64,
+   "channels": 3,
+   "encoded_bytes": 530,
+   "encoded_sha256": "ec37e9e13106ca9f6169336cdf9c5fdffa1f6f5524a035be6019be34a37bcb92",
+   "rgb_sha256": "2b87a77b6cdacc6df624e7e0e7f45a992bd3b4a982b3cc8ad655780d8f52026c"
+  },
+  {
+   "name": "smooth_crop",
+   "width": 64,
+   "height": 48,
+   "channels": 3,
+   "encoded_bytes": 230,
+   "encoded_sha256": "723dcaa0f1a5398959d381eb87f2631290805e7f1fc9282e9468f2e110bc95d2",
+   "rgb_sha256": "8b2f12aeea7ce458ea7054dfe0f91cacd42e0fed59f89b7a0d0d1b8321da3665"
+  },
+  {
+   "name": "noise_crop",
+   "width": 32,
+   "height": 32,
+   "channels": 3,
+   "encoded_bytes": 1989,
+   "encoded_sha256": "ca4843ed55d7a212649dd6edc1ce67df5fca4f7a6bbfebbf2eafb5875ac63f14",
+   "rgb_sha256": "2b400e1fb38328eec1cc69fa5005a537de7fc166446bc95ca9fe3c2a71aa4c04"
+  },
+  {
+   "name": "rgba_face_crop",
+   "width": 48,
+   "height": 48,
+   "channels": 4,
+   "encoded_bytes": 1022,
+   "encoded_sha256": "1661a633b78ae3038d78a2e4e25705c340d286636232fe99a892d8f4842ac5a0",
+   "rgb_sha256": "5138e128927044083f16f330e40076ba3d697a2e3596270405976b25cb54f143"
+  },
+  {
+   "name": "one_pixel",
+   "width": 1,
+   "height": 1,
+   "channels": 3,
+   "encoded_bytes": 25,
+   "encoded_sha256": "5d4d6cb288fd06f0c353f787e051c63855e408024e26b8f0cff9dacba90a159e",
+   "rgb_sha256": "5c4e6736862568b683e0d7718e662f98ec3145fba9feac9d073c3679488e6747"
+  },
+  {
+   "name": "row_rgba",
+   "width": 37,
+   "height": 1,
+   "channels": 4,
+   "encoded_bytes": 190,
+   "encoded_sha256": "3f62e4c4b66e63b0e916c9e178d3b8b03d721be41b36a5a8cf173623333012eb",
+   "rgb_sha256": "7776ebb9ca69cd59186417b54424d48e75c842df4fdc6ae913fad8309a948449"
+  },
+  {
+   "name": "column",
+   "width": 1,
+   "height": 29,
+   "channels": 3,
+   "encoded_bytes": 123,
+   "encoded_sha256": "3a313bc9449e944de254ac13751d1838396588753568edf0de9eb51e8b14201b",
+   "rgb_sha256": "67cb9763a550eb2d69fdd8d1a12494fea2f525830fb21754b3248143051fe08f"
+  },
+  {
+   "name": "gradient_exact",
+   "width": 64,
+   "height": 40,
+   "channels": 3,
+   "encoded_bytes": 151,
+   "encoded_sha256": "62c9974734a90218c41cc019d90a21f24530043d53e12848b72a274db32c0f85",
+   "rgb_sha256": "18dbea742f0922af06e7792dc667cb14bb08ee8e73b3d53389908c6aad8f97ad"
+  }
+ ]
+}

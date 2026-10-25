@@ -1,0 +1,67 @@
+{
+ "scope": "Peak resident memory of the native phase driver (encode, then decode) against the bytes of the image itself,\nmeasured with /usr/bin/time -l on the M4 for the largest corpus images and two synthetic images. The owner's\nbudget is five times the image for the encoder. Usage:\n    python -B -m research.measure_native_phase_memory [--out results/native_phase_memory.json]",
+ "platform": "macOS-26.5-arm64-arm-64bit",
+ "compiler": "Homebrew clang version 23.1.2",
+ "rows": [
+  {
+   "name": "gallery-macos",
+   "w": 1280,
+   "h": 820,
+   "c": 4,
+   "image_bytes": 4198400,
+   "encode_peak_rss": 140787712,
+   "decode_peak_rss": 135806976,
+   "encode_rc": 0,
+   "decode_rc": 0,
+   "stream_bytes": 113456
+  },
+  {
+   "name": "correspondence-macos",
+   "w": 1120,
+   "h": 720,
+   "c": 4,
+   "image_bytes": 3225600,
+   "encode_peak_rss": 121880576,
+   "decode_peak_rss": 120799232,
+   "encode_rc": 0,
+   "decode_rc": 0,
+   "stream_bytes": 39534
+  },
+  {
+   "name": "basic_controls_002_screen",
+   "w": 1259,
+   "h": 760,
+   "c": 3,
+   "image_bytes": 2870520,
+   "encode_peak_rss": 125943808,
+   "decode_peak_rss": 122109952,
+   "encode_rc": 0,
+   "decode_rc": 0,
+   "stream_bytes": 459261
+  },
+  {
+   "name": "synthetic_2048x2048",
+   "w": 2048,
+   "h": 2048,
+   "c": 3,
+   "image_bytes": 12582912,
+   "encode_peak_rss": 504758272,
+   "decode_peak_rss": 504889344,
+   "encode_rc": 0,
+   "decode_rc": 0,
+   "stream_bytes": 3221210
+  },
+  {
+   "name": "synthetic_4096x4096",
+   "w": 4096,
+   "h": 4096,
+   "c": 3,
+   "image_bytes": 50331648,
+   "encode_peak_rss": 2012774400,
+   "decode_peak_rss": 2011627520,
+   "encode_rc": 0,
+   "decode_rc": 0,
+   "stream_bytes": 12896178
+  }
+ ]
+}

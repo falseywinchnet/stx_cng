@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.21)
+project(cng_version6 LANGUAGES CXX)
+# V6 phase-aware causal codec: standalone C++20 kernel, no external dependencies, no platform intrinsics.
+add_library(cng_v6 STATIC phase_codec.cpp)
+target_include_directories(cng_v6 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(cng_v6 PUBLIC cxx_std_20)
+target_compile_options(cng_v6 PRIVATE -Wall -Wextra -Wpedantic -Werror)
+add_executable(v6_probe phase_driver.cpp)
+target_link_libraries(v6_probe PRIVATE cng_v6)
+target_compile_options(v6_probe PRIVATE -Wall -Wextra -Wpedantic -Werror)
+enable_testing()
+add_test(NAME v6_vectors COMMAND ${CMAKE_COMMAND} -E env PYTHONDONTWRITEBYTECODE=1 python3 -B ${CMAKE_CURRENT_SOURCE_DIR}/run.py --binary $<TARGET_FILE:v6_probe> --vectors ${CMAKE_CURRENT_SOURCE_DIR}/evidence/vectors)

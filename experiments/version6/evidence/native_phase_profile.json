@@ -1,0 +1,247 @@
+{
+ "scope": "Ablation timing of the native phase codec: where do the nanoseconds per pixel go? Generates textual variants of\nnative/phase/phase_codec.cpp and range_coder.hpp under .build/phase-profile/, builds each with the same flags as\nresearch.run_native_phase, and times ENCODE ONLY (the ablations change or remove the stream, so decode is not\nchecked). Variants change the model consistently, not the format; nothing here is a codec option. M4 only.\n    baseline        unmodified sources\n    no_coder        range coder arithmetic and output removed (model updates kept)\n    no_adaptation   additionally no probability updates: modelling alone\n    hot_repeat      repetition table probe replaced by slot 0 (removes the random table access)\n    no_lifted       the three opponent-plane moment trackers removed\n    no_moments      all seven moment trackers removed (phase from zero moments)\nUsage: python -B -m research.profile_native_phase [--repeats 5] [--out results/native_phase_profile.json]",
+ "platform": "macOS-26.5-arm64-arm-64bit",
+ "repeats": 5,
+ "rows": [
+  {
+   "variant": "baseline",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 176.838,
+   "encode_ns_per_pixel_median": 178.796,
+   "decode_ns_per_pixel_min": 173.166,
+   "decode_ns_per_pixel_median": 176.527,
+   "bytes": 381743.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "baseline",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 116.471,
+   "encode_ns_per_pixel_median": 121.582,
+   "decode_ns_per_pixel_min": 118.379,
+   "decode_ns_per_pixel_median": 123.357,
+   "bytes": 31786.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "baseline",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 108.472,
+   "encode_ns_per_pixel_median": 109.387,
+   "decode_ns_per_pixel_min": 103.73,
+   "decode_ns_per_pixel_median": 104.394,
+   "bytes": 450963.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "baseline",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 184.929,
+   "encode_ns_per_pixel_median": 188.166,
+   "decode_ns_per_pixel_min": 184.291,
+   "decode_ns_per_pixel_median": 190.379,
+   "bytes": 29899.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_coder",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 133.173,
+   "encode_ns_per_pixel_median": 136.977,
+   "decode_ns_per_pixel_min": 5.83649,
+   "decode_ns_per_pixel_median": 5.88067,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_coder",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 109.312,
+   "encode_ns_per_pixel_median": 109.9,
+   "decode_ns_per_pixel_min": 5.90897,
+   "decode_ns_per_pixel_median": 6.16853,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_coder",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 97.213,
+   "encode_ns_per_pixel_median": 98.0053,
+   "decode_ns_per_pixel_min": 4.05157,
+   "decode_ns_per_pixel_median": 4.13092,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_coder",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 137.52,
+   "encode_ns_per_pixel_median": 141.134,
+   "decode_ns_per_pixel_min": 37.2441,
+   "decode_ns_per_pixel_median": 39.0549,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_adaptation",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 98.3003,
+   "encode_ns_per_pixel_median": 107.163,
+   "decode_ns_per_pixel_min": 5.99877,
+   "decode_ns_per_pixel_median": 6.14532,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_adaptation",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 97.2263,
+   "encode_ns_per_pixel_median": 101.696,
+   "decode_ns_per_pixel_min": 6.02579,
+   "decode_ns_per_pixel_median": 6.11178,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_adaptation",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 81.4851,
+   "encode_ns_per_pixel_median": 82.1442,
+   "decode_ns_per_pixel_min": 4.11189,
+   "decode_ns_per_pixel_median": 4.12861,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_adaptation",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 88.0814,
+   "encode_ns_per_pixel_median": 90.4413,
+   "decode_ns_per_pixel_min": 36.0794,
+   "decode_ns_per_pixel_median": 36.5957,
+   "bytes": 22.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "hot_repeat",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 154.627,
+   "encode_ns_per_pixel_median": 157.125,
+   "decode_ns_per_pixel_min": 155.445,
+   "decode_ns_per_pixel_median": 156.297,
+   "bytes": 382913.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "hot_repeat",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 89.7026,
+   "encode_ns_per_pixel_median": 91.4559,
+   "decode_ns_per_pixel_min": 89.1862,
+   "decode_ns_per_pixel_median": 91.4359,
+   "bytes": 69397.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "hot_repeat",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 77.3651,
+   "encode_ns_per_pixel_median": 77.517,
+   "decode_ns_per_pixel_min": 76.7133,
+   "decode_ns_per_pixel_median": 76.8102,
+   "bytes": 501177.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "hot_repeat",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 174.558,
+   "encode_ns_per_pixel_median": 180.44,
+   "decode_ns_per_pixel_min": 172.775,
+   "decode_ns_per_pixel_median": 175.903,
+   "bytes": 29898.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_lifted",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 158.971,
+   "encode_ns_per_pixel_median": 160.574,
+   "decode_ns_per_pixel_min": 157.269,
+   "decode_ns_per_pixel_median": 159.871,
+   "bytes": 382629.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_lifted",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 96.0368,
+   "encode_ns_per_pixel_median": 98.3448,
+   "decode_ns_per_pixel_min": 96.5398,
+   "decode_ns_per_pixel_median": 99.6542,
+   "bytes": 31964.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_lifted",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 95.2554,
+   "encode_ns_per_pixel_median": 96.0151,
+   "decode_ns_per_pixel_min": 91.8871,
+   "decode_ns_per_pixel_median": 92.5033,
+   "bytes": 450000.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_lifted",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 158.961,
+   "encode_ns_per_pixel_median": 161.456,
+   "decode_ns_per_pixel_min": 160.95,
+   "decode_ns_per_pixel_median": 163.417,
+   "bytes": 30814.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_moments",
+   "image": "dog-half",
+   "encode_ns_per_pixel_min": 144.758,
+   "encode_ns_per_pixel_median": 145.446,
+   "decode_ns_per_pixel_min": 143.82,
+   "decode_ns_per_pixel_median": 144.32,
+   "bytes": 382617.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_moments",
+   "image": "smooth-half",
+   "encode_ns_per_pixel_min": 85.317,
+   "encode_ns_per_pixel_median": 90.3037,
+   "decode_ns_per_pixel_min": 86.3832,
+   "decode_ns_per_pixel_median": 89.0671,
+   "bytes": 76145.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_moments",
+   "image": "checked_list_box_screen",
+   "encode_ns_per_pixel_min": 83.9064,
+   "encode_ns_per_pixel_median": 85.1894,
+   "decode_ns_per_pixel_min": 78.751,
+   "decode_ns_per_pixel_median": 80.0053,
+   "bytes": 449511.0,
+   "repeats": 5.0
+  },
+  {
+   "variant": "no_moments",
+   "image": "noise8",
+   "encode_ns_per_pixel_min": 141.151,
+   "encode_ns_per_pixel_median": 143.349,
+   "decode_ns_per_pixel_min": 136.131,
+   "decode_ns_per_pixel_median": 142.179,
+   "bytes": 30814.0,
+   "repeats": 5.0
+  }
+ ]
+}
