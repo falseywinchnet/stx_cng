@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.21)
+project(cng_version7 LANGUAGES CXX)
+# V7 phase codec in independent frames: standalone C++20 kernel, no external dependencies, no platform intrinsics.
+add_library(cng_v7 STATIC phase_codec.cpp)
+target_include_directories(cng_v7 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(cng_v7 PUBLIC cxx_std_20)
+target_compile_options(cng_v7 PRIVATE -Wall -Wextra -Wpedantic -Werror)
+find_package(Threads REQUIRED)
+add_executable(v7_probe phase_driver.cpp)
+target_link_libraries(v7_probe PRIVATE cng_v7 Threads::Threads)
+target_compile_options(v7_probe PRIVATE -Wall -Wextra -Wpedantic -Werror)
+enable_testing()
+add_test(NAME v7_vectors COMMAND ${CMAKE_COMMAND} -E env PYTHONDONTWRITEBYTECODE=1 python3 -B ${CMAKE_CURRENT_SOURCE_DIR}/run.py --binary $<TARGET_FILE:v7_probe> --vectors ${CMAKE_CURRENT_SOURCE_DIR}/evidence/vectors)
