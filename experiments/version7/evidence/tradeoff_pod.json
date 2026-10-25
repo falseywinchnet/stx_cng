@@ -1,0 +1,244 @@
+{
+ "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+ "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+ "valgrind": "/usr/bin/valgrind",
+ "images": [
+  {
+   "group": "reference_fixture",
+   "name": "dog-half",
+   "w": 512,
+   "h": 512,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 384717,
+     "ir_per_pixel": 1959.4589614868164,
+     "d1_miss_per_pixel": 9.189064025878906,
+     "ns_per_pixel_1": 167.493,
+     "ns_per_pixel_2": 84.3357,
+     "ns_per_pixel_4": 59.1875
+    },
+    "base255": {
+     "bytes": 382583,
+     "ir_per_pixel": 1954.473289489746,
+     "d1_miss_per_pixel": 10.776836395263672,
+     "ns_per_pixel_1_default_side": 166.47
+    },
+    "anchor128": {
+     "bytes": 381812,
+     "ir_per_pixel": 1968.9073905944824,
+     "d1_miss_per_pixel": 9.550857543945312,
+     "ns_per_pixel_1": 163.235,
+     "ns_per_pixel_2": 93.8461,
+     "ns_per_pixel_4": 71.9649
+    }
+   }
+  },
+  {
+   "group": "archive_photographs",
+   "name": "kodim23",
+   "w": 768,
+   "h": 512,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 432947,
+     "ir_per_pixel": 1795.2330474853516,
+     "d1_miss_per_pixel": 8.858164469401041,
+     "ns_per_pixel_1": 150.114,
+     "ns_per_pixel_2": 77.3866,
+     "ns_per_pixel_4": 53.4036
+    },
+    "base255": {
+     "bytes": 431706,
+     "ir_per_pixel": 1789.151532491048,
+     "d1_miss_per_pixel": 10.91540781656901,
+     "ns_per_pixel_1_default_side": 148.109
+    },
+    "anchor128": {
+     "bytes": 430263,
+     "ir_per_pixel": 1805.4677607218425,
+     "d1_miss_per_pixel": 9.312632242838541,
+     "ns_per_pixel_1": 146.199,
+     "ns_per_pixel_2": 82.2466,
+     "ns_per_pixel_4": 60.8543
+    }
+   }
+  },
+  {
+   "group": "reference_fixture",
+   "name": "smooth-half",
+   "w": 512,
+   "h": 512,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 33189,
+     "ir_per_pixel": 1456.1027336120605,
+     "d1_miss_per_pixel": 6.841636657714844,
+     "ns_per_pixel_1": 84.217,
+     "ns_per_pixel_2": 44.2928,
+     "ns_per_pixel_4": 33.619
+    },
+    "base255": {
+     "bytes": 32559,
+     "ir_per_pixel": 1452.6899490356445,
+     "d1_miss_per_pixel": 9.072166442871094,
+     "ns_per_pixel_1_default_side": 83.2262
+    },
+    "anchor128": {
+     "bytes": 33052,
+     "ir_per_pixel": 1470.490177154541,
+     "d1_miss_per_pixel": 7.235637664794922,
+     "ns_per_pixel_1": 82.3749,
+     "ns_per_pixel_2": 47.4236,
+     "ns_per_pixel_4": 43.3979
+    }
+   }
+  },
+  {
+   "group": "guiforms_capture",
+   "name": "checked_list_box_screen",
+   "w": 1259,
+   "h": 760,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 464086,
+     "ir_per_pixel": 1357.372597299444,
+     "d1_miss_per_pixel": 6.1354834664102675,
+     "ns_per_pixel_1": 93.9487,
+     "ns_per_pixel_2": 48.6333,
+     "ns_per_pixel_4": 35.0728
+    },
+    "base255": {
+     "bytes": 456319,
+     "ir_per_pixel": 1344.9991053885708,
+     "d1_miss_per_pixel": 8.81541741565988,
+     "ns_per_pixel_1_default_side": 92.1245
+    },
+    "anchor128": {
+     "bytes": 459886,
+     "ir_per_pixel": 1369.6070586513943,
+     "d1_miss_per_pixel": 6.5299684377743406,
+     "ns_per_pixel_1": 91.2765,
+     "ns_per_pixel_2": 48.9491,
+     "ns_per_pixel_4": 36.8327
+    }
+   }
+  },
+  {
+   "group": "research_noisy",
+   "name": "noise8",
+   "w": 128,
+   "h": 128,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 29942,
+     "ir_per_pixel": 2289.0255737304688,
+     "d1_miss_per_pixel": 8.604248046875,
+     "ns_per_pixel_1": 187.553,
+     "ns_per_pixel_2": 187.766,
+     "ns_per_pixel_4": 187.999
+    },
+    "base255": {
+     "bytes": 29942,
+     "ir_per_pixel": 2289.0255737304688,
+     "d1_miss_per_pixel": 8.6043701171875,
+     "ns_per_pixel_1_default_side": 190.12
+    },
+    "anchor128": {
+     "bytes": 29942,
+     "ir_per_pixel": 2307.6060791015625,
+     "d1_miss_per_pixel": 9.2080078125,
+     "ns_per_pixel_1": 188.258,
+     "ns_per_pixel_2": 194.365,
+     "ns_per_pixel_4": 317.512
+    }
+   }
+  },
+  {
+   "group": "archive_structured",
+   "name": "tile_16_phase_0",
+   "w": 384,
+   "h": 256,
+   "c": 3,
+   "points": {
+    "base128": {
+     "bytes": 11792,
+     "ir_per_pixel": 1029.4249064127605,
+     "d1_miss_per_pixel": 3.2072550455729165,
+     "ns_per_pixel_1": 46.61,
+     "ns_per_pixel_2": 24.4145,
+     "ns_per_pixel_4": 22.1609
+    },
+    "base255": {
+     "bytes": 4136,
+     "ir_per_pixel": 978.7216491699219,
+     "d1_miss_per_pixel": 5.561330159505208,
+     "ns_per_pixel_1_default_side": 44.3914
+    },
+    "anchor128": {
+     "bytes": 2472,
+     "ir_per_pixel": 988.320566813151,
+     "d1_miss_per_pixel": 3.610504150390625,
+     "ns_per_pixel_1": 41.8303,
+     "ns_per_pixel_2": 32.7183,
+     "ns_per_pixel_4": 34.8161
+    }
+   }
+  },
+  {
+   "group": "noto_faces",
+   "name": "emoji_u1f600.png",
+   "w": 128,
+   "h": 128,
+   "c": 4,
+   "points": {
+    "base128": {
+     "bytes": 6824,
+     "ir_per_pixel": 1593.3910522460938,
+     "d1_miss_per_pixel": 8.975830078125,
+     "ns_per_pixel_1": 97.9453,
+     "ns_per_pixel_2": 103.296,
+     "ns_per_pixel_4": 105.263
+    },
+    "base255": {
+     "bytes": 6824,
+     "ir_per_pixel": 1593.3910522460938,
+     "d1_miss_per_pixel": 8.9757080078125,
+     "ns_per_pixel_1_default_side": 94.6683
+    },
+    "anchor128": {
+     "bytes": 6824,
+     "ir_per_pixel": 1614.5101318359375,
+     "d1_miss_per_pixel": 9.44488525390625,
+     "ns_per_pixel_1": 98.9879,
+     "ns_per_pixel_2": 113.25,
+     "ns_per_pixel_4": 191.974
+    }
+   }
+  }
+ ],
+ "points": {
+  "base128": {
+   "ir_per_pixel": 1593.3910522460938,
+   "d1_miss_per_pixel": 8.604248046875,
+   "ns_per_pixel_1": 97.9453,
+   "ns_per_pixel_2": 77.3866,
+   "ns_per_pixel_4": 53.4036
+  },
+  "base255": {
+   "ir_per_pixel": 1593.3910522460938,
+   "d1_miss_per_pixel": 8.9757080078125
+  },
+  "anchor128": {
+   "ir_per_pixel": 1614.5101318359375,
+   "d1_miss_per_pixel": 9.2080078125,
+   "ns_per_pixel_1": 98.9879,
+   "ns_per_pixel_2": 82.2466,
+   "ns_per_pixel_4": 60.8543
+  }
+ }
+}

@@ -1,0 +1,773 @@
+{
+ "scope": "Four-axis tradeoff harness for the frame codec: size, progressive decode, recoverability under damage, and (from\nthe pod job, research/tradeoff_pod.py) decoder work. One fixed construction per grid point:\n\n    kernel  : base (CNGPHI07) | anchor (CNGPHX1A: later frames start from the top-left frame's table and models)\n    side    : 128 | 255 (frame side)\n    mosaic  : none | m16 | m16+m4   (redundant coarse layers: block means over 16x16 and 4x4 cells, each coded as a\n              small CNGPHI07 image by the base kernel and stored twice; the first layer is the progressive picture\n              and the fill for frames lost to damage)\n\nSubcommands (run on the Mini with the existing Python; sizes only, no timing):\n    build                      generate the kernel variants and build both drivers\n    sizes   [--workers 4]      per image: stream bytes and frame payload lengths for every kernel x side, mosaic bytes\n                               and fill PSNR, OptiPNG reference bytes            -> results/tradeoff_sizes.json\n    damage  [--workers 4]      burst damage of 1%, 5%, 20% of the file, three seeds, every grid point: fraction of\n                               pixels exact, fraction filled from the mosaic, PSNR  -> results/tradeoff_damage.json\n    report                     the front: one row per grid point                  -> results/tradeoff_front.json, stdout\nDamage model: bursts of 512 random bytes, ceil(fraction * length / 512) of them at uniformly random positions over\nthe whole file (index, payloads, mosaic copies alike), at the same file fractions for both kernels. A frame is lost when its checksum fails; the anchor kernel\nloses every frame when the anchor frame is lost; the mosaic survives when either copy decodes.",
+ "report": "The front. Progressive and damage scores are given over all images and over the multi-frame images (at least\n    four frames at side 128: 104 of 236), because a single-frame image has nothing to contain and one 512-byte burst\n    in a 300-byte file destroys it whatever the construction; the pixel-weighted exact fraction is given as well.",
+ "optipng_total": 24421537,
+ "multi_frame_images": 109,
+ "front": [
+  {
+   "kernel": "base",
+   "side": 128,
+   "mosaic": "none",
+   "bytes": 18978114,
+   "ratio_optipng": 0.7771056342604481,
+   "groups": {
+    "research_structured": 1.5701754385964912,
+    "research_noisy": 0.9976710576521968,
+    "research_mixed": 0.8480057303794591,
+    "research_smooth": 0.557224253385632,
+    "research_photo": 0.8515563956872909,
+    "archive_structured": 1.890415788108367,
+    "archive_smooth": 0.7600977617700025,
+    "archive_noise_mixed": 1.0409986751896887,
+    "archive_photographs": 0.7541273241130353,
+    "archive_composite": 0.8618126903176293,
+    "reference_fixture": 0.7935925252458114,
+    "guiforms_capture": 0.6843486375900785,
+    "noto_faces": 1.0185021849817584,
+    "noto_mixed": 1.1393790536386055
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.9909420078781823,
+   "first_picture_psnr": null,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.9909420078781823,
+   "half_pixels_fraction_multi": 0.5046511627906977,
+   "damage": {
+    "0.01": {
+     "exact": 0.20901400244431156,
+     "exact_pixel_weighted": 0.5958959571580168,
+     "exact_multi": 0.4525440786867663,
+     "filled_multi": 0.0,
+     "psnr_multi": 14.94628375127385,
+     "header_lost": 0.1440677966101695,
+     "header_lost_multi": 0.28440366972477066
+    },
+    "0.05": {
+     "exact": 0.1128117047512243,
+     "exact_pixel_weighted": 0.296871028059758,
+     "exact_multi": 0.24425286533292592,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.90353111002344,
+     "header_lost": 0.1440677966101695,
+     "header_lost_multi": 0.28440366972477066
+    },
+    "0.2": {
+     "exact": 0.056970262632291595,
+     "exact_pixel_weighted": 0.12011902185494133,
+     "exact_multi": 0.12334845854331021,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.3648675997055,
+     "header_lost": 0.16242937853107345,
+     "header_lost_multi": 0.308868501529052
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.604248046875,
+    "ns_per_pixel_1": 97.9453,
+    "ns_per_pixel_2": 77.3866,
+    "ns_per_pixel_4": 53.4036
+   }
+  },
+  {
+   "kernel": "base",
+   "side": 128,
+   "mosaic": "m16",
+   "bytes": 19290522,
+   "ratio_optipng": 0.7898979495025231,
+   "groups": {
+    "research_structured": 3.2017543859649122,
+    "research_noisy": 1.0094956791990652,
+    "research_mixed": 0.859152365506828,
+    "research_smooth": 0.6001764245729472,
+    "research_photo": 0.8602597276113869,
+    "archive_structured": 1.9806240479975523,
+    "archive_smooth": 0.8967069719578081,
+    "archive_noise_mixed": 1.0478840529651436,
+    "archive_photographs": 0.7626250599193013,
+    "archive_composite": 0.8725868343524869,
+    "reference_fixture": 0.8058700368895071,
+    "guiforms_capture": 0.6994644029240393,
+    "noto_faces": 1.1108727899611113,
+    "noto_mixed": 1.2482628443733348
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.04485594284435014,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.991807047905594,
+   "half_pixels_fraction_multi": 0.5790075463068831,
+   "damage": {
+    "0.01": {
+     "exact": 0.21962972283150442,
+     "exact_pixel_weighted": 0.6044156095723714,
+     "exact_multi": 0.46941236625292093,
+     "filled_multi": 0.2548485919529915,
+     "psnr_multi": 21.99213617068924,
+     "header_lost": 0.13559322033898305,
+     "header_lost_multi": 0.26605504587155965
+    },
+    "0.05": {
+     "exact": 0.12310064101791178,
+     "exact_pixel_weighted": 0.29875403409891976,
+     "exact_multi": 0.2573555163323594,
+     "filled_multi": 0.42787693268081045,
+     "psnr_multi": 16.246562953408326,
+     "header_lost": 0.1426553672316384,
+     "header_lost_multi": 0.27522935779816515
+    },
+    "0.2": {
+     "exact": 0.06092355873090483,
+     "exact_pixel_weighted": 0.11737488643358476,
+     "exact_multi": 0.13190788862838113,
+     "filled_multi": 0.3814703653633857,
+     "psnr_multi": 12.625969529002745,
+     "header_lost": 0.14548022598870056,
+     "header_lost_multi": 0.28440366972477066
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.604248046875,
+    "ns_per_pixel_1": 97.9453,
+    "ns_per_pixel_2": 77.3866,
+    "ns_per_pixel_4": 53.4036
+   }
+  },
+  {
+   "kernel": "base",
+   "side": 128,
+   "mosaic": "m16+m4",
+   "bytes": 22433868,
+   "ratio_optipng": 0.9186099957590712,
+   "groups": {
+    "research_structured": 6.991228070175438,
+    "research_noisy": 1.1091498965024347,
+    "research_mixed": 0.979897267242005,
+    "research_smooth": 0.8240580980543365,
+    "research_photo": 0.9785382740752709,
+    "archive_structured": 2.207082565634125,
+    "archive_smooth": 1.4804476459994855,
+    "archive_noise_mixed": 1.1671669738196577,
+    "archive_photographs": 0.8721662982696742,
+    "archive_composite": 0.9981729507587949,
+    "reference_fixture": 0.9336890931448186,
+    "guiforms_capture": 0.8452898488031256,
+    "noto_faces": 1.662550615403119,
+    "noto_mixed": 1.8544987537437274
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.030535622388840312,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": 0.21826757517874032,
+   "second_picture_psnr": 20.952771492814065,
+   "half_pixels_fraction": 0.9942787785327503,
+   "half_pixels_fraction_multi": 0.6688741721854304,
+   "damage": {
+    "0.01": {
+     "exact": 0.3872278809524822,
+     "exact_pixel_weighted": 0.6386800085967699,
+     "exact_multi": 0.514242629095894,
+     "filled_multi": 0.2854515605065525,
+     "psnr_multi": 26.985265820044635,
+     "header_lost": 0.09745762711864407,
+     "header_lost_multi": 0.19571865443425077
+    },
+    "0.05": {
+     "exact": 0.27176371397990284,
+     "exact_pixel_weighted": 0.3402854655614835,
+     "exact_multi": 0.30706027369349,
+     "filled_multi": 0.4712866766308742,
+     "psnr_multi": 20.514608249164347,
+     "header_lost": 0.096045197740113,
+     "header_lost_multi": 0.1926605504587156
+    },
+    "0.2": {
+     "exact": 0.09410736997079096,
+     "exact_pixel_weighted": 0.14241048971779072,
+     "exact_multi": 0.1762324707624465,
+     "filled_multi": 0.4140066402487814,
+     "psnr_multi": 14.071038160324427,
+     "header_lost": 0.09745762711864407,
+     "header_lost_multi": 0.19877675840978593
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.604248046875,
+    "ns_per_pixel_1": 97.9453,
+    "ns_per_pixel_2": 77.3866,
+    "ns_per_pixel_4": 53.4036
+   }
+  },
+  {
+   "kernel": "base",
+   "side": 255,
+   "mosaic": "none",
+   "bytes": 18761365,
+   "ratio_optipng": 0.7682303124492124,
+   "groups": {
+    "research_structured": 1.5701754385964912,
+    "research_noisy": 0.9968515783625835,
+    "research_mixed": 0.8465671862004467,
+    "research_smooth": 0.5501506266401105,
+    "research_photo": 0.8468328681374383,
+    "archive_structured": 1.3847386940355593,
+    "archive_smooth": 0.8286596346797016,
+    "archive_noise_mixed": 1.0377764092868522,
+    "archive_photographs": 0.749814511682534,
+    "archive_composite": 0.8589111974847127,
+    "reference_fixture": 0.7898200152875435,
+    "guiforms_capture": 0.6695660198665795,
+    "noto_faces": 1.0185021849817584,
+    "noto_mixed": 1.1393790536386055
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.9909655420586353,
+   "first_picture_psnr": null,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.9909655420586353,
+   "half_pixels_fraction_multi": 0.5450733752620545,
+   "damage": {
+    "0.01": {
+     "exact": 0.08264726469735229,
+     "exact_pixel_weighted": 0.2891166118522442,
+     "exact_multi": 0.17894270154656092,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.51242707532403,
+     "header_lost": 0.16101694915254236,
+     "header_lost_multi": 0.3211009174311927
+    },
+    "0.05": {
+     "exact": 0.03597932330172418,
+     "exact_pixel_weighted": 0.10797132312658415,
+     "exact_multi": 0.07790018623125602,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.153401844775663,
+     "header_lost": 0.1638418079096045,
+     "header_lost_multi": 0.3241590214067278
+    },
+    "0.2": {
+     "exact": 0.017777025024962045,
+     "exact_pixel_weighted": 0.04108389483900166,
+     "exact_multi": 0.038489705558633416,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.104560280586416,
+     "header_lost": 0.16666666666666666,
+     "header_lost_multi": 0.3333333333333333
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.9757080078125
+   }
+  },
+  {
+   "kernel": "base",
+   "side": 255,
+   "mosaic": "m16",
+   "bytes": 19073773,
+   "ratio_optipng": 0.7810226276912874,
+   "groups": {
+    "research_structured": 3.2017543859649122,
+    "research_noisy": 1.008676199909452,
+    "research_mixed": 0.8577138213278156,
+    "research_smooth": 0.5931027978274257,
+    "research_photo": 0.8555362000615342,
+    "archive_structured": 1.4749469539247444,
+    "archive_smooth": 0.9652688448675071,
+    "archive_noise_mixed": 1.044661787062307,
+    "archive_photographs": 0.7583122474888,
+    "archive_composite": 0.8696853415195702,
+    "reference_fixture": 0.8020975269312393,
+    "guiforms_capture": 0.6846817852005403,
+    "noto_faces": 1.1108727899611113,
+    "noto_mixed": 1.2482628443733348
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.04515523482830838,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.991807047905594,
+   "half_pixels_fraction_multi": 0.6873817202868033,
+   "damage": {
+    "0.01": {
+     "exact": 0.1197487742025492,
+     "exact_pixel_weighted": 0.32380990062892545,
+     "exact_multi": 0.2409239514844185,
+     "filled_multi": 0.44421768550501917,
+     "psnr_multi": 19.272809537080853,
+     "header_lost": 0.15254237288135594,
+     "header_lost_multi": 0.30275229357798167
+    },
+    "0.05": {
+     "exact": 0.05749071299757401,
+     "exact_pixel_weighted": 0.12264279155001098,
+     "exact_multi": 0.10612668135254559,
+     "filled_multi": 0.5340940540632251,
+     "psnr_multi": 16.189030531608267,
+     "header_lost": 0.14548022598870056,
+     "header_lost_multi": 0.2874617737003058
+    },
+    "0.2": {
+     "exact": 0.02706020743735553,
+     "exact_pixel_weighted": 0.04072428664677987,
+     "exact_multi": 0.058589072983632154,
+     "filled_multi": 0.43225167014361693,
+     "psnr_multi": 12.098900958505928,
+     "header_lost": 0.153954802259887,
+     "header_lost_multi": 0.2966360856269113
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.9757080078125
+   }
+  },
+  {
+   "kernel": "base",
+   "side": 255,
+   "mosaic": "m16+m4",
+   "bytes": 22217119,
+   "ratio_optipng": 0.9097346739478355,
+   "groups": {
+    "research_structured": 6.991228070175438,
+    "research_noisy": 1.1083304172128214,
+    "research_mixed": 0.9784587230629925,
+    "research_smooth": 0.8169844713088151,
+    "research_photo": 0.9738147465254183,
+    "archive_structured": 1.7014054715613172,
+    "archive_smooth": 1.5490095189091844,
+    "archive_noise_mixed": 1.163944707916821,
+    "archive_photographs": 0.8678534858391729,
+    "archive_composite": 0.9952714579258782,
+    "reference_fixture": 0.9299165831865508,
+    "guiforms_capture": 0.8305072310796267,
+    "noto_faces": 1.662550615403119,
+    "noto_mixed": 1.8544987537437274
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.03074623229244148,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": 0.21826757517874032,
+   "second_picture_psnr": 20.952771492814065,
+   "half_pixels_fraction": 0.9942787785327503,
+   "half_pixels_fraction_multi": 0.7628032345013477,
+   "damage": {
+    "0.01": {
+     "exact": 0.2980334301714863,
+     "exact_pixel_weighted": 0.36043673643067936,
+     "exact_multi": 0.2813690170073771,
+     "filled_multi": 0.460703038820939,
+     "psnr_multi": 23.224661398419826,
+     "header_lost": 0.1228813559322034,
+     "header_lost_multi": 0.25382262996941896
+    },
+    "0.05": {
+     "exact": 0.22558779858175787,
+     "exact_pixel_weighted": 0.16493306399848678,
+     "exact_multi": 0.17650202261738404,
+     "filled_multi": 0.5123683357672425,
+     "psnr_multi": 18.14499325322337,
+     "header_lost": 0.1271186440677966,
+     "header_lost_multi": 0.26299694189602446
+    },
+    "0.2": {
+     "exact": 0.06350264909142306,
+     "exact_pixel_weighted": 0.06456892644375012,
+     "exact_multi": 0.10996903839977837,
+     "filled_multi": 0.43685392408666557,
+     "psnr_multi": 12.604304918929948,
+     "header_lost": 0.134180790960452,
+     "header_lost_multi": 0.26605504587155965
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1593.3910522460938,
+    "d1_miss_per_pixel": 8.9757080078125
+   }
+  },
+  {
+   "kernel": "anchor",
+   "side": 128,
+   "mosaic": "none",
+   "bytes": 18828227,
+   "ratio_optipng": 0.7709681417676537,
+   "groups": {
+    "research_structured": 1.5701754385964912,
+    "research_noisy": 0.9955961637693279,
+    "research_mixed": 0.848523320716821,
+    "research_smooth": 0.5554877473688883,
+    "research_photo": 0.8451262890648346,
+    "archive_structured": 1.5130536580174403,
+    "archive_smooth": 0.7756624646256753,
+    "archive_noise_mixed": 1.0406691769133056,
+    "archive_photographs": 0.7505415773547441,
+    "archive_composite": 0.8524496818755725,
+    "reference_fixture": 0.7911170826429409,
+    "guiforms_capture": 0.677640465899089,
+    "noto_faces": 1.0185021849817584,
+    "noto_mixed": 1.1393790536386055
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.9909420078781823,
+   "first_picture_psnr": null,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.9909420078781823,
+   "half_pixels_fraction_multi": 0.5263157894736842,
+   "damage": {
+    "0.01": {
+     "exact": 0.12742281187229132,
+     "exact_pixel_weighted": 0.4276972895495894,
+     "exact_multi": 0.275887922952851,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.51242707532403,
+     "header_lost": 0.1638418079096045,
+     "header_lost_multi": 0.327217125382263
+    },
+    "0.05": {
+     "exact": 0.02826482332949163,
+     "exact_pixel_weighted": 0.10132070331079064,
+     "exact_multi": 0.061197232162935995,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.13191845670606,
+     "header_lost": 0.1638418079096045,
+     "header_lost_multi": 0.327217125382263
+    },
+    "0.2": {
+     "exact": 0.01100193491341693,
+     "exact_pixel_weighted": 0.02441971774048224,
+     "exact_multi": 0.02382070311528803,
+     "filled_multi": 0.0,
+     "psnr_multi": 10.853197415855451,
+     "header_lost": 0.17937853107344634,
+     "header_lost_multi": 0.345565749235474
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1614.5101318359375,
+    "d1_miss_per_pixel": 9.2080078125,
+    "ns_per_pixel_1": 98.9879,
+    "ns_per_pixel_2": 82.2466,
+    "ns_per_pixel_4": 60.8543
+   }
+  },
+  {
+   "kernel": "anchor",
+   "side": 128,
+   "mosaic": "m16",
+   "bytes": 19140635,
+   "ratio_optipng": 0.7837604570097287,
+   "groups": {
+    "research_structured": 3.2017543859649122,
+    "research_noisy": 1.0074207853161965,
+    "research_mixed": 0.8596699558441898,
+    "research_smooth": 0.5984399185562035,
+    "research_photo": 0.8538296209889304,
+    "archive_structured": 1.6032619179066256,
+    "archive_smooth": 0.9122716748134808,
+    "archive_noise_mixed": 1.0475545546887606,
+    "archive_photographs": 0.7590393131610101,
+    "archive_composite": 0.86322382591043,
+    "reference_fixture": 0.8033945942866367,
+    "guiforms_capture": 0.6927562312330499,
+    "noto_faces": 1.1108727899611113,
+    "noto_mixed": 1.2482628443733348
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.0454020774902789,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.991807047905594,
+   "half_pixels_fraction_multi": 0.6730987514188422,
+   "damage": {
+    "0.01": {
+     "exact": 0.14738728928011238,
+     "exact_pixel_weighted": 0.471871165393028,
+     "exact_multi": 0.31299755599486095,
+     "filled_multi": 0.3623337386024887,
+     "psnr_multi": 18.628873734255418,
+     "header_lost": 0.15254237288135594,
+     "header_lost_multi": 0.30275229357798167
+    },
+    "0.05": {
+     "exact": 0.046070106811971885,
+     "exact_pixel_weighted": 0.10945783718102503,
+     "exact_multi": 0.09057380924426942,
+     "filled_multi": 0.536719768737382,
+     "psnr_multi": 14.823708085158556,
+     "header_lost": 0.15677966101694915,
+     "header_lost_multi": 0.3058103975535168
+    },
+    "0.2": {
+     "exact": 0.015742870594565507,
+     "exact_pixel_weighted": 0.019736073448901534,
+     "exact_multi": 0.034085481287316144,
+     "filled_multi": 0.4195973496432212,
+     "psnr_multi": 11.703720237635515,
+     "header_lost": 0.15677966101694915,
+     "header_lost_multi": 0.308868501529052
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1614.5101318359375,
+    "d1_miss_per_pixel": 9.2080078125,
+    "ns_per_pixel_1": 98.9879,
+    "ns_per_pixel_2": 82.2466,
+    "ns_per_pixel_4": 60.8543
+   }
+  },
+  {
+   "kernel": "anchor",
+   "side": 128,
+   "mosaic": "m16+m4",
+   "bytes": 22283981,
+   "ratio_optipng": 0.9124725032662768,
+   "groups": {
+    "research_structured": 6.991228070175438,
+    "research_noisy": 1.107075002619566,
+    "research_mixed": 0.9804148575793669,
+    "research_smooth": 0.8223215920375928,
+    "research_photo": 0.9721081674528145,
+    "archive_structured": 1.8297204355431984,
+    "archive_smooth": 1.4960123488551582,
+    "archive_noise_mixed": 1.1668374755432744,
+    "archive_photographs": 0.868580551511383,
+    "archive_composite": 0.988809942316738,
+    "reference_fixture": 0.9312136505419482,
+    "guiforms_capture": 0.8385816771121363,
+    "noto_faces": 1.662550615403119,
+    "noto_mixed": 1.8544987537437274
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.03110329193115466,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": 0.22017648223263417,
+   "second_picture_psnr": 20.952771492814065,
+   "half_pixels_fraction": 0.9942787785327503,
+   "half_pixels_fraction_multi": 0.7653034856995199,
+   "damage": {
+    "0.01": {
+     "exact": 0.3200552737652461,
+     "exact_pixel_weighted": 0.48530729030706,
+     "exact_multi": 0.36880469059875925,
+     "filled_multi": 0.37125647148075147,
+     "psnr_multi": 24.169795576893556,
+     "header_lost": 0.1228813559322034,
+     "header_lost_multi": 0.25076452599388377
+    },
+    "0.05": {
+     "exact": 0.20593840686496326,
+     "exact_pixel_weighted": 0.16879321232333774,
+     "exact_multi": 0.16453942526114368,
+     "filled_multi": 0.5536038585685862,
+     "psnr_multi": 19.840491019400375,
+     "header_lost": 0.12005649717514125,
+     "header_lost_multi": 0.24464831804281345
+    },
+    "0.2": {
+     "exact": 0.059730490101511186,
+     "exact_pixel_weighted": 0.058740525893072396,
+     "exact_multi": 0.101801795082171,
+     "filled_multi": 0.4159939429887964,
+     "psnr_multi": 12.760439337350562,
+     "header_lost": 0.12146892655367232,
+     "header_lost_multi": 0.25076452599388377
+    }
+   },
+   "speed": {
+    "ir_per_pixel": 1614.5101318359375,
+    "d1_miss_per_pixel": 9.2080078125,
+    "ns_per_pixel_1": 98.9879,
+    "ns_per_pixel_2": 82.2466,
+    "ns_per_pixel_4": 60.8543
+   }
+  },
+  {
+   "kernel": "anchor",
+   "side": 255,
+   "mosaic": "none",
+   "bytes": 18695821,
+   "ratio_optipng": 0.7655464518879381,
+   "groups": {
+    "research_structured": 1.5701754385964912,
+    "research_noisy": 0.9961892730259841,
+    "research_mixed": 0.8480461857161725,
+    "research_smooth": 0.5499398048233812,
+    "research_photo": 0.8449005159579531,
+    "archive_structured": 1.2626495766291297,
+    "archive_smooth": 0.8316182145613584,
+    "archive_noise_mixed": 1.0372742084656061,
+    "archive_photographs": 0.7481354923541692,
+    "archive_composite": 0.8516525140494641,
+    "reference_fixture": 0.7901589999477755,
+    "guiforms_capture": 0.6649649375982687,
+    "noto_faces": 1.0185021849817584,
+    "noto_mixed": 1.1393790536386055
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.991112650046168,
+   "first_picture_psnr": null,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.991112650046168,
+   "half_pixels_fraction_multi": 0.6397447090804418,
+   "damage": {
+    "0.01": {
+     "exact": 0.032915495793956036,
+     "exact_pixel_weighted": 0.1324277723924005,
+     "exact_multi": 0.0712665780492993,
+     "filled_multi": 0.0,
+     "psnr_multi": 11.153401844775663,
+     "header_lost": 0.1751412429378531,
+     "header_lost_multi": 0.3516819571865443
+    },
+    "0.05": {
+     "exact": 0.003171820619819263,
+     "exact_pixel_weighted": 0.015674475664796392,
+     "exact_multi": 0.0068674281309848255,
+     "filled_multi": 0.0,
+     "psnr_multi": 10.853197415855451,
+     "header_lost": 0.1751412429378531,
+     "header_lost_multi": 0.3486238532110092
+    },
+    "0.2": {
+     "exact": 0.0,
+     "exact_pixel_weighted": 0.0,
+     "exact_multi": 0.0,
+     "filled_multi": 0.0,
+     "psnr_multi": 10.853197415855451,
+     "header_lost": 0.17937853107344634,
+     "header_lost_multi": 0.36085626911314983
+    }
+   },
+   "speed": null
+  },
+  {
+   "kernel": "anchor",
+   "side": 255,
+   "mosaic": "m16",
+   "bytes": 19008229,
+   "ratio_optipng": 0.7783387671300132,
+   "groups": {
+    "research_structured": 3.2017543859649122,
+    "research_noisy": 1.0080138945728525,
+    "research_mixed": 0.8591928208435413,
+    "research_smooth": 0.5928919760106964,
+    "research_photo": 0.853603847882049,
+    "archive_structured": 1.352857836518315,
+    "archive_smooth": 0.9682274247491639,
+    "archive_noise_mixed": 1.0441595862410609,
+    "archive_photographs": 0.7566332281604353,
+    "archive_composite": 0.8624266580843215,
+    "reference_fixture": 0.8024365115914712,
+    "guiforms_capture": 0.6800807029322297,
+    "noto_faces": 1.1108727899611113,
+    "noto_mixed": 1.2482628443733348
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.0454020774902789,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": null,
+   "second_picture_psnr": null,
+   "half_pixels_fraction": 0.991807047905594,
+   "half_pixels_fraction_multi": 0.7282608695652174,
+   "damage": {
+    "0.01": {
+     "exact": 0.056823208810841644,
+     "exact_pixel_weighted": 0.15536972558399817,
+     "exact_multi": 0.10468144292989567,
+     "filled_multi": 0.5404791037957828,
+     "psnr_multi": 17.308569655525833,
+     "header_lost": 0.1652542372881356,
+     "header_lost_multi": 0.3302752293577982
+    },
+    "0.05": {
+     "exact": 0.01812015761282292,
+     "exact_pixel_weighted": 0.016774980743181598,
+     "exact_multi": 0.0208840109782221,
+     "filled_multi": 0.5926999883289262,
+     "psnr_multi": 15.68058839331324,
+     "header_lost": 0.1596045197740113,
+     "header_lost_multi": 0.3180428134556575
+    },
+    "0.2": {
+     "exact": 0.007488875739318503,
+     "exact_pixel_weighted": 0.006104976286555935,
+     "exact_multi": 0.01621444655485474,
+     "filled_multi": 0.4444603409606747,
+     "psnr_multi": 11.643031061603965,
+     "header_lost": 0.1652542372881356,
+     "header_lost_multi": 0.3211009174311927
+    }
+   },
+   "speed": null
+  },
+  {
+   "kernel": "anchor",
+   "side": 255,
+   "mosaic": "m16+m4",
+   "bytes": 22151575,
+   "ratio_optipng": 0.9070508133865612,
+   "groups": {
+    "research_structured": 6.991228070175438,
+    "research_noisy": 1.1076681118762222,
+    "research_mixed": 0.9799377225787184,
+    "research_smooth": 0.8167736494920859,
+    "research_photo": 0.971882394345933,
+    "archive_structured": 1.5793163541548878,
+    "archive_smooth": 1.5519680987908413,
+    "archive_noise_mixed": 1.163442507095575,
+    "archive_photographs": 0.8661744665108082,
+    "archive_composite": 0.9880127744906295,
+    "reference_fixture": 0.9302555678467828,
+    "guiforms_capture": 0.825906148811316,
+    "noto_faces": 1.662550615403119,
+    "noto_mixed": 1.8544987537437274
+   },
+   "exact_all": true,
+   "first_picture_fraction": 0.03110329193115466,
+   "first_picture_psnr": 14.606132810514216,
+   "second_picture_fraction": 0.22017648223263417,
+   "second_picture_psnr": 20.952771492814065,
+   "half_pixels_fraction": 0.9942787785327503,
+   "half_pixels_fraction_multi": 0.8106060606060606,
+   "damage": {
+    "0.01": {
+     "exact": 0.24920528652705437,
+     "exact_pixel_weighted": 0.19522922843662394,
+     "exact_multi": 0.17564936654787303,
+     "filled_multi": 0.5582319392983617,
+     "psnr_multi": 21.834409886747853,
+     "header_lost": 0.13135593220338984,
+     "header_lost_multi": 0.27217125382262997
+    },
+    "0.05": {
+     "exact": 0.20197753406545613,
+     "exact_pixel_weighted": 0.08608475708110544,
+     "exact_multi": 0.12538255082062053,
+     "filled_multi": 0.54565790075145,
+     "psnr_multi": 19.638080208697975,
+     "header_lost": 0.1285310734463277,
+     "header_lost_multi": 0.26605504587155965
+    },
+    "0.2": {
+     "exact": 0.05079418117717161,
+     "exact_pixel_weighted": 0.03277206367911227,
+     "exact_multi": 0.08245345649369266,
+     "filled_multi": 0.42918979283137426,
+     "psnr_multi": 12.161075165195708,
+     "header_lost": 0.13983050847457626,
+     "header_lost_multi": 0.2782874617737003
+    }
+   },
+   "speed": null
+  }
+ ]
+}

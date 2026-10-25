@@ -51,10 +51,8 @@ const char* status_name(cng_phase::Status status) {
 }
 // Decodes frames worker, worker + stride, ... of `stream` into `restored`; records the first failure in `outcome`.
 void decode_frame_set(const std::vector<std::uint8_t>& stream, std::vector<std::uint8_t>& restored, std::uint32_t frames, std::size_t worker, std::size_t stride, cng_phase::Status& outcome) {
-    for (std::uint32_t index = static_cast<std::uint32_t>(worker); index < frames; index += static_cast<std::uint32_t>(stride)) {
-        cng_phase::Status status = cng_phase::decode_frame(stream, index, restored);
-        if (status != cng_phase::Status::ok) { outcome = status; return; }
-    }
+    static_cast<void>(frames);
+    outcome = cng_phase::decode_frame_range(stream, static_cast<std::uint32_t>(worker), static_cast<std::uint32_t>(stride), restored);
 }
 int run(int argc, char** argv) {
     std::string mode = argc > 1 ? argv[1] : "";
@@ -157,6 +155,26 @@ int run(int argc, char** argv) {
         std::cout << stream.size() << "\n";
         return 0;
     }
+    if (mode == "salvage" && argc == 5) {   // decode every frame whose checksum passes; zero the others; write a per-frame mask (1 = decoded)
+        std::vector<std::uint8_t> stream = read_file(argv[2]);
+        cng_phase::Dimensions dimensions;
+        cng_phase::Status header = cng_phase::read_header(stream, dimensions);
+        if (header != cng_phase::Status::ok) { std::cerr << status_name(header) << "\n"; return 3; }
+        const std::uint32_t frames = cng_phase::frame_count(stream, dimensions);
+        std::vector<std::uint8_t> samples(static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels, 0);
+        std::vector<std::uint8_t> mask(frames, 0);
+        std::uint32_t decoded = 0;
+        for (std::uint32_t index = 0; index < frames; ++index) {
+            cng_phase::Status status = cng_phase::decode_frame(stream, index, samples);
+            if (status == cng_phase::Status::bad_directory && index == 0) { std::cerr << status_name(status) << "\n"; return 3; }
+            mask[index] = status == cng_phase::Status::ok ? 1 : 0;
+            decoded += mask[index];
+        }
+        write_file(argv[3], samples);
+        write_file(argv[4], mask);
+        std::cout << dimensions.width << " " << dimensions.height << " " << dimensions.channels << " " << frames << " " << decoded << "\n";
+        return 0;
+    }
     if (mode == "frames" && argc == 8) {
         cng_phase::Dimensions dimensions = parse_dimensions(argv + 2);
         std::vector<std::uint8_t> samples = read_file(argv[5]);
@@ -191,7 +209,7 @@ int run(int argc, char** argv) {
                   << " decode_ns_per_pixel_median " << decode_seconds[repeats / 2] * scale << " bytes " << stream.size() << "\n";
         return 0;
     }
-    std::cerr << "usage: phase_driver encode W H C in.rgb out.cngphi | decode in.cngphi out.rgb | check W H C in.rgb expected.cngphi | time W H C in.rgb repeats | trace W H C in.rgb out.trace | frames W H C in.rgb repeats threads | encode-side W H C in.rgb out.cngphi side\n";
+    std::cerr << "usage: phase_driver encode W H C in.rgb out.cngphi | decode in.cngphi out.rgb | check W H C in.rgb expected.cngphi | time W H C in.rgb repeats | trace W H C in.rgb out.trace | frames W H C in.rgb repeats threads | encode-side W H C in.rgb out.cngphi side | salvage in.cngphi out.rgb out.mask\n";
     return 64;
 }
 }  // namespace

@@ -959,6 +959,26 @@ Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, s
     return decode_frame_payload(workspace, payload, dimensions, frame_rect(dimensions, side, index), destination.data());
 }
 
+Status decode_frame_range(std::span<const std::uint8_t> stream, std::uint32_t first, std::uint32_t stride, std::span<std::uint8_t> destination) {
+    Dimensions dimensions; std::uint32_t side = 0;
+    Status header = parse_header(stream, dimensions, side);
+    if (header != Status::ok) { return header; }
+    std::size_t expected = static_cast<std::size_t>(dimensions.width) * dimensions.height * dimensions.channels;
+    if (destination.size() != expected) { return Status::bad_sample_count; }
+    if (stride == 0) { return Status::bad_directory; }
+    std::vector<std::size_t> offsets; std::vector<std::uint32_t> lengths; std::vector<std::uint32_t> checksums;
+    Status directory = read_directory(stream, dimensions, side, offsets, lengths, checksums);
+    if (directory != Status::ok) { return directory; }
+    Workspace workspace;
+    for (std::uint32_t index = first; index < offsets.size(); index += stride) {
+        std::span<const std::uint8_t> payload = stream.subspan(offsets[index], lengths[index]);
+        if (crc32_of(payload) != checksums[index]) { return Status::bad_checksum; }
+        Status status = decode_frame_payload(workspace, payload, dimensions, frame_rect(dimensions, side, index), destination.data());
+        if (status != Status::ok) { return status; }
+    }
+    return Status::ok;
+}
+
 Status decode(std::span<const std::uint8_t> stream, std::span<std::uint8_t> destination) {
     Dimensions dimensions; std::uint32_t side = 0;
     Status header = parse_header(stream, dimensions, side);

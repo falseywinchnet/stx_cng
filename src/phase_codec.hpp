@@ -66,6 +66,10 @@ struct SymbolTrace {
 // independent, so callers may decode them in any order or concurrently into disjoint rectangles of one buffer.
 [[nodiscard]] Status decode_frame(std::span<const std::uint8_t> stream, std::uint32_t index, std::span<std::uint8_t> destination);
 
+// Decodes frames first, first + stride, ... into their rectangles of a caller-owned buffer of the whole image
+// (one workspace for the set; a worker's share of a threaded decode).
+[[nodiscard]] Status decode_frame_range(std::span<const std::uint8_t> stream, std::uint32_t first, std::uint32_t stride, std::span<std::uint8_t> destination);
+
 // Decodes into caller-owned storage of exactly width*height*channels bytes (from read_header).
 // Output and stream must be disjoint. Failure before the first sample leaves the output untouched;
 // stream_exhausted can leave partial output, which the caller must discard.
