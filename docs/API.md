@@ -1,117 +1,96 @@
-# Library interfaces
+# stx_cng library interface
 
-The public interfaces use standard C++20 streams, spans and owned containers.
-Calls write and read `CNGPHI08` streams and are synchronous. Arguments are
-borrowed only for the duration of the call; the library retains no caller
-buffers or streams afterward.
+stx_cng is the reference implementation of CNG 1.0 in portable C++20. Include `stx_cng/codec.hpp` for images and
+`stx_cng/collection.hpp` for collections, and link `stx_cng::stx_cng`.
 
-## Standalone images
+Every call is synchronous, borrows its arguments only for the duration of the call, and retains nothing afterwards.
+Failures throw `stx_cng::Error`, a `std::runtime_error` whose `reason()` names the cause.
 
-Include `stx_cng/codec.hpp`. `stx_cng::Dimensions` names its fields in this order:
+## Samples
 
-```cpp
-stx_cng::Dimensions dimensions{
-    .height = 480,
-    .width = 640,
-    .channels = 4
-};
-```
-
-Samples are interleaved RGB or RGBA bytes in row-major order, with no row padding.
-Alpha is neither applied nor discarded. The codec preserves bytes; it performs no
-colour-profile conversion or premultiplication.
-
-| Operation | Input | Output |
-| --- | --- | --- |
-| `encode` | Exactly `height * width * channels` raw bytes and dimensions | One complete standalone file |
-| `decode` | One complete standalone file | Raw interleaved samples and returned dimensions |
-| `decode_into` | One complete standalone file and an exactly sized destination span | Samples in the supplied storage and returned dimensions |
-| `decode_mosaic` | One complete standalone file | The mosaic layer's samples (`mosaic_dimensions` of the image) and the image dimensions |
-| `decode_salvage` | One complete standalone file and an exactly sized destination span | Every intact frame exactly, lost frames filled from the mosaic, a per-frame report |
-
-For example, with distinct, already-open binary streams:
+`stx_cng::Dimensions` names its fields in this order:
 
 ```cpp
-stx_cng::Measurements encoding{};
-stx_cng::encode(raw_input, encoded_output, dimensions, encoding);
-
-stx_cng::Measurements decoding{};
-stx_cng::Dimensions restored = stx_cng::decode(encoded_input, raw_output, decoding);
+stx_cng::Dimensions dimensions{.height = 480, .width = 640, .channels = 4};
 ```
 
-`encode` reads exactly the stated sample count and fails on a short input.
-`decode` and `decode_into` read the input stream to its end; the whole file is
-the unit of decoding, and its trailing index copy is part of the file.
-Standalone operations do not require seekable streams.
+Samples are interleaved RGB8 (3 channels) or RGBA8 (4 channels) bytes, rows top to bottom without padding:
+`height × width × channels` bytes. The codec preserves bytes exactly. It performs no colour conversion and no
+premultiplication, and keeps the colour of pixels whose alpha is 0. Width and height are at least 1 and the sample
+count is at most 2³¹ (`stx_cng::maximum_samples`).
 
-`decode_into` requires exactly the decoded sample count and storage disjoint from
-all bytes backing its input stream. The caller is responsible for obtaining the
-expected dimensions and allocating that storage. This release has no public
-header-probe function; the stream decoder serves the case where dimensions are
-not known ahead of time.
+## Images
 
-`decode_mosaic` writes the mean colour of every 16×16 cell (`mosaic_cell`) as
-an interleaved image of `mosaic_dimensions(image)`, decoded from whichever
-stored copy is intact. `decode_salvage` is the decoder for a file that may be
-damaged: it decodes every frame whose checksum passes, fills the cells of the
-others with their mosaic colour (mid grey when both mosaic copies are lost),
-sets one byte per frame in `frames_ok` and `mosaic_ok`, and throws only when
-neither copy of the header or of the directory can be read.
+| Call | Result |
+| --- | --- |
+| `encode(samples, dimensions, options)` | One complete file, as a `std::vector<std::uint8_t>` |
+| `encode(sample_stream, file_stream, dimensions, options)` | Reads exactly the sample count, writes one file |
+| `read_dimensions(file)` | The dimensions, after checking the header and the directory; decodes nothing |
+| `decode(file, dimensions, options)` | The samples, as a `std::vector<std::uint8_t>`; sets `dimensions` |
+| `decode_into(file, samples, options)` | Decodes into caller storage of exactly the sample count; returns the dimensions |
+| `decode(file_stream, sample_stream, options)` | Reads the file to the end of the stream, writes the samples |
+| `decode_mosaic(file, mosaic)` | The mosaic layer alone; sets `mosaic` to its dimensions |
+| `decode_salvage(file, dimensions, report)` | Every intact segment exactly, the others from the mosaic, and a report |
+| `mosaic_dimensions(image)`, `segment_count(image)` | ceil(width / 16) × ceil(height / 16); ceil(width / 128) × ceil(height / 32) |
 
-## Failure and ownership
+```cpp
+#include "stx_cng/codec.hpp"
 
-Validation and stream failures are reported as `std::runtime_error`. Allocation
-failure may also propagate. The messages name the boundary that failed: the
-header (not a `CNGPHI08` stream, or both header copies damaged), the frame
-directory (both copies damaged, or lengths that do not account for the file),
-a frame checksum, or an exhausted stream.
+std::vector<std::uint8_t> file = stx_cng::encode(samples, dimensions);
 
-- Stream operations may leave a partial output after failure.
-- `decode_into` leaves its output intact on header, directory or output-extent
-  failure. A frame checksum failure is detected before that frame is
-  reconstructed, so frames earlier in raster order are complete and the failed
-  frame and later frames are untouched.
-- `Measurements` is reset at entry; a failed call does not provide a complete
-  measurement record.
-- Input and output must not alias. Separate operations may run concurrently when
-  their streams and mutable storage are separate.
+stx_cng::Dimensions decoded_dimensions;
+std::vector<std::uint8_t> decoded = stx_cng::decode(file, decoded_dimensions);
+```
 
-For file replacement, write to a temporary destination and commit it only after
-successful completion and a successful flush/close. An exception is not an
-implicitly rolled-back file transaction.
+`EncodeOptions::threads` and `DecodeOptions::threads` set the number of worker threads; 0 uses one per available
+core. Segments are independent, so decoding divides across threads, and the encoder writes the same file for every
+thread count.
 
-## Measurements
+`decode_into` requires storage of exactly the image's sample count that does not overlap the file; use
+`read_dimensions` to size it. A decode that fails can leave the storage partially written.
 
-`Measurements` reports `workspace_bytes`, `frames` and `codec_seconds`.
-`workspace_bytes` is the storage the call owned: the sample buffer (for `encode`
-and `decode`), the complete compressed stream, and the frame engine's state for
-one frame, which is at most a few hundred kilobytes. It excludes caller
-storage, process mappings, stack and allocator overhead; it is not process RSS.
-`frames` is the number of frames of the image. `codec_seconds` is the time
-spent inside the frame engine, excluding stream reads and writes; measure the
-complete call externally for throughput claims.
+## The mosaic and salvage
+
+The mosaic is the mean colour of every 16 × 16 cell, decoded from whichever stored copy is intact. It is a small
+part of the file and decodes first: a picture for a progressive display, or a thumbnail.
+
+`decode_salvage` is the decoder for files that may be damaged. It decodes every segment whose checksum passes
+exactly and fills the pixels of every other segment with the mosaic colour of their cell (mid grey when both mosaic
+copies are lost). `SalvageReport` lists the result of every segment in raster order, the number lost and whether the
+mosaic decoded. It tolerates a damaged signature and throws only when no copy of the header, the directory or the
+tables can be read.
+
+## Errors
+
+| `stx_cng::Reason` | Cause |
+| --- | --- |
+| `dimensions` | Zero width or height, channels other than 3 or 4, or more than 2³¹ samples |
+| `sample_count` | A sample buffer whose size does not match the dimensions |
+| `not_cng` | Not a CNG file, or both copies of the header fields are damaged |
+| `unsupported_version` | A format version this library does not read |
+| `directory` | Both directory copies are damaged, or the payload extents do not match the file |
+| `tables` | Both table copies are damaged or invalid |
+| `damaged` | A segment or the mosaic failed its checksum or its decoding |
+| `input` | A stream could not be read or written |
+| `collection` | A collection's structure is invalid |
 
 ## Collections
 
-Include `stx_cng/collection.hpp`; the namespace is `stx_cng_collection`.
-`ImageSource` associates a unique `ImageId`, dimensions and a path to headerless
-raw samples. Paths and file contents must remain stable throughout encoding.
+`stx_cng/collection.hpp` stores 1 to 4,096 images in one file, in a form the caller chooses:
 
-```cpp
-stx_cng_collection::Measurements measured{};
-stx_cng_collection::encode(images, stx_cng_collection::Form::composite,
-                           collection_output, measured);
+| | `Form::packed` | `Form::composite` |
+| --- | --- | --- |
+| Payload | One complete CNG file per member | One CNG file of a canvas holding every member |
+| Decoding | Each member on its own | The canvas, then each member's rectangle |
+| Suited to | Independent images | Related glyphs, controls and artwork |
 
-stx_cng_collection::Decoded decoded{};
-stx_cng_collection::decode(collection_input, decoded, measured);
-stx_cng_collection::write_image(decoded, requested_id, member_output);
-```
+`collection::encode(sources, form, destination)` reads each member's raw samples from its file and writes the
+collection to a seekable stream at offset zero. `collection::decode(source, decoded)` decodes every member
+(packed) or the canvas (composite), and `collection::write_image(decoded, id, destination)` writes one member's
+samples with its original channels. The container is specified in [COLLECTIONS.md](COLLECTIONS.md).
 
-Both collection input and output must be seekable; output starts at byte zero.
-The encoder validates source extents and identities, then writes a directory and
-image chunks. The decoder owns the complete result. A failure may leave that
-result partial and invalid. `write_image` extracts bytes from an already decoded
-collection; it does not perform a separate member decode.
+## Threads and memory
 
-See [collections](COLLECTIONS.md) for layout, channel promotion, memory ownership
-and the distinction between the two forms.
+The library starts threads only inside a call with more than one worker and joins them before returning. Memory
+used by a call is proportional to the image: the encoder holds the samples, the planned symbol streams of every
+segment and the file; the decoder holds the file and the samples, plus a small workspace per worker.

@@ -41,6 +41,7 @@ CONTEXTS = DISTANCE + 1
 ESCAPE_MAX = 2
 PLANE_ORDER = (1, 0, 2, 3)   # green, red, blue, alpha
 INF = float("inf")
+MAX_NEW_DISTANCE = 16384   # the largest distance a distance code expresses: code 27, 12 extra bits
 
 
 def raw_bits(context):
@@ -122,6 +123,7 @@ def costed_parse(S, n, w, lit, length_costs, distance, stop):
                 while L < cap and S[i + L] == S[i + L - d]: L += 1
             repeat = d in reps; shortest = MINLEN if repeat else NEWLEN
             if L < shortest: continue
+            if not repeat and d not in special and d > MAX_NEW_DISTANCE: continue   # beyond the distance codes (12 extra bits)
             if repeat: dcost = distance[reps.index(d)]
             elif d in special: dcost = distance[NREPEAT + special.index(d)]
             else:

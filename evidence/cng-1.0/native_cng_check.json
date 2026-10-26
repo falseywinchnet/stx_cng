@@ -1,0 +1,1565 @@
+{
+ "scope": "Native CNG 1.0 (native/cng/) against the Python reference (research/cng_format.py): build the codec and its driver,\nthen for every vector (results/cng_vectors/) and corpus file (.build/cng_streams/) decode exactly at one and four\nthreads, decode the mosaic, and encode the expected samples natively, which must reproduce the reference's file byte\nfor byte. Writes results/native_cng_check.json.\n    python -B -m research.check_native_cng [--limit N]",
+ "command": [
+  "/opt/homebrew/opt/llvm/bin/clang++",
+  "-std=c++20",
+  "-O3",
+  "-DNDEBUG",
+  "-Wall",
+  "-Wextra",
+  "-Wpedantic",
+  "-Werror",
+  "-I/opt/homebrew/include",
+  "-Inative/cng",
+  "native/cng/cng_encoder.cpp",
+  "native/cng/cng_decoder.cpp",
+  "native/cng/cng_driver.cpp",
+  "-L/opt/homebrew/lib",
+  "-lzstd",
+  "-lz",
+  "-lpng16",
+  "-lwebp",
+  "-o",
+  ".build/cng/cng_driver"
+ ],
+ "vectors": [
+  {
+   "name": "one_pixel_rgb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1x1x3 identical 1"
+  },
+  {
+   "name": "one_pixel_rgba",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1x1x4 identical 1"
+  },
+  {
+   "name": "column_9",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1x9x3 identical 1"
+  },
+  {
+   "name": "noise_5x7",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 7x5x3 identical 1"
+  },
+  {
+   "name": "noise_140x150",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 150x140x3 identical 1"
+  },
+  {
+   "name": "flat_130x129",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 129x130x3 identical 1"
+  },
+  {
+   "name": "smooth_300x200",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 300x200x3 identical 1"
+  },
+  {
+   "name": "smooth_alpha_300x200",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 300x200x4 identical 1"
+  },
+  {
+   "name": "tile8_384x256",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "name": "palette_rgba_90x100",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 90x100x4 identical 1"
+  },
+  {
+   "name": "stripes_150x140",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 150x140x3 identical 1"
+  },
+  {
+   "name": "corpus_checker",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x65x3 identical 1"
+  },
+  {
+   "name": "corpus_surface_64_noise_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x64x3 identical 1"
+  },
+  {
+   "name": "corpus_odd_surface_65_67",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x65x3 identical 1"
+  },
+  {
+   "name": "corpus_tile_7_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "name": "noto_face",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "name": "segment_exact_128x32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x32x3 identical 1"
+  },
+  {
+   "name": "segment_partial_129x33",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 129x33x3 identical 1"
+  },
+  {
+   "name": "segment_ramp_260x97",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 260x97x3 identical 1"
+  },
+  {
+   "name": "segment_rgba_70x65",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 70x65x4 identical 1"
+  }
+ ],
+ "corpus": [
+  {
+   "key": "research_structured__checker",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x65x3 identical 1"
+  },
+  {
+   "key": "research_noisy__noise2",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__noise32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__noise1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__noise4",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__noise8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__ramp",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_mixed__half_noise",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__random",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x65x3 identical 1"
+  },
+  {
+   "key": "research_noisy__retained_random_rgb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x63x3 identical 1"
+  },
+  {
+   "key": "research_photo__photo",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "research_noisy__retained_smooth_noise_one",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "research_noisy__speckles25",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__speckles5",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__speckles50",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__speckles90",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__surface",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__surface_64_noise_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x64x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_64_noise_2",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x64x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_64_noise_8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x64x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_64_noise_32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x64x3 identical 1"
+  },
+  {
+   "key": "research_smooth__surface_128_noise_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_128_noise_2",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__retained_smooth_transposed",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_128_noise_8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__retained_smooth_half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_128_noise_32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_256_noise_8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 256x256x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_256_noise_2",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 256x256x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_8_axis_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_8_axis_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_noisy__surface_256_noise_32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 256x256x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_16_axis_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_24_axis_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_16_axis_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__odd_surface_65_67",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 67x65x3 identical 1"
+  },
+  {
+   "key": "research_smooth__odd_surface_31_19",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 19x31x3 identical 1"
+  },
+  {
+   "key": "research_mixed__strip_24_axis_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__surface_256_noise_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 256x256x3 identical 1"
+  },
+  {
+   "key": "archive_noise_mixed__random",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__nyquist_checker",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_smooth__smooth",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_noise_mixed__mixed_order_noise",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "research_mixed__retained_whole",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1024x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim01",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim02",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim04",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim03",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim05",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim06",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim07",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim08",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim09",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim10",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim11",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim12",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim13",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim14",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim16",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim15",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim17",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim18",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim19",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x768x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim21",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim20",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim22",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_7",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_7",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_15",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_15",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_16",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_16",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_31",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_31",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_32",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim23",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_33",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_33",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_64",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_64",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_127",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__vertical_128",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_127",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__horizontal_128",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__diagonal_half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__diagonal_one",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__oblique_3_7",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__thin_horizontal",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__thin_diagonal",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__rectangle_aligned",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__rectangle_unaligned",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__drawing_rgb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__rectangle_on_gradient",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__checker_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__thin_blueprint",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__oblique_periodic",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_2_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim24",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_2_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__rectangle_on_texture",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_2_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_3_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_3_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_3_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_5_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_5_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_5_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_7_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_7_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_8_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_7_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_8_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_8_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_16_phase_1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_16_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__tile_16_phase_break",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__ramp_plus_tile7",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_composite__composite_photograph_crops",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 64x2048x3 identical 1"
+  },
+  {
+   "key": "reference_fixture__dog-half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__correspondence-macos",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1120x720x4 identical 1"
+  },
+  {
+   "key": "reference_fixture__smooth-half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__anchored_popup_layer",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 755x370x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__gallery-macos",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1280x820x4 identical 1"
+  },
+  {
+   "key": "guiforms_capture__button_family",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 620x96x3 identical 1"
+  },
+  {
+   "key": "reference_fixture__reference",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1024x512x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__check_box",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 305x146x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__card_collection",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 204x392x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__basic_controls_overview",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 690x430x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__checked_list_box",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 840x558x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__basic_controls_002_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__checked_list_box_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__collection_menu_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f600",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f601",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f602",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f603",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f604",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f605",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f606",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f607",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "guiforms_capture__container_focus",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 840x558x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__composition_bundle_001_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f608",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f609",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60b",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60a",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60c",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60d",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60e",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60f",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f610",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f611",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f612",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f613",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f614",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f615",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f617",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f616",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f618",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f619",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61a",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61b",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61c",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61d",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61e",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f3cb_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f61f",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u270b_1f3fe",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f431",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1fab6",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f46e_1f3fd_200d_2642",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f44d_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "guiforms_capture__container_bundle_003_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f4bd",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f470_1f3ff_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9e9",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1fa90",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f481_1f3fb_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9d1_1f3fb_200d_1f384",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1faf1_1f3fe",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f3c3_1f3fe_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f552",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f6d6",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f5fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f6b5_1f3fc_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f468_200d_2764_200d_1f468",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f3c3_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1faf1_1f3fe_200d_1faf2_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1fabc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1fa85",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f47c_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3fe_200d_2764_200d_1f48b_200d_1f469_1f3fe",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9ce_1f3fc_200d_2640_200d_27a1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f923",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u270a",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f1eb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f43d",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3fc_200d_1f680",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f977",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f5c4",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f3a0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9dc_1f3fd",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f999",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9de_200d_2642",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f468_1f3ff_200d_2764_200d_1f48b_200d_1f468_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f4d8",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f473_1f3ff_200d_2642",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f471_1f3fc",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9d1_1f3fd_200d_1f9b0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f574_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9d7_1f3fe",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f3d6",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f486_200d_2642",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f5d1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f939_1f3fb",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9d9_1f3fd_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f93d_1f3fd_200d_2642",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f40d",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f6b6_1f3fe_200d_2642_200d_27a1",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f93c_1f3fd_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f9d7_1f3fe_200d_2640",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f63e",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f959",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3fb_200d_1f527",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f91b",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f469_1f3fd_200d_1f393",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f553",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  }
+ ]
+}

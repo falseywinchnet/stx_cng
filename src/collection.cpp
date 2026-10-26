@@ -1,4 +1,6 @@
+// CNG collections: a packed set of standalone CNG images, or one composite CNG canvas sliced into its members.
 #include "stx_cng/collection.hpp"
+#include "cng_format.hpp"
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -7,17 +9,17 @@
 #include <limits>
 #include <stdexcept>
 #include <streambuf>
-#include <zlib.h>
 
-namespace stx_cng_collection {
+namespace stx_cng::collection {
 namespace {
 using Bytes = std::vector<std::uint8_t>;
 constexpr std::size_t maximum_images = 4096;
-constexpr std::array<std::uint8_t, 8> signature{137, 67, 78, 71, 13, 10, 26, 10};
+constexpr std::array<std::uint8_t, 8> signature{0x8A, 'C', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A};
+constexpr std::uint64_t schema_version = 1;
 using Tag = std::array<std::uint8_t, 4>;
 constexpr Tag image_tag{73, 77, 65, 71};
 void require(bool condition, const char* message) {
-    if (!condition) { throw std::runtime_error(message); }
+    if (!condition) { throw Error(Reason::collection, message); }
 }
 void write(std::ostream& stream, std::span<const std::uint8_t> bytes) {
     stream.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
@@ -39,10 +41,10 @@ std::uint64_t get(std::span<const std::uint8_t> bytes, std::size_t offset, std::
     for (std::size_t index = 0; index < width; ++index) { value = (value << 8) | bytes[offset + index]; }
     return value;
 }
-uLong checksum(Tag tag, std::span<const std::uint8_t> bytes) {
-    uLong result = crc32(0, tag.data(), 4);
-    if (!bytes.empty()) { result = crc32(result, bytes.data(), static_cast<uInt>(bytes.size())); }
-    return result;
+// CRC-32 of a chunk's tag followed by its bytes.
+std::uint32_t checksum(Tag tag, std::span<const std::uint8_t> bytes) {
+    const std::uint32_t tagged = detail::crc_extend(0, tag);
+    return detail::crc_extend(tagged, bytes);
 }
 void chunk(std::ostream& stream, Tag tag, std::span<const std::uint8_t> bytes) {
     require(bytes.size() <= std::numeric_limits<std::uint32_t>::max(), "atlas chunk extent");
@@ -86,13 +88,13 @@ class ChunkOutput : public std::streambuf {
     std::ostream& output;
 public:
     std::uint64_t length = 0;
-    uLong crc = crc32(0, image_tag.data(), 4);
+    std::uint32_t crc = detail::crc_extend(0, image_tag);
     explicit ChunkOutput(std::ostream& destination) : output(destination) {}
     std::streamsize xsputn(const char* data, std::streamsize count) override {
         if (count < 0 || static_cast<std::uint64_t>(count) > std::numeric_limits<std::uint32_t>::max() - length) { return 0; }
         output.write(data, count);
         if (!output) { return 0; }
-        crc = crc32(crc, reinterpret_cast<const Bytef*>(data), static_cast<uInt>(count));
+        crc = detail::crc_extend(crc, std::span<const std::uint8_t>(reinterpret_cast<const std::uint8_t*>(data), static_cast<std::size_t>(count)));
         length += static_cast<std::uint64_t>(count);
         return count;
     }
@@ -102,26 +104,6 @@ public:
         std::streamsize written = xsputn(&byte, 1);
         if (written != 1) { return traits_type::eof(); }
         return value;
-    }
-};
-// Bounded input makes the inner codec's EOF local to this one image.
-class ChunkInput : public std::streambuf {
-    std::istream& input;
-    std::array<char, 4096> buffer{};
-    std::uint64_t remaining;
-public:
-    uLong crc = crc32(0, image_tag.data(), 4);
-    ChunkInput(std::istream& source, std::uint64_t length) : input(source), remaining(length) {}
-    int_type underflow() override {
-        if (gptr() != nullptr && gptr() < egptr()) { return traits_type::to_int_type(*gptr()); }
-        if (remaining == 0) { return traits_type::eof(); }
-        std::size_t count = static_cast<std::size_t>(std::min<std::uint64_t>(remaining, buffer.size()));
-        input.read(buffer.data(), static_cast<std::streamsize>(count));
-        if (!input) { return traits_type::eof(); }
-        crc = crc32(crc, reinterpret_cast<const Bytef*>(buffer.data()), static_cast<uInt>(count));
-        remaining -= count;
-        setg(buffer.data(), buffer.data(), buffer.data() + count);
-        return traits_type::to_int_type(*gptr());
     }
 };
 void validate_dimensions(Dimensions dimensions) {
@@ -189,10 +171,6 @@ public:
     CompositeInput(std::span<const ImageSource> sources, Dimensions dimensions)
         : images(sources), canvas(dimensions), input{},
           row(dimensions.width * dimensions.channels), original(dimensions.width * 4) {}
-    std::size_t workspace_bytes() const {
-        std::size_t result = row.capacity() + original.capacity();
-        return result;
-    }
     int_type underflow() override {
         if (gptr() != nullptr && gptr() < egptr()) { return traits_type::to_int_type(*gptr()); }
         if (image_index == images.size()) { return traits_type::eof(); }
@@ -227,17 +205,14 @@ public:
         return traits_type::to_int_type(*gptr());
     }
 };
-void encode_image(std::istream& input, Dimensions dimensions, std::ostream& output,
-                  Entry& entry, Measurements& measurements) {
+void encode_image(std::istream& input, Dimensions dimensions, std::ostream& output, Entry& entry) {
     entry.offset.bytes = position(output);
     std::array<std::uint8_t, 8> header{};
     std::copy(image_tag.begin(), image_tag.end(), header.begin() + 4);
     write(output, header);
     ChunkOutput buffer(output);
     std::ostream body(&buffer);
-    stx_cng::Measurements measured;
-    stx_cng::encode(input, body, dimensions, measured);
-    measurements.workspace_bytes = std::max(measurements.workspace_bytes, measured.workspace_bytes + sizeof(buffer));
+    stx_cng::encode(input, body, dimensions);
     std::array<std::uint8_t, 4> footer{};
     put(footer, 0, 4, buffer.crc);
     write(output, footer);
@@ -249,35 +224,30 @@ void encode_image(std::istream& input, Dimensions dimensions, std::ostream& outp
     output.seekp(static_cast<std::streamoff>(end));
     require(static_cast<bool>(output), "collection image patch");
 }
-void decode_image(std::istream& input, const Entry& entry, Dimensions dimensions,
-                  Bytes& pixels, Measurements& measurements) {
+void decode_image(std::istream& input, const Entry& entry, Dimensions dimensions, Bytes& pixels) {
     seek(input, entry.offset.bytes);
     std::array<std::uint8_t, 8> header{};
     read(input, header);
     require(std::equal(image_tag.begin(), image_tag.end(), header.begin() + 4)
         && get(header, 0, 4) == entry.length - 12, "collection image header");
-    ChunkInput buffer(input, entry.length - 12);
-    std::istream body(&buffer);
-    pixels.resize(dimensions.height * dimensions.width * dimensions.channels);
-    stx_cng::Measurements measured;
-    Dimensions actual = stx_cng::decode_into(body, pixels, measured);
-    require(actual.width == dimensions.width && actual.height == dimensions.height
-        && actual.channels == dimensions.channels, "collection inner dimensions");
+    Bytes body(static_cast<std::size_t>(entry.length - 12));
+    read(input, body);
     std::array<std::uint8_t, 4> footer{};
     read(input, footer);
-    require(get(footer, 0, 4) == buffer.crc, "collection image CRC");
-    measurements.workspace_bytes = std::max(measurements.workspace_bytes, measured.workspace_bytes + sizeof(buffer));
+    require(get(footer, 0, 4) == checksum(image_tag, body), "collection image CRC");
+    pixels.resize(dimensions.height * dimensions.width * dimensions.channels);
+    Dimensions actual = stx_cng::decode_into(body, pixels);
+    require(actual.width == dimensions.width && actual.height == dimensions.height
+        && actual.channels == dimensions.channels, "collection inner dimensions");
 }
 }
 
-void encode(std::span<const ImageSource> images, Form form,
-            std::ostream& destination, Measurements& measurements) {
-    measurements = {};
+void encode(std::span<const ImageSource> images, Form form, std::ostream& destination) {
     Layout layout = plan(images, form);
     require(position(destination) == 0, "collection output origin");
     write(destination, signature);
     std::array<std::uint8_t, 24> header{};
-    put(header, 0, 4, 0); // Experimental collection schema, distinct from AHDR atlases.
+    put(header, 0, 4, schema_version);
     put(header, 4, 4, static_cast<std::uint32_t>(form));
     put(header, 8, 4, images.size());
     put(header, 12, 4, layout.canvas.width);
@@ -291,14 +261,13 @@ void encode(std::span<const ImageSource> images, Form form,
         for (std::size_t index = 0; index < images.size(); ++index) {
             std::ifstream input(images[index].raw_path, std::ios::binary);
             require(static_cast<bool>(input), "packed source open");
-            encode_image(input, images[index].dimensions, destination, layout.entries[index], measurements);
+            encode_image(input, images[index].dimensions, destination, layout.entries[index]);
         }
     } else {
         CompositeInput buffer(images, layout.canvas);
         std::istream input(&buffer);
         Entry canvas;
-        encode_image(input, layout.canvas, destination, canvas, measurements);
-        measurements.workspace_bytes += buffer.workspace_bytes() + sizeof(buffer);
+        encode_image(input, layout.canvas, destination, canvas);
         for (Entry& entry : layout.entries) {
             entry.offset = canvas.offset;
             entry.length = canvas.length;
@@ -311,17 +280,15 @@ void encode(std::span<const ImageSource> images, Form form,
     chunk(destination, {68, 73, 82, 69}, packed);
     destination.seekp(static_cast<std::streamoff>(end));
     require(static_cast<bool>(destination), "collection final patch");
-    measurements.workspace_bytes += packed.capacity() + layout.entries.capacity() * sizeof(Entry);
 }
 
-void decode(std::istream& source, Decoded& destination, Measurements& measurements) {
-    measurements = {};
+void decode(std::istream& source, Decoded& destination) {
     seek(source, 0);
     std::array<std::uint8_t, 8> identifier{};
     read(source, identifier);
     require(identifier == signature, "collection signature");
     Bytes header = read_chunk(source, {83, 72, 68, 82}, 24);
-    require(header.size() == 24 && get(header, 0, 4) == 0 && get(header, 4, 4) <= 1, "collection header");
+    require(header.size() == 24 && get(header, 0, 4) == schema_version && get(header, 4, 4) <= 1, "collection header");
     std::size_t count = static_cast<std::size_t>(get(header, 8, 4));
     require(count > 0 && count <= maximum_images, "collection count");
     destination = {};
@@ -382,11 +349,8 @@ void decode(std::istream& source, Decoded& destination, Measurements& measuremen
     destination.planes.resize(plane_count);
     for (std::size_t index = 0; index < plane_count; ++index) {
         Dimensions dimensions = layout.form == Form::packed ? layout.entries[index].dimensions : layout.canvas;
-        decode_image(source, layout.entries[index], dimensions, destination.planes[index], measurements);
+        decode_image(source, layout.entries[index], dimensions, destination.planes[index]);
     }
-    measurements.workspace_bytes += packed.capacity() + layout.entries.capacity() * sizeof(Entry);
-    measurements.workspace_bytes += destination.planes.capacity() * sizeof(Bytes);
-    for (const Bytes& pixels : destination.planes) { measurements.workspace_bytes += pixels.capacity(); }
 }
 void write_image(const Decoded& source, ImageId id, std::ostream& destination) {
     std::size_t selected = source.layout.entries.size();
@@ -421,4 +385,4 @@ void write_image(const Decoded& source, ImageId id, std::ostream& destination) {
         }
     }
 }
-}
+}  // namespace stx_cng::collection

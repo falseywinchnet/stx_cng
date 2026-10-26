@@ -1,6 +1,11 @@
-# Tiled: a PNG/WebP-class construction
+# Tiled: the study behind CNG 1.0
 
-A research study, not part of the library or the CNG format. The question: can
+This study produced the CNG 1.0 format. Its final construction, CNGM0008's coding in 128 × 32 restart segments
+inside the 1.0 container, is specified in [docs/FORMAT.md](../../docs/FORMAT.md) and implemented in the library.
+The exact Python reference of CNG 1.0 is [`research/cng_format.py`](research/cng_format.py) (with the modules it
+imports); the library's encoder writes the same bytes. The text below records the study's earlier stages.
+
+A research study. The question: can
 what the phase-coding work learned make a *fast*, tiled lossless format whose
 files sit between lossless WebP and PNG, keeping CNG's independent 128×128
 tiles, duplicated index, mosaic layer and salvage behaviour? The decoder budget

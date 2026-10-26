@@ -1,8 +1,7 @@
 # Building stx_cng
 
-The library requires CMake 3.21 or later, a C++20 compiler and zlib. It builds
-as one static library. No image toolkit, compression library, Python runtime or
-platform graphics API is required.
+stx_cng needs CMake 3.21 or later and a C++20 compiler with its C compiler. Nothing else: no system library, package
+manager, download or extra toolchain. It builds as one static library, `libstx_cng`.
 
 ## Configure, build, test
 
@@ -14,19 +13,17 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-Zlib is located through CMake's `FindZLIB`; on another installation, set
-`CMAKE_PREFIX_PATH` to the dependency prefix. The source is portable C++20
-without platform intrinsics; it is built and verified with LLVM clang on
-macOS arm64 and with GCC on Linux x86-64, where the encoder produces identical
-bytes.
+## Dependencies
 
-## Dependency contract
+The only third-party code is Zstandard 1.5.7, which compresses the per-image tables. Its official release tarball
+is checked in at `third_party/zstd-1.5.7.tar.gz` and pinned by SHA-256. Configuration verifies the hash, extracts
+the library sources into the build tree, checks the extracted licence against `LICENSE-zstd.txt`, and compiles
+those sources (single threaded, without assembly, legacy formats or the dictionary builder) into `libstx_cng`.
+No zstd header or type reaches the public interface, and nothing outside `libstx_cng` needs to be linked. Every
+build uses the same Zstandard release, so the encoder writes the same bytes on every platform.
 
-Zlib supplies the CRC32 of collection chunks. It is linked externally and not
-downloaded. The standalone codec computes its own CRC32 and has no dependency
-beyond the C++ standard library. The `stx_cngcompress` package in this
-repository was the entropy coder of releases 0.1 and 0.2; it remains as an
-independent package and is not built or linked by this release.
+CRC-32 is implemented in the library. Threads come from the C++ standard library; on platforms where that needs a
+thread library, CMake's `Threads` package supplies it.
 
 ## Embed from source
 
@@ -35,8 +32,8 @@ add_subdirectory(external/stx_cng)
 target_link_libraries(my_application PRIVATE stx_cng::stx_cng)
 ```
 
-This exposes the public include directory and the C++20 requirement. Set
-`BUILD_TESTING` to `OFF` when the embedding build does not need the bundled tests.
+This exposes the public include directory and the C++20 requirement. Set `BUILD_TESTING` to `OFF` when the
+embedding build does not need the tests.
 
 ## Install
 
@@ -44,38 +41,23 @@ This exposes the public include directory and the C++20 requirement. Set
 cmake --install build --prefix /your/install/prefix
 ```
 
-Installation places the static library, public headers and a relocatable CMake
-package configuration beneath the prefix. A consuming C++ project uses:
+Installation places `libstx_cng`, the public headers, the licences and a relocatable CMake package beneath the
+prefix. A consuming project uses:
 
 ```cmake
-find_package(stx_cng 0.3 CONFIG REQUIRED)
+find_package(stx_cng 1.0 CONFIG REQUIRED)
 target_link_libraries(my_application PRIVATE stx_cng::stx_cng)
 ```
 
-For manual linking, use `libstx_cng`, zlib and the C++ runtime.
+For manual linking, link `libstx_cng` and the C++ runtime (and the platform thread library where one is separate).
 
-## What the tests establish
+## Tests
 
-`stx_cng_roundtrip` exercises 40 RGB/RGBA image cases, including multi-frame
-images, ramps, sharp steps, repeated patterns, noise and narrow dimensions. It
-checks both stream output and caller-supplied output, round-trips both
-collection forms with mixed channel counts, checks that a `CSP` v3 header of
-an earlier release is rejected before pixel output, that the mosaic layer equals
-the image's 16×16 block means, and that a flipped payload byte is reported as a
-frame checksum failure by `decode_into` and filled from the mosaic by
-`decode_salvage`.
+| Test | What it establishes |
+| --- | --- |
+| `stx_cng_roundtrip` | 132 images of twelve size classes from 1 × 1 to 300 × 200 and across segment edges, RGB and RGBA, six patterns: every encode and decode call, one, four and all threads, identical files from one and four encoder threads, the mosaic, salvage of an intact and of a damaged file, every error reason, and both collection forms |
+| `stx_cng_conformance` | Every file in `tests/vectors` decodes exactly at one and four threads, its mosaic is the block means of its samples, and encoding its samples writes it byte for byte |
+| `stx_cng_malformed` | Every truncation and every flipped byte of small files, sampled ones of larger files, random bursts, and crafted files whose checksums all match (random segment payloads, random table bodies in valid Zstandard frames, random mosaics, random dimensions, every quantized frequency above 25), plus damaged collections. Each input must be rejected or, where the original was kept, decode to it exactly |
 
-`stx_cng_malformed` decodes about 79,000 damaged inputs through the public
-interfaces: every truncation of six images and two collections, every
-single-bit flip of their headers, directories and payload edges, forged
-payloads of arbitrary bytes with recomputed checksums, header fields claiming
-impossible or oversized dimensions or mosaic lengths, whole index and mosaic
-copies zeroed or filled, and salvage decodes of damaged payloads.
-Each input must be rejected or decode exactly (a forged payload may decode to
-anything), must never write outside the destination, and, when the tests are
-configured with `-DSTX_CNG_SANITIZE=ON`, must raise no address or
-undefined-behaviour sanitizer report. The release runs this configuration.
-
-Temporary fixtures are created in the test working directory and removed on
-success. The measurement corpus remains external; the repository includes its
-results and source hashes, not third-party image files.
+`-DSTX_CNG_SANITIZE=ON` builds the library, Zstandard and the tests with the address and undefined-behaviour
+sanitizers; any report fails the test. The release runs the whole suite in this configuration.

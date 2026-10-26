@@ -1,104 +1,90 @@
 {
- "release": "0.4.0",
- "note": "Provenance of the consolidated implementation in the research tree. Paths are historical, not build dependencies. prepared_sha256 identifies the file in this repository.",
+ "release": "1.0.0",
+ "note": "Provenance of the shipped sources. Origins are paths in the research tree (not build dependencies); prepared_sha256 identifies the file in this repository.",
  "files": {
-  "src/phase_codec.cpp": {
-   "source": "native/phase/phase_codec.cpp",
-   "source_sha256": "46bc4b10ab27f1dbc038d6360fdb240c3888f5d044ae71bf42c93b5f72924150",
-   "prepared_sha256": "46bc4b10ab27f1dbc038d6360fdb240c3888f5d044ae71bf42c93b5f72924150"
+  "src/cng_format.hpp": {
+   "source": "native/cng/cng_format.hpp",
+   "source_sha256": "26738abf6aa230ac58312429ad14a3244858f9d56c50f1162d323a7bcb36d4f1",
+   "prepared_sha256": "c3c96f0ee124d1e36eeb451f5b07c1dd3d335f16acda6bd7f33f5ce4607f8f08"
   },
-  "src/phase_codec.hpp": {
-   "source": "native/phase/phase_codec.hpp",
-   "source_sha256": "0dc9438eaa4a4f68ca95bb442f0b1fe46bbae79439d378b08abd27ec47058d6e",
-   "prepared_sha256": "0dc9438eaa4a4f68ca95bb442f0b1fe46bbae79439d378b08abd27ec47058d6e"
+  "src/cng_codec.hpp": {
+   "source": "native/cng/cng_codec.hpp",
+   "source_sha256": "7572925f517b31a527d9854c9b0b6007a805568c09d50564cd2310b217f400b9",
+   "prepared_sha256": "6856e752f8298a6f9b39f68e9a6c8554574b43db0b1d6362cbd38505f097b0ae"
   },
-  "src/range_coder.hpp": {
-   "source": "native/phase/range_coder.hpp",
-   "source_sha256": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4",
-   "prepared_sha256": "e91cadfb0837ec2c0b4d0bd087c5e3d08e6b0c7ec65fe74bcc5b1f7819b494d4"
+  "src/cng_internal.hpp": {
+   "source": "native/cng/cng_internal.hpp",
+   "source_sha256": "3ec45993d5b353fca688451fdf20a3cf0d0f1f21f0ba270a3c374087e7496fd4",
+   "prepared_sha256": "ced6003e8985318833c390f1d083d794845519877b5e4ba10195599f80ce7c0c"
   },
-  "src/phase_tables.hpp": {
-   "source": "native/phase/phase_tables.hpp",
-   "source_sha256": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46",
-   "prepared_sha256": "a8e98a65c1e127547127f5082504ce753b3e9506a83411c542d89e4a11881b46"
+  "src/cng_encoder.cpp": {
+   "source": "native/cng/cng_encoder.cpp",
+   "source_sha256": "88b56b2b55e8d99d44ce96ec73d954957a16585793d272aab884d90cc7aa1153",
+   "prepared_sha256": "4b31d4c2ee31f011f3f0117bab6a2fb00c3ecbba69504a12db70da8680efc8a8"
   },
-  "src/codec.cpp": {
-   "source": "written for release 0.3.0: stream adapter over native/phase",
-   "prepared_sha256": "56073e58c763a8802cd331f120fbde0468a7cc534724ca53e814d13ef5c746fe"
+  "src/cng_decoder.cpp": {
+   "source": "native/cng/cng_decoder.cpp",
+   "source_sha256": "c291ffd8cc259ec7ea9819dc4b1d313996d5b3d01a6ee16788fe693941a35d31",
+   "prepared_sha256": "8a513c7191a23fe05c062df67b5d3743d2590013f1803a428a28d11ed42f6ea2"
+  },
+  "src/code_lengths.hpp": {
+   "source": "native/cng/code_lengths.hpp",
+   "source_sha256": "6138381dca0f636bbb057bb7ca6a93c79ae5e5a6659348ded16cf657a98ca712",
+   "prepared_sha256": "fcc1eee7fe4f2b99f561678620c5336474e35c939c08dda8ab200f5120f6ac0e"
+  },
+  "tests/vectors/manifest.json": {
+   "source": "results/cng_vectors/manifest.json",
+   "source_sha256": "50706ad124750660138a681cdf11f77acea8321e114d93c39ac429d803c0d6c1",
+   "prepared_sha256": "50706ad124750660138a681cdf11f77acea8321e114d93c39ac429d803c0d6c1"
+  },
+  "experiments/tiled/research/cng_format.py": {
+   "source": "research/cng_format.py",
+   "source_sha256": "1374450fc5c9e05afd51463ae12378e5c8dcdcfdf387ee79314ff030692027b6",
+   "prepared_sha256": "1374450fc5c9e05afd51463ae12378e5c8dcdcfdf387ee79314ff030692027b6"
   },
   "include/stx_cng/codec.hpp": {
-   "source": "native/source_match/raw_codec.hpp",
-   "source_sha256": "58268155172cc07812e203d5db1790d8f3b7204875cc28b4500181d12b1f2a3a",
-   "prepared_sha256": "3ddb4e9a28180c231635e10debc8be76ca2bf443c55c4e18319ac377b5f92fb8",
-   "note": "interface retained; Measurements fields changed in 0.3.0"
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "4eb3d85408664a512e8cf074dfece747cf5f857720b9b361f281d522fe96b8b8"
   },
   "include/stx_cng/collection.hpp": {
-   "source": "native/collection/container.hpp",
-   "source_sha256": "c17e4e1eb64c2e3667731e70448ae878c5b9105e215700758d1f4758d3486bca",
-   "prepared_sha256": "62218882126022daaa02b35598969e60a0c319fd75ec506b51b19377bd6e8149"
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "a43c4cfe7beb25c7a3ccba4f1e7180ab2bb73fd7599c3e4321f7c4eec38e4837"
+  },
+  "src/codec.cpp": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "992d0262b8a27233d801ceb8e3ae3231b0026ae48f2bad19210f644740df7dda"
   },
   "src/collection.cpp": {
-   "source": "native/collection/container.cpp",
-   "source_sha256": "b27181d5d4a48e4b869615a21061553cca25d5826390cc34793bfcfc69124e86",
-   "prepared_sha256": "2cef006021abce3e56be3915f73466c2acc2c3c32a9beb2a78f9ed0494df2480"
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "5769693bfdc2d1ef9c95e65848946fcfc3eba2ea54e7154e0d1c6747eb63fcb1"
   },
-  "experiments/version7/reference.py": {
-   "source": "research/phase_codec_v7.py",
-   "source_sha256": "d772069ffd4e9693d222ef5c4b3f9c4a07bc15bf69eaf795a999cb0d8e6d1157",
-   "prepared_sha256": "890dd46d467ba186ddfa5cc765473ec268642b9f63d405ada40ce875212026cc",
-   "note": "import line differs"
+  "tests/roundtrip.cpp": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "9f8eeb2c1ec548a8de559ac2f087a8256a4330e5bbf87781014073c599c25a0f"
   },
-  "experiments/version7/reference_frame_engine.py": {
-   "source": "research/phase_codec.py",
-   "source_sha256": "4dbefb313b5f921602d33a26ea112c87117ed6583d640479436a62cc4e4dbcc8",
-   "prepared_sha256": "957a065c1c8ad0b03aa42d5f15eb9bd33d9fe6c76e59494414c676ebe927ac35"
-  }
- },
- "removed_in_0_3_0": {
-  "src/prediction_parse.cpp": {
-   "source": "native/source_match/prediction_parse.cpp",
-   "source_sha256": "75258df9a49dc5cdcc466f6864d538fd6010559d8fbab926d8222ba8feedcc1b",
-   "prepared_sha256": "b2cc1bbea18a360e57a68712eeff3231d4822f68077a836f897ea4b3e5389d14"
+  "tests/conformance.cpp": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "d45da00465e04ea20999b1e7e578a7ef0135f9282fe40a1350398c36f350bf03"
   },
-  "src/prediction_restore.cpp": {
-   "source": "native/source_match/prediction_restore.cpp",
-   "source_sha256": "6b100c16b513c1fdd6c7a36d9f86ac4e0f2752d2abf95c3ea3952eefa6b6d278",
-   "prepared_sha256": "8a67e62c98ac2c32c29cf88ac859e21d8bba576dd045ef76cb34ee8d8d80ed72"
+  "tests/malformed.cpp": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "3b138cc8b145c6c24ce5a79b8e999421eed07b3eb929e9baf8211a9c37abc095"
   },
-  "src/raw_restore.cpp": {
-   "source": "native/source_match/raw_restore.cpp",
-   "source_sha256": "d858741ef5b511a6189ff7e66f03cf876e5721f2d7e5a1a4190820c3e8c50979",
-   "prepared_sha256": "4dd4fd53f30270fd1af36eccccc41938100df955ee66ae1273d9ce10d0a53397"
+  "tests/test_support.hpp": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "e1fe0bea24703a368f9e47f3c3f1a11671f381f178e53f4a3d34018951e441af"
   },
-  "src/parse.hpp": {
-   "source": "native/source_match/parse.hpp",
-   "source_sha256": "12e3a2594aec19b85f2963e69a157a10bb0ce01a4162ecfb90d006fd329760d7",
-   "prepared_sha256": "e24547574f50fa8d088e047c70bab77a0bb05568f0f4b0ce50a06288311024a1"
+  "CMakeLists.txt": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "c67657ea5acfd53943d14a6a5abe7f56f481d7cc91f5e4121bad880ecbbd0007"
   },
-  "src/prediction.hpp": {
-   "source": "native/source_match/prediction.hpp",
-   "source_sha256": "603c742cc3977215eb681eea2b83b5087bdc23e9b7d9ded1062d71c574a9fee8",
-   "prepared_sha256": "a15629de8200bcfa35ff980d579641dd247e248498107458e5343aaeeb9ee0a6"
+  "cmake/zstd.cmake": {
+   "source": "written for release 1.0.0",
+   "prepared_sha256": "ecb02e4923d1528af4506e41b810b99fd3341abad7f0b79446b57aae7ca5faf5"
   },
-  "src/raw.hpp": {
-   "source": "native/source_match/raw.hpp",
-   "source_sha256": "e8f3b1b5567c06e344aac7cbb1b6172be9b5997610010cde3abe411e1446b708",
-   "prepared_sha256": "6023456d37ad7b10e11ddb68b965faaac14768ce07bce89c3f60735bb3c4a53a"
-  },
-  "src/direct_words.cpp": {
-   "source": "native/short_runs/direct_words.cpp",
-   "source_sha256": "3696b98c30b526c29c777eaf1abeb5fd327332453143517420800d402354b6d1",
-   "prepared_sha256": "81247bc0cf87865a15e3f577f26f028c9f7852b6805ab85672e1e9c47fc85bb9"
-  },
-  "src/direct_words.hpp": {
-   "source": "native/short_runs/direct_words.hpp",
-   "source_sha256": "60e65a1eb3ea71dd6d70944b0f6a55da2b6d45b738261f157d601abde03a15cd",
-   "prepared_sha256": "526ffb5b460fc8fd5b607b86a399cb0332aa30eb17bd561c28a478088c2fba6f"
-  },
-  "src/context.hpp": {
-   "source": "native/bounded/context.hpp",
-   "source_sha256": "8a184a7b43d162189b7383c8939bccf03f3b6bf9b69f5a06bdf6d6219163516f",
-   "prepared_sha256": "bfbbbd0665238826440e5ef4c5f5fd5f1fcddc4604d276782025e619bdedf3cc"
+  "third_party/zstd-1.5.7.tar.gz": {
+   "source": "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz",
+   "prepared_sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3"
   }
  }
 }

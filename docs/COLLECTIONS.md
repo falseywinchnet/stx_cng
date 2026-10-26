@@ -1,50 +1,51 @@
-# One image, or a set
+# CNG collections
 
-CNG supports two collection forms. Their difference is where encoding happens:
-on each member separately, or on one canvas containing the whole set.
+A collection stores 1 to 4,096 images in one file, in one of two forms the caller chooses:
 
-| | Packed images | Composite image |
+| | Packed | Composite |
 | --- | --- | --- |
-| Encoded payload | One complete standalone file per member | One complete standalone file for the canvas |
-| Shared image coding | None across members | Within each 128×128 frame of the canvas |
-| Decoder ownership | One decoded plane per member | One decoded canvas |
-| Extraction | Copy the selected decoded plane | Copy its rectangle, restoring original channels |
-| Typical reason to choose it | Preserve each image as its own encoding | Encode related controls, glyphs or artwork together |
+| Payload | One complete CNG file per member | One complete CNG file of a canvas holding every member |
+| Coding across members | None | Within the canvas's segments |
+| Decoding | Each member on its own | The whole canvas, then each member's rectangle |
+| Suited to | Independent images | Related glyphs, controls and artwork |
 
-The caller selects the form explicitly. There is no automatic competition between
-forms and no separately loaded shared dictionary. The API decodes the complete
-collection before extraction; it does not promise independently decoded members.
+There is no automatic choice between the forms and no shared dictionary.
 
 ## Composite layout
 
-Members appear in manifest order, stacked vertically at x = 0. Canvas width is
-the largest member width; canvas height is the sum of member heights. Pixels to
-the right of a narrower member are zero. No member is resized or resampled.
+Members are stacked vertically in directory order at x = 0. The canvas width is the largest member width and its
+height the sum of the member heights; pixels to the right of a narrower member are 0. No member is resized. The
+canvas is RGB when every member is RGB, otherwise RGBA, and RGB members then take alpha 255. Extraction restores
+each member's own channel count and every sample, including the colour beneath alpha 0.
 
-An all-RGB set stays RGB. If any member has alpha, the canvas is RGBA and RGB
-members receive alpha 255. Extraction restores each member's original channel
-count. Existing RGBA samples, including RGB below alpha zero, survive exactly.
+## Bounds
 
-The encoder synthesizes the canvas one row at a time, keeping one source file
-open, and then encodes the complete canvas. The decoder owns the complete
-canvas, as required for subsequent slicing. Arbitrary rectangle packing is
-outside this release.
+Every member, and a composite canvas, is at most 65,536 pixels on a side; with its dimensions rounded up to
+multiples of 128, at most 4,194,304 pixels and a width plus height of at most 65,536. A canvas beyond these bounds
+is rejected, not switched to the packed form. A packed collection may hold more pixels in total than one canvas.
 
-## Bounds and file access
+## File layout
 
-A set contains 1–4,096 uniquely identified images. Members and the composite
-canvas are limited to 65,536 on a side and, with dimensions rounded up to
-multiples of 128, to 4,194,304 pixels and a width-plus-height of 65,536. A
-canvas that is too large is rejected rather than silently switched to packed
-form. Packed collections may exceed one canvas's total pixel count because each
-member is encoded separately.
+Integers are big-endian. The file is the signature followed by chunks. A chunk is its body length (u32), a
+four-byte ASCII tag, the body, and the CRC32 (as in [FORMAT.md](FORMAT.md)) of the tag and body (u32).
 
-Source paths refer to headerless interleaved sample files with exactly the stated
-extent. They must stay unchanged while encoding. Collection output is seekable
-and begins at zero so the encoder can finalize chunk lengths, checksums and the
-directory. Collection input is also seekable: the reader validates its directory
-and file extents before decoding image bodies.
+| Part | Contents |
+| --- | --- |
+| Signature | `8A 43 4E 47 0D 0A 1A 0A` (distinct from an image's `89 43 4E 47 …`) |
+| `SHDR` chunk | 24 bytes: schema version u32 (1), form u32 (0 packed, 1 composite), member count u32, canvas width u32, canvas height u32, canvas channels u32 (all 0 for packed) |
+| `DIRE` chunk | 40 bytes per member: id u32, width u32, height u32, channels u32, x u32, y u32, file offset of its `IMAG` chunk u64, length of that chunk including its 12 bytes of framing u64 |
+| `IMAG` chunks | Packed: one per member, in directory order, each body a complete CNG file. Composite: one, the canvas's CNG file, which every directory entry names |
+| `SEND` chunk | Empty; the file ends with it |
 
-For exact layout fields, signatures and checksums, see the
-[format reference](FORMAT.md#3-collections). For C++ ownership and failure behavior,
-see the [API reference](API.md#collections).
+A reader requires: the signature; schema version 1; a member count of 1 to 4,096; unique ids; members within the
+bounds; for packed, every rectangle at (0, 0) and the `IMAG` chunks back to back after the directory; for composite,
+rectangles at x = 0 stacked from y = 0 that cover the canvas height exactly, no wider and with no more channels than
+the canvas, all naming one `IMAG` chunk; every chunk's CRC32; and the `SEND` chunk as the last 12 bytes of the file.
+Each member file is then read as a CNG image, and its dimensions must match the directory.
+
+## Access
+
+Collection output must be seekable and start at offset zero, so that the encoder can complete the chunk lengths,
+checksums and directory. The reader also seeks: it validates the directory and the extents before decoding any
+member. Source images are headerless sample files of exactly their stated size and must not change while a
+collection is written. See [API.md](API.md#collections) for the calls.

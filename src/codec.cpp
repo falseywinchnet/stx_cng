@@ -1,137 +1,133 @@
+// The public CNG 1.0 interface over the codec engine (cng_codec.hpp): argument checks, owned buffers, stream
+// conveniences and exceptions.
 #include "stx_cng/codec.hpp"
-#include "phase_codec.hpp"
-#include <chrono>
+#include "cng_codec.hpp"
+
+#include <algorithm>
 #include <iterator>
-#include <stdexcept>
-#include <vector>
+#include <thread>
 
 namespace stx_cng {
 namespace {
-void require(bool condition, const char* message) {
-    if (!condition) { throw std::runtime_error(message); }
+
+void raise(detail::Status status) {
+    switch (status) {
+        case detail::Status::ok: return;
+        case detail::Status::bad_dimensions: throw Error(Reason::dimensions, "CNG: dimensions out of range");
+        case detail::Status::bad_sample_count: throw Error(Reason::sample_count, "CNG: sample count does not match the dimensions");
+        case detail::Status::bad_header: throw Error(Reason::not_cng, "CNG: not a CNG file, or both header copies are damaged");
+        case detail::Status::unsupported_version: throw Error(Reason::unsupported_version, "CNG: unsupported format version");
+        case detail::Status::bad_directory: throw Error(Reason::directory, "CNG: both directory copies are damaged");
+        case detail::Status::bad_tables: throw Error(Reason::tables, "CNG: both table copies are damaged");
+        case detail::Status::bad_payload: throw Error(Reason::damaged, "CNG: a segment is damaged");
+    }
+    throw Error(Reason::damaged, "CNG: unknown status");
 }
-cng_phase::Dimensions engine_dimensions(Dimensions dimensions) {
-    require(dimensions.width > 0 && dimensions.height > 0 && (dimensions.channels == 3 || dimensions.channels == 4), "CNG dimensions");
-    require(dimensions.width <= 0xFFFFFFFFu && dimensions.height <= 0xFFFFFFFFu, "CNG dimensions");
-    cng_phase::Dimensions result;
-    result.width = static_cast<std::uint32_t>(dimensions.width);
-    result.height = static_cast<std::uint32_t>(dimensions.height);
-    result.channels = static_cast<std::uint32_t>(dimensions.channels);
+
+[[nodiscard]] detail::Dimensions engine_dimensions(Dimensions d) {
+    if (d.width == 0 || d.height == 0 || (d.channels != 3 && d.channels != 4)) { throw Error(Reason::dimensions, "CNG: dimensions out of range"); }
+    if (d.width > 0xFFFFFFFFu || d.height > 0xFFFFFFFFu || d.width * d.height > maximum_samples / d.channels) {
+        throw Error(Reason::dimensions, "CNG: dimensions out of range");
+    }
+    detail::Dimensions result;
+    result.width = static_cast<std::uint32_t>(d.width);
+    result.height = static_cast<std::uint32_t>(d.height);
+    result.channels = static_cast<std::uint32_t>(d.channels);
     return result;
 }
-Dimensions public_dimensions(cng_phase::Dimensions dimensions) {
-    return Dimensions{dimensions.height, dimensions.width, dimensions.channels};
+
+[[nodiscard]] Dimensions public_dimensions(detail::Dimensions d) {
+    Dimensions result;
+    result.height = d.height; result.width = d.width; result.channels = d.channels;
+    return result;
 }
-void raise(cng_phase::Status status) {
-    switch (status) {
-        case cng_phase::Status::ok: return;
-        case cng_phase::Status::bad_dimensions: throw std::runtime_error("CNG dimensions");
-        case cng_phase::Status::bad_sample_count: throw std::runtime_error("CNG sample count");
-        case cng_phase::Status::bad_header: throw std::runtime_error("CNG header: not a CNGPHI08 stream");
-        case cng_phase::Status::stream_exhausted: throw std::runtime_error("CNG stream exhausted");
-        case cng_phase::Status::bad_directory: throw std::runtime_error("CNG frame directory");
-        case cng_phase::Status::bad_checksum: throw std::runtime_error("CNG frame checksum");
-    }
-    throw std::runtime_error("CNG status");
+
+[[nodiscard]] std::size_t sample_count(Dimensions d) { return d.height * d.width * d.channels; }
+
+[[nodiscard]] std::uint32_t worker_count(unsigned requested) {
+    unsigned threads = requested;
+    if (threads == 0) { threads = std::max(1u, std::thread::hardware_concurrency()); }
+    return static_cast<std::uint32_t>(threads);
 }
-std::vector<std::uint8_t> read_all(std::istream& source) {
-    std::vector<std::uint8_t> bytes;
-    std::istreambuf_iterator<char> begin(source), end;
-    for (std::istreambuf_iterator<char> it = begin; it != end; ++it) { bytes.push_back(static_cast<std::uint8_t>(*it)); }
+
+[[nodiscard]] std::vector<std::uint8_t> read_to_end(std::istream& source) {
+    std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>());
+    if (source.bad()) { throw Error(Reason::input, "CNG: input stream failed"); }
     return bytes;
 }
-void read_exact(std::istream& source, std::vector<std::uint8_t>& bytes) {
-    source.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-    require(static_cast<std::size_t>(source.gcount()) == bytes.size(), "CNG input short");
-}
+
 void write_all(std::ostream& destination, std::span<const std::uint8_t> bytes) {
     destination.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-    require(static_cast<bool>(destination), "CNG output write");
+    if (!destination) { throw Error(Reason::input, "CNG: output stream failed"); }
 }
-double seconds_since(std::chrono::steady_clock::time_point start) {
-    return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
-}
+
 }  // namespace
 
-void encode(std::istream& source, std::ostream& destination, Dimensions dimensions, Measurements& measurements) {
-    measurements = {};
-    cng_phase::Dimensions engine = engine_dimensions(dimensions);
-    std::vector<std::uint8_t> samples(static_cast<std::size_t>(engine.width) * engine.height * engine.channels);
-    read_exact(source, samples);
-    std::vector<std::uint8_t> stream;
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    cng_phase::Status status = cng_phase::encode(samples, engine, stream);
-    measurements.codec_seconds = seconds_since(start);
-    raise(status);
-    write_all(destination, stream);
-    measurements.frames = cng_phase::frame_count(stream, engine);
-    measurements.workspace_bytes = samples.capacity() + stream.capacity() + cng_phase::frame_workspace_bytes(engine, 128);
+std::vector<std::uint8_t> encode(std::span<const std::uint8_t> samples, Dimensions dimensions, EncodeOptions options) {
+    const detail::Dimensions engine = engine_dimensions(dimensions);
+    if (samples.size() != sample_count(dimensions)) { throw Error(Reason::sample_count, "CNG: sample count does not match the dimensions"); }
+    std::vector<std::uint8_t> file;
+    raise(detail::encode(samples, engine, file, worker_count(options.threads)));
+    return file;
 }
 
-Dimensions decode(std::istream& source, std::ostream& destination, Measurements& measurements) {
-    measurements = {};
-    std::vector<std::uint8_t> stream = read_all(source);
-    cng_phase::Dimensions engine;
-    raise(cng_phase::read_header(stream, engine));
-    std::vector<std::uint8_t> samples(static_cast<std::size_t>(engine.width) * engine.height * engine.channels);
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    cng_phase::Status status = cng_phase::decode(stream, samples);
-    measurements.codec_seconds = seconds_since(start);
-    raise(status);
-    write_all(destination, samples);
-    measurements.frames = cng_phase::frame_count(stream, engine);
-    measurements.workspace_bytes = samples.capacity() + stream.capacity() + cng_phase::frame_workspace_bytes(engine, cng_phase::frame_side(stream));
-    return public_dimensions(engine);
+void encode(std::istream& samples, std::ostream& file, Dimensions dimensions, EncodeOptions options) {
+    static_cast<void>(engine_dimensions(dimensions));
+    std::vector<std::uint8_t> buffer(sample_count(dimensions));
+    samples.read(reinterpret_cast<char*>(buffer.data()), static_cast<std::streamsize>(buffer.size()));
+    if (static_cast<std::size_t>(samples.gcount()) != buffer.size()) { throw Error(Reason::sample_count, "CNG: sample input is short"); }
+    std::vector<std::uint8_t> encoded = encode(buffer, dimensions, options);
+    write_all(file, encoded);
 }
 
-Dimensions mosaic_dimensions(Dimensions dimensions) {
-    return public_dimensions(cng_phase::mosaic_dimensions(engine_dimensions(dimensions)));
+Dimensions read_dimensions(std::span<const std::uint8_t> file) {
+    detail::Dimensions d;
+    raise(detail::read_dimensions(file, d));
+    return public_dimensions(d);
 }
 
-Dimensions decode_mosaic(std::istream& source, std::ostream& destination, Measurements& measurements) {
-    measurements = {};
-    std::vector<std::uint8_t> stream = read_all(source);
-    cng_phase::Dimensions engine;
-    raise(cng_phase::read_header(stream, engine));
-    cng_phase::Dimensions mosaic = cng_phase::mosaic_dimensions(engine);
-    std::vector<std::uint8_t> samples(static_cast<std::size_t>(mosaic.width) * mosaic.height * mosaic.channels);
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    cng_phase::Status status = cng_phase::decode_mosaic(stream, samples);
-    measurements.codec_seconds = seconds_since(start);
-    raise(status);
-    write_all(destination, samples);
-    measurements.frames = cng_phase::frame_count(stream, engine);
-    measurements.workspace_bytes = samples.capacity() + stream.capacity() + cng_phase::frame_workspace_bytes(mosaic, mosaic.width);
-    return public_dimensions(engine);
+Dimensions mosaic_dimensions(Dimensions image) { return public_dimensions(detail::mosaic_dimensions(engine_dimensions(image))); }
+
+std::size_t segment_count(Dimensions image) { return static_cast<std::size_t>(detail::segment_count(engine_dimensions(image))); }
+
+Dimensions decode_into(std::span<const std::uint8_t> file, std::span<std::uint8_t> samples, DecodeOptions options) {
+    const Dimensions d = read_dimensions(file);
+    if (samples.size() != sample_count(d)) { throw Error(Reason::sample_count, "CNG: destination size does not match the image"); }
+    raise(detail::decode(file, samples, worker_count(options.threads)));
+    return d;
 }
 
-Dimensions decode_salvage(std::istream& source, std::span<std::uint8_t> destination, std::vector<std::uint8_t>& frames_ok, bool& mosaic_ok, Measurements& measurements) {
-    measurements = {};
-    std::vector<std::uint8_t> stream = read_all(source);
-    cng_phase::Dimensions engine;
-    raise(cng_phase::read_header(stream, engine));
-    require(destination.size() == static_cast<std::size_t>(engine.width) * engine.height * engine.channels, "CNG output extent");
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    cng_phase::Status status = cng_phase::decode_salvage(stream, destination, frames_ok, mosaic_ok);
-    measurements.codec_seconds = seconds_since(start);
-    raise(status);
-    measurements.frames = frames_ok.size();
-    measurements.workspace_bytes = stream.capacity() + cng_phase::frame_workspace_bytes(engine, cng_phase::frame_side(stream));
-    return public_dimensions(engine);
+std::vector<std::uint8_t> decode(std::span<const std::uint8_t> file, Dimensions& dimensions, DecodeOptions options) {
+    dimensions = read_dimensions(file);
+    std::vector<std::uint8_t> samples(sample_count(dimensions));
+    raise(detail::decode(file, samples, worker_count(options.threads)));
+    return samples;
 }
 
-Dimensions decode_into(std::istream& source, std::span<std::uint8_t> destination, Measurements& measurements) {
-    measurements = {};
-    std::vector<std::uint8_t> stream = read_all(source);
-    cng_phase::Dimensions engine;
-    raise(cng_phase::read_header(stream, engine));
-    require(destination.size() == static_cast<std::size_t>(engine.width) * engine.height * engine.channels, "CNG output extent");
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    cng_phase::Status status = cng_phase::decode(stream, destination);
-    measurements.codec_seconds = seconds_since(start);
-    raise(status);
-    measurements.frames = cng_phase::frame_count(stream, engine);
-    measurements.workspace_bytes = stream.capacity() + cng_phase::frame_workspace_bytes(engine, cng_phase::frame_side(stream));
-    return public_dimensions(engine);
+Dimensions decode(std::istream& file, std::ostream& samples, DecodeOptions options) {
+    const std::vector<std::uint8_t> bytes = read_to_end(file);
+    Dimensions d;
+    const std::vector<std::uint8_t> decoded = decode(bytes, d, options);
+    write_all(samples, decoded);
+    return d;
 }
+
+std::vector<std::uint8_t> decode_mosaic(std::span<const std::uint8_t> file, Dimensions& mosaic) {
+    const Dimensions image = read_dimensions(file);
+    mosaic = mosaic_dimensions(image);
+    std::vector<std::uint8_t> samples(sample_count(mosaic));
+    raise(detail::decode_mosaic(file, samples));
+    return samples;
+}
+
+std::vector<std::uint8_t> decode_salvage(std::span<const std::uint8_t> file, Dimensions& dimensions, SalvageReport& report) {
+    report = SalvageReport{};
+    std::vector<std::uint8_t> samples;
+    detail::Dimensions d;
+    raise(detail::decode_salvage(file, samples, d, report.segments_ok, report.mosaic_ok));
+    dimensions = public_dimensions(d);
+    for (std::uint8_t ok : report.segments_ok) { if (ok == 0) { ++report.segments_lost; } }
+    return samples;
+}
+
 }  // namespace stx_cng

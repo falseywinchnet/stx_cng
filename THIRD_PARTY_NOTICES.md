@@ -1,23 +1,18 @@
-# Third-party dependencies
+# Third-party notices
 
-The source and documentation in this repository are licensed under MIT, except
-where an explicit notice states otherwise. No third-party source code, corpus
-images or external manuscripts are bundled.
+The source and documentation in this repository are licensed under MIT ([LICENSE](LICENSE)), except where an
+explicit notice states otherwise.
 
-| Dependency | Use | Upstream terms |
+| Component | Use | Terms |
 | --- | --- | --- |
-| zlib | CRC32 of collection chunks | zlib license |
-| Zstandard 1.5.7 | Frozen release 0.1 sources in `experiments/release_v2` only; not a dependency of the library | BSD-3-Clause (the selected upstream licensing option) |
+| Zstandard 1.5.7 | Compression of each image's tables. The official release tarball is checked in at `third_party/zstd-1.5.7.tar.gz` (SHA-256 `eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3`); its library sources are compiled into `libstx_cng` | BSD-3-Clause, the upstream licensing option this project uses; the licence is in [LICENSE-zstd.txt](LICENSE-zstd.txt) and is installed with the library |
 
-Upstream distributions carry their own notices. Linking a dependency does not
-replace those terms with this repository's MIT license. Preserve applicable
-notices when redistributing dependency binaries or source.
+Redistributions of `libstx_cng` in binary form contain Zstandard and must carry its licence.
 
-- [Zstandard repository and license](https://github.com/facebook/zstd/blob/v1.5.7/LICENSE)
-- [zlib repository and license](https://github.com/madler/zlib/blob/v1.3.1/LICENSE)
+- [Zstandard repository and licence](https://github.com/facebook/zstd/blob/v1.5.7/LICENSE)
 
-The measurements additionally used libpng (through Pillow), OptiPNG 7.9.1 and externally sourced images.
-Neither is needed to build the library or run its bundled generated-fixture test.
-The published evidence contains measurements and image hashes, not those images.
+The measurements also used libpng and libwebp (through Pillow and their C libraries), OptiPNG 7.9.1 and externally
+sourced images. None of them is needed to build the library or run its tests, and no corpus image is included.
 
-The stx_cngcompress package in this repository is first-party MIT code with its own LICENSE; releases 0.1 and 0.2 used it, and release 0.3 does not build or link it.
+The `stx_cngcompress` package in this repository is first-party MIT code with its own LICENSE; releases 0.1 and 0.2
+used it, and this release does not build or link it.
