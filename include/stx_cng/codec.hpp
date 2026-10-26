@@ -1,6 +1,7 @@
 // CNG 1.0 images: encoding, decoding, inspection, the mosaic layer and salvage.
 //
-// Samples are interleaved RGB8 or RGBA8 bytes in row-major order without row padding. The codec preserves bytes: it
+// Samples are interleaved BGR8 or BGRA8 bytes (blue, green, red, then alpha) in row-major order without row padding,
+// the order CNG stores and the order of GUI.Forms' pixels, so no conversion is needed. The codec preserves bytes: it
 // performs no colour conversion and no premultiplication, and the colour beneath alpha 0 is kept. Every function is
 // synchronous, borrows its arguments for the duration of the call only, and reports failure by throwing
 // stx_cng::Error. A failed decode can leave its destination partially written.
@@ -18,7 +19,7 @@ namespace stx_cng {
 struct Dimensions {
     std::size_t height = 0;
     std::size_t width = 0;
-    std::size_t channels = 0;   // 3 (RGB8) or 4 (RGBA8)
+    std::size_t channels = 0;   // 3 (BGR8) or 4 (BGRA8)
 };
 
 // Format constants of CNG 1.0.

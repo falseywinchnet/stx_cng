@@ -37,7 +37,7 @@ struct Container {
 // resized, never cleared, between segments.
 struct Workspace {
     std::vector<std::uint32_t> residuals;  // per pixel of the segment: the plane residuals in [-128, 127], one byte each
-    std::vector<std::uint64_t> energy;     // a ring of three padded rows of packed green, red and blue energies
+    std::vector<std::uint64_t> energy;     // a ring of three padded rows of packed green, blue and red energies
     std::vector<std::uint64_t> above;      // per column: the row-above part of every pixel's activity sum
 };
 

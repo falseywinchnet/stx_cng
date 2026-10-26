@@ -9,6 +9,8 @@ CNG 1.0, format version 1. The file format is frozen: every later release reads 
   header, directory, tables and a 16 × 16-cell mosaic are checksummed and stored twice. The file begins with the
   signature `89 43 4E 47 0D 0A 1A 0A` and carries a format version field. `docs/FORMAT.md` is the specification;
   `tests/vectors` holds the conformance vectors.
+- **Sample order.** Samples are stored and exchanged as B, G, R (and A), the order GUI.Forms uses internally, so
+  no channel conversion is needed on load or store.
 - **Size.** Complete files are 0.82 of OptiPNG's maximum level over the 236-image corpus.
 - **Recovery.** A damaged segment costs only its 128 × 32 pixels, which the salvage decoder fills from the mosaic.
 - **Speed.** Segments decode independently on any number of threads; the encoder also runs on several threads and
@@ -19,6 +21,8 @@ CNG 1.0, format version 1. The file format is frozen: every later release reads 
   per-call `Measurements` records are removed.
 - **Build.** No system library is needed: Zstandard 1.5.7 is built from its checked-in, hash-pinned release
   tarball into `libstx_cng`, and CRC-32 is implemented in the library. zlib is no longer used.
+- **Verified** with Apple clang on arm64 macOS and GCC 13.3 on x86-64 Linux, also under the address and
+  undefined-behaviour sanitizers; the encoder writes the same bytes on both.
 - Files of releases 0.1 to 0.4 (`CSP` v2 and v3, `CNGPHI07`, `CNGPHI08`) and their collections are not read;
   re-encode them from their decoded samples.
 

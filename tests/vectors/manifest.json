@@ -1,6 +1,6 @@
 {
  "signature": "89434e470d0a1a0a",
- "note": "Each .cngm decodes to its .rgb exactly (interleaved samples, row-major).",
+ "note": "Each file decodes to its samples exactly: B, G, R(, A) interleaved, row-major, in .raw",
  "vectors": [
   {
    "name": "one_pixel_rgb",
@@ -8,8 +8,8 @@
    "height": 1,
    "channels": 3,
    "bytes": 173,
-   "sha256": "611a5e5b67c6d7d05464d6b8acb4be2f26af5a951e20301a9d85d3170e2c5f43",
-   "rgb_sha256": "ed4bc057e6c2f082264de89babac16454bcd7b41715c3b59a0b65fa6ed04c758"
+   "sha256": "f98e07f00db3b7ed7f5ccfc7c9534060069c03b9fb817d509f6b9953ca35c13a",
+   "rgb_sha256": "cc76e4a328101e1cc89c185e12509259511589c81d8fe0e7ab845630a4ce332f"
   },
   {
    "name": "one_pixel_rgba",
@@ -17,8 +17,8 @@
    "height": 1,
    "channels": 4,
    "bytes": 192,
-   "sha256": "06755aad23835cad75ac14daab6e803144a9769aeead0d2ac8bb81df13057fec",
-   "rgb_sha256": "cb049024dc60567236f21e96c4ce86b3d411ca1548f3c1cdb276664782241203"
+   "sha256": "18ab1db5f6c84d92b65848084a2a352943f18149a7c93a979ae1c109f65bac01",
+   "rgb_sha256": "1828f964001d879afea5e629dfe65a198f1a0a0917c076bc1fd07e1a8a5c5134"
   },
   {
    "name": "column_9",
@@ -26,8 +26,8 @@
    "height": 9,
    "channels": 3,
    "bytes": 209,
-   "sha256": "2006ffb9b0907fee6643b019be516c20e33c1d98bf92fd47bd44752794c9e432",
-   "rgb_sha256": "b7da32d4e48b9498619ff6b2bd3b429f3490565f24eba0622b1afddc3d4bc144"
+   "sha256": "6d91acf12abf50fbf8ceb175347dcb8f129c280a39765319eaa5c4675bca39ed",
+   "rgb_sha256": "60931404d212d64ac4e3232e3f3962a9303573283fe36ae64eef73b708890993"
   },
   {
    "name": "noise_5x7",
@@ -35,17 +35,17 @@
    "height": 5,
    "channels": 3,
    "bytes": 299,
-   "sha256": "b8cb21dbee6057d5c107aab358bbffd354bc1c750ace69855e8440e8d7254eeb",
-   "rgb_sha256": "81da773fe96d2ab77f9176272f584781e23ca1f17cd4a7e2c143dceea315f59a"
+   "sha256": "f8d09919b3419306f71f3bb70bc093de4fa302fdb024f8b848a103631a1fc869",
+   "rgb_sha256": "a461cf30ff45f8bb9c1b605221014edf6894e927747cbe7c2871cb2fc367f902"
   },
   {
    "name": "noise_140x150",
    "width": 150,
    "height": 140,
    "channels": 3,
-   "bytes": 65019,
-   "sha256": "ce033f0950ee29daec514b7671432eff2e2edfc76e7bf17971f56921a236056d",
-   "rgb_sha256": "67dc3ccf7d1f3906797a4a4c8ea17796ba2a1a4d8b43c697798146edd6069453"
+   "bytes": 65013,
+   "sha256": "1262da59fff9fb256b0ea32932f31b711a056f02c0e64c1c8f9b1aac14f61215",
+   "rgb_sha256": "6160ab7139d9447422e1dd0554c2383604a3f3f53ca51fad8722a923bee04732"
   },
   {
    "name": "flat_130x129",
@@ -61,27 +61,27 @@
    "width": 300,
    "height": 200,
    "channels": 3,
-   "bytes": 4609,
-   "sha256": "316c841d152b1b4a44e4be3b5f7630f28ccf8061eb2fa0f9c1a25ed9c2453107",
-   "rgb_sha256": "e365b26d714048f95cf856f7fbd8002863a3af7d95b944ce25f0ab7371ae502a"
+   "bytes": 4575,
+   "sha256": "4dce2aa272c74ea7aa5ab485ea093f474a3682df8842510348808421e3d59b6f",
+   "rgb_sha256": "979458b8820739e7d7529af08d1eb3d6547192a5669a0951c28310c6f3c2b31a"
   },
   {
    "name": "smooth_alpha_300x200",
    "width": 300,
    "height": 200,
    "channels": 4,
-   "bytes": 6536,
-   "sha256": "e68ee8e7868b50252e95f74c7288d311efa3fef0567d581cd773e46d0e6a1161",
-   "rgb_sha256": "5a64e2fa9eea355f801f1856873568d2291ec37faf0ef8ad63d6b0236193dde4"
+   "bytes": 6545,
+   "sha256": "8fb10624c2813e65759691db91e33f2b1a0f39930e5c1fc98afa90fd4011ce62",
+   "rgb_sha256": "b6a9bed2db29b227b6a229cd2ff115bcd5b052745b85f99cdd09fe9db5dbf6a3"
   },
   {
    "name": "tile8_384x256",
    "width": 384,
    "height": 256,
    "channels": 3,
-   "bytes": 5324,
-   "sha256": "284f51ba68884f1eea6fceccc0d5caf4c18fd47d9e6177c6cecdcca218e3fa1f",
-   "rgb_sha256": "b2172af5b3921d771982d3e227acf454f200fefdd6bf938960a5f35dbdb46b72"
+   "bytes": 5322,
+   "sha256": "4c05164be572381796ff70ac79b86900155a484f3a3f3fce6cfc70b8c3c3fb08",
+   "rgb_sha256": "dd7da520f08fd8c27ce7cc455f97ae2130d374a2a4e31134811f25449dbf637e"
   },
   {
    "name": "palette_rgba_90x100",
@@ -89,8 +89,8 @@
    "height": 100,
    "channels": 4,
    "bytes": 7138,
-   "sha256": "14c1b578136e458add0ac5b0bfa255d21011e74a62868219fc30374631154206",
-   "rgb_sha256": "7b7673dc45581e1c223d62be62b43804d28d99659d828a5ab95ede20a6a56784"
+   "sha256": "ef2582370fd5eeb568159188cd62c07d993d1bb61cdd3bd41f81de7f05329b69",
+   "rgb_sha256": "d005473636695fd54b02e8b16cf85df4b864706d820a071479376f5bc00bd984"
   },
   {
    "name": "stripes_150x140",
@@ -98,8 +98,8 @@
    "height": 140,
    "channels": 3,
    "bytes": 680,
-   "sha256": "345b8b12f4f9f22c9b5a8524814318ca0315c82aba8e0a3196a90136b0fe36f3",
-   "rgb_sha256": "b028268f83adc7724095113863ec3fa5688703940928d83c46a0c6f0d60d3a5e"
+   "sha256": "4dc4dc570b0a239c1c1e2dff35ff6a6bd375b33e1b0fafb47a5b8afe2f2a59aa",
+   "rgb_sha256": "3c679b5eef622641006079175e16a83dfb6de419f5fc0e4cf9fa02640ee4244a"
   },
   {
    "name": "corpus_checker",
@@ -115,72 +115,72 @@
    "width": 64,
    "height": 64,
    "channels": 3,
-   "bytes": 3396,
-   "sha256": "c0329eae692b337791e3e458b1add96873ce8fca0f35e901311dfc3d2f8707f6",
-   "rgb_sha256": "7814a81f70b725bbc2a71fb8e2c3c3576c39de4cd706391e42bb2286ad020ce0"
+   "bytes": 3402,
+   "sha256": "a82c3f0ca8dab8650b5680aa9cb9da131ef98ff89d35c672eadba36a37d2bc16",
+   "rgb_sha256": "f24b814706e64dfc1d2675f5f284fe005d9a8af22ef725e6716f3ff6482dc8e1"
   },
   {
    "name": "corpus_odd_surface_65_67",
    "width": 67,
    "height": 65,
    "channels": 3,
-   "bytes": 3961,
-   "sha256": "911651f120c40bac29064ab9e8d30af031464e1c099e7e40b07aebb31195ebd9",
-   "rgb_sha256": "23759e6a65ed7fbbcfd3b4c2b15c99701f356c75c22d789560ef586af723d508"
+   "bytes": 3958,
+   "sha256": "a018aa44d1e9e15f283300f1d2da040785ef72fb21edb1b0d6c91c4712c92239",
+   "rgb_sha256": "df65e336ef8241e43167ac72f37ee1b6764233849b46785e2d44ba41e8ddeb5d"
   },
   {
    "name": "corpus_tile_7_phase_0",
    "width": 384,
    "height": 256,
    "channels": 3,
-   "bytes": 5463,
-   "sha256": "e0ec49bc3f392a75826e74cba071dc41200b4db76892235b4e4beaa68aa73619",
-   "rgb_sha256": "567ea210015705e472206d1ea4d6581f55d1eedbc1bd7c2b0547f4812b70af08"
+   "bytes": 5465,
+   "sha256": "fcf65522b01342750b47435abe8d3f6c3a4033890477840b6f3026f241938085",
+   "rgb_sha256": "9029949107555ea508fbd4d7c656091fd7adc68d4ab09141749e23641dd4d731"
   },
   {
    "name": "noto_face",
    "width": 128,
    "height": 128,
    "channels": 4,
-   "bytes": 7653,
-   "sha256": "1425d64c08c553079fa506e6a2a887ef840e1e808033ec3f4be06ae08999c27a",
-   "rgb_sha256": "127c047a0e9de27d8717144b44bc7fe6b5a1a0ef95f59808d2c54500b877e7d1"
+   "bytes": 7638,
+   "sha256": "3614d8bfa7c840c3f74b72e9142b94c2507725f62a83ba109c33c29627f42266",
+   "rgb_sha256": "c27aa83ee9166ef2c88ae989d1f7b653b5308307e9273da2131a0c645805d190"
   },
   {
    "name": "segment_exact_128x32",
    "width": 128,
    "height": 32,
    "channels": 3,
-   "bytes": 12798,
-   "sha256": "7f505547e287240c88e6c858965f924a31744223c3c0181e2c9e7d5b7e3cffda",
-   "rgb_sha256": "06d9bffea9ae01079d231d206a68a7dc46b9d982666ba8612931b000063ec77a"
+   "bytes": 12797,
+   "sha256": "fbe5912c7384c8a54c04aac3e1a344de86cf6a8f6ec1f2f1a0f2299098a0e62e",
+   "rgb_sha256": "41c90e7e2dcd61174833c3d5442ce966f572697fe132e07fc8833b40b9ea8f53"
   },
   {
    "name": "segment_partial_129x33",
    "width": 129,
    "height": 33,
    "channels": 3,
-   "bytes": 13701,
-   "sha256": "b056359c3744221c8dde3a83a2e1d601061b9dd85dd4c46e867f35120b537711",
-   "rgb_sha256": "7c11a5008a24f90f542cbd17ce2e2924ae1c33c134658fa5206a8678458d3b18"
+   "bytes": 13709,
+   "sha256": "868210912c97cee7b497370de566d696894374c4afe7c9184962602992587729",
+   "rgb_sha256": "84620ba1de2e5384572e01786a35e93b3f7a405d0cc2c34dfb2056a888c2444c"
   },
   {
    "name": "segment_ramp_260x97",
    "width": 260,
    "height": 97,
    "channels": 3,
-   "bytes": 854,
-   "sha256": "373b306c1b4324f3eefa096e5239701bbccba6a4824085baa3a4cf03f7dd026c",
-   "rgb_sha256": "be976abfd687c8a055b1bfa74c3343c7bd4df880f5bb1b3763548cfc2a1ffb20"
+   "bytes": 852,
+   "sha256": "79d12cab024b6ba03922a3caa57e9bec9695e87c3e22578824c6e47e7bef2069",
+   "rgb_sha256": "2a4a8064c97cb3c787a40cfa943f9dd3cd954dcc0fecfe234b9ebbc9a5518d2c"
   },
   {
    "name": "segment_rgba_70x65",
    "width": 70,
    "height": 65,
    "channels": 4,
-   "bytes": 14614,
-   "sha256": "61a92ba051b3b290f102946fe7b1b31dac62db5432202e7a8e9b5a27d2140efd",
-   "rgb_sha256": "42fa2cbf6132b3c64b54a02c9851d2531a151ed593314da387d981d3ff6be090"
+   "bytes": 14616,
+   "sha256": "8630193779357d89f6d3069455c4de35bf79f3e4b5f8f9e7603ac52d2bc15edf",
+   "rgb_sha256": "6ad2713f6bffcbe70fdd348b8387fd02c09c051902552406fc721759d0194ab8"
   }
  ]
 }

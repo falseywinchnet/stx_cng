@@ -1,5 +1,5 @@
 {
- "scope": "Native CNG 1.0 (native/cng/) against the Python reference (research/cng_format.py): build the codec and its driver,\nthen for every vector (results/cng_vectors/) and corpus file (.build/cng_streams/) decode exactly at one and four\nthreads, decode the mosaic, and encode the expected samples natively, which must reproduce the reference's file byte\nfor byte. Writes results/native_cng_check.json.\n    python -B -m research.check_native_cng [--limit N]",
+ "scope": "Native CNG 1.0 (native/cng/) against the Python reference (research/cng_format.py): build the codec and its driver,\nthen for every vector (results/cng_vectors/) and corpus file (.build/cng_streams/) decode exactly to its .raw samples\n(B, G, R, A order) at one and four threads, decode the mosaic, and encode the expected samples natively, which must reproduce the reference's file byte\nfor byte. Writes results/native_cng_check.json.\n    python -B -m research.check_native_cng [--limit N]",
  "command": [
   "/opt/homebrew/opt/llvm/bin/clang++",
   "-std=c++20",
@@ -296,16 +296,16 @@
    "detail": "exact 128x128x3 identical 1"
   },
   {
-   "key": "research_smooth__retained_smooth_half",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 512x512x3 identical 1"
-  },
-  {
    "key": "research_noisy__surface_128_noise_32",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x3 identical 1"
+  },
+  {
+   "key": "research_smooth__retained_smooth_half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
   },
   {
    "key": "research_noisy__surface_256_noise_8",
@@ -344,13 +344,13 @@
    "detail": "exact 128x128x3 identical 1"
   },
   {
-   "key": "research_mixed__strip_24_axis_0",
+   "key": "research_mixed__strip_16_axis_1",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x3 identical 1"
   },
   {
-   "key": "research_mixed__strip_16_axis_1",
+   "key": "research_mixed__strip_24_axis_0",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x3 identical 1"
@@ -398,16 +398,16 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_noise_mixed__mixed_order_noise",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 384x256x3 identical 1"
-  },
-  {
    "key": "research_mixed__retained_whole",
    "exact": true,
    "identical": true,
    "detail": "exact 1024x512x3 identical 1"
+  },
+  {
+   "key": "archive_noise_mixed__mixed_order_noise",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
   },
   {
    "key": "archive_photographs__kodim01",
@@ -530,12 +530,6 @@
    "detail": "exact 768x512x3 identical 1"
   },
   {
-   "key": "archive_photographs__kodim20",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 768x512x3 identical 1"
-  },
-  {
    "key": "archive_photographs__kodim22",
    "exact": true,
    "identical": true,
@@ -546,6 +540,12 @@
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_photographs__kodim20",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
   },
   {
    "key": "archive_structured__horizontal_1",
@@ -626,12 +626,6 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_photographs__kodim23",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 768x512x3 identical 1"
-  },
-  {
    "key": "archive_structured__vertical_33",
    "exact": true,
    "identical": true,
@@ -644,16 +638,22 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
+   "key": "archive_structured__vertical_64",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
    "key": "archive_structured__horizontal_64",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__vertical_64",
+   "key": "archive_photographs__kodim23",
    "exact": true,
    "identical": true,
-   "detail": "exact 384x256x3 identical 1"
+   "detail": "exact 768x512x3 identical 1"
   },
   {
    "key": "archive_structured__vertical_127",
@@ -662,13 +662,13 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__vertical_128",
+   "key": "archive_structured__horizontal_127",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__horizontal_127",
+   "key": "archive_structured__vertical_128",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
@@ -728,6 +728,12 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
+   "key": "archive_photographs__kodim24",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 768x512x3 identical 1"
+  },
+  {
    "key": "archive_structured__rectangle_on_gradient",
    "exact": true,
    "identical": true,
@@ -746,31 +752,19 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__oblique_periodic",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 384x256x3 identical 1"
-  },
-  {
    "key": "archive_structured__tile_2_phase_0",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_photographs__kodim24",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 768x512x3 identical 1"
-  },
-  {
-   "key": "archive_structured__tile_2_phase_1",
+   "key": "archive_structured__oblique_periodic",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__rectangle_on_texture",
+   "key": "archive_structured__tile_2_phase_1",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
@@ -783,6 +777,12 @@
   },
   {
    "key": "archive_structured__tile_3_phase_0",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 384x256x3 identical 1"
+  },
+  {
+   "key": "archive_structured__rectangle_on_texture",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
@@ -830,13 +830,13 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__tile_8_phase_0",
+   "key": "archive_structured__tile_7_phase_break",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__tile_7_phase_break",
+   "key": "archive_structured__tile_8_phase_0",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
@@ -854,13 +854,13 @@
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__tile_16_phase_1",
+   "key": "archive_structured__tile_16_phase_0",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
   },
   {
-   "key": "archive_structured__tile_16_phase_0",
+   "key": "archive_structured__tile_16_phase_1",
    "exact": true,
    "identical": true,
    "detail": "exact 384x256x3 identical 1"
@@ -896,16 +896,16 @@
    "detail": "exact 1120x720x4 identical 1"
   },
   {
-   "key": "reference_fixture__smooth-half",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 512x512x3 identical 1"
-  },
-  {
    "key": "guiforms_capture__anchored_popup_layer",
    "exact": true,
    "identical": true,
    "detail": "exact 755x370x3 identical 1"
+  },
+  {
+   "key": "reference_fixture__smooth-half",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 512x512x3 identical 1"
   },
   {
    "key": "guiforms_capture__gallery-macos",
@@ -926,16 +926,16 @@
    "detail": "exact 1024x512x3 identical 1"
   },
   {
-   "key": "guiforms_capture__check_box",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 305x146x3 identical 1"
-  },
-  {
    "key": "guiforms_capture__card_collection",
    "exact": true,
    "identical": true,
    "detail": "exact 204x392x3 identical 1"
+  },
+  {
+   "key": "guiforms_capture__check_box",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 305x146x3 identical 1"
   },
   {
    "key": "guiforms_capture__basic_controls_overview",
@@ -1022,12 +1022,6 @@
    "detail": "exact 840x558x3 identical 1"
   },
   {
-   "key": "guiforms_capture__composition_bundle_001_screen",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 1259x760x3 identical 1"
-  },
-  {
    "key": "noto_faces__emoji_u1f608",
    "exact": true,
    "identical": true,
@@ -1040,13 +1034,19 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_faces__emoji_u1f60b",
+   "key": "guiforms_capture__composition_bundle_001_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "noto_faces__emoji_u1f60a",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_faces__emoji_u1f60a",
+   "key": "noto_faces__emoji_u1f60b",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1112,13 +1112,13 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_faces__emoji_u1f617",
+   "key": "noto_faces__emoji_u1f616",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_faces__emoji_u1f616",
+   "key": "noto_faces__emoji_u1f617",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1184,13 +1184,25 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
+   "key": "noto_mixed__emoji_u1f431",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
    "key": "noto_mixed__emoji_u1f469_1f3ff_200d_1f91d_200d_1f468_1f3fc",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f431",
+   "key": "guiforms_capture__container_bundle_003_screen",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 1259x760x3 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f46e_1f3fd_200d_2642",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1202,22 +1214,10 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f46e_1f3fd_200d_2642",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 128x128x4 identical 1"
-  },
-  {
    "key": "noto_mixed__emoji_u1f44d_1f3fc",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
-  },
-  {
-   "key": "guiforms_capture__container_bundle_003_screen",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 1259x760x3 identical 1"
   },
   {
    "key": "noto_mixed__emoji_u1f468_1f3fe_200d_2764_200d_1f468_1f3fc",
@@ -1250,6 +1250,12 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
+   "key": "noto_mixed__emoji_u1faf1_1f3fe",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
    "key": "noto_mixed__emoji_u1f481_1f3fb_200d_2640",
    "exact": true,
    "identical": true,
@@ -1262,12 +1268,6 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1faf1_1f3fe",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 128x128x4 identical 1"
-  },
-  {
    "key": "noto_mixed__emoji_u1f3c3_1f3fe_200d_2640",
    "exact": true,
    "identical": true,
@@ -1275,6 +1275,12 @@
   },
   {
    "key": "noto_mixed__emoji_u1f552",
+   "exact": true,
+   "identical": true,
+   "detail": "exact 128x128x4 identical 1"
+  },
+  {
+   "key": "noto_mixed__emoji_u1f468_200d_2764_200d_1f468",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1293,12 +1299,6 @@
   },
   {
    "key": "noto_mixed__emoji_u1f6b5_1f3fc_200d_2640",
-   "exact": true,
-   "identical": true,
-   "detail": "exact 128x128x4 identical 1"
-  },
-  {
-   "key": "noto_mixed__emoji_u1f468_200d_2764_200d_1f468",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1340,13 +1340,13 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc",
+   "key": "noto_mixed__emoji_u1f9ce_1f3fc_200d_2640_200d_27a1",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f9ce_1f3fc_200d_2640_200d_27a1",
+   "key": "noto_mixed__emoji_u1f468_1f3fb_200d_2764_200d_1f48b_200d_1f468_1f3fc",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1472,13 +1472,13 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f5d1",
+   "key": "noto_mixed__emoji_u1f939_1f3fb",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f939_1f3fb",
+   "key": "noto_mixed__emoji_u1f5d1",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
@@ -1496,13 +1496,13 @@
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f40d",
+   "key": "noto_mixed__emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"
   },
   {
-   "key": "noto_mixed__emoji_u1f469_1f3fc_200d_2764_200d_1f469_1f3ff",
+   "key": "noto_mixed__emoji_u1f40d",
    "exact": true,
    "identical": true,
    "detail": "exact 128x128x4 identical 1"

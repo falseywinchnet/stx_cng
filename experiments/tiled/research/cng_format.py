@@ -3,6 +3,10 @@ construction (research/tiled_segment_codec.py): every segment payload, the table
 CNGM0009 codes them, except that the tables are a standard zstd frame (RFC 8878; no content size, checksum or
 dictionary id) instead of a magicless one.
 
+Sample order: a CNG image's samples are B, G, R (and A), interleaved. Arrays given to encode and returned by decode
+are in that order; from_rgb and to_rgb convert from and to R, G, B (and A) order. The coding is the same for any order
+(plane 1, green, is the plane with the special role); the order fixes what the stored planes mean.
+
 File layout, all integers big-endian:
     signature   8 bytes: 0x89 'C' 'N' 'G' 0x0D 0x0A 0x1A 0x0A
     fields      width u32, height u32, channels u8 (3 or 4), version u8 (1), segment width u8 (128), segment height
@@ -11,7 +15,7 @@ File layout, all integers big-endian:
                 then the CRC32 of the entries
     tables, mosaic, segment payloads, mosaic, tables (two or more segments only), directory, fields
 The CRC32 is ISO-HDLC (zlib's crc32). Exact, allocating Python reference; sizes and correctness only.
-    encode(img) -> bytes; decode(data) -> image; decode_segments(data, require_signature) -> image, lost, mosaic_ok"""
+    encode(bgra) -> bytes; decode(data) -> bgra; decode_segments(data, require_signature) -> bgra, lost, mosaic_ok"""
 import struct
 import numpy as np
 from research.tiled_zstd_codec import CELL, Zstd, crc
@@ -41,6 +45,25 @@ class FrameZstd(Zstd):
         lib.ZSTD_CCtx_reset(self.cctx, 3); lib.ZSTD_DCtx_reset(self.dctx, 3)
         for parameter, value in ((100, self.level), (200, 0), (201, 0), (202, 0)):   # level, no size, checksum or id
             self._check(lib.ZSTD_CCtx_setParameter(self.cctx, parameter, value), "compression parameter")
+
+
+def from_rgb(img):
+    """An (h, w, 3 or 4) R, G, B (A) array in CNG sample order B, G, R (A)."""
+    order = [2, 1, 0] + ([3] if img.shape[2] == 4 else [])
+    return np.ascontiguousarray(img[:, :, order])
+
+
+def to_rgb(img):
+    """CNG sample order B, G, R (A) back to R, G, B (A)."""
+    return from_rgb(img)
+
+
+def prepare(img):
+    """The samples a corpus image (R, G, B order) is stored as: CNG sample order."""
+    return from_rgb(np.ascontiguousarray(img, np.uint8))
+
+
+SAMPLES_SUFFIX = ".raw"   # CNG-order samples beside each vector and corpus file
 
 
 def segment_grid(W, H):

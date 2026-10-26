@@ -29,13 +29,14 @@ inline constexpr std::uint32_t kTotal = 1u << kPrecision;
 inline constexpr std::uint32_t kLower = 1u << 23;
 
 // ------------------------------------------------------------------ contexts and alphabets
+// Samples are B, G, R (and A): plane 0 is blue, plane 1 green, plane 2 red, plane 3 alpha.
 inline constexpr std::uint32_t kClasses = 5;
-inline constexpr std::uint32_t kRed0 = kClasses;                    // red contexts: class x green bucket
-inline constexpr std::uint32_t kBlue0 = kRed0 + 3 * kClasses;       // blue contexts: class x green bucket
-inline constexpr std::uint32_t kAlpha0 = kBlue0 + 3 * kClasses;     // alpha contexts: quiet, busy
+inline constexpr std::uint32_t kBlue0 = kClasses;                    // blue contexts: class x green bucket
+inline constexpr std::uint32_t kRed0 = kBlue0 + 3 * kClasses;       // red contexts: class x green bucket
+inline constexpr std::uint32_t kAlpha0 = kRed0 + 3 * kClasses;     // alpha contexts: quiet, busy
 inline constexpr std::uint32_t kDistanceContext = kAlpha0 + 2;
 inline constexpr std::uint32_t kContexts = kDistanceContext + 1;    // 38
-inline constexpr std::int32_t kGate = 3;                             // classes at or above code red and blue minus green
+inline constexpr std::int32_t kGate = 3;                             // classes at or above code blue and red minus green
 
 inline constexpr std::uint32_t kMinimumLength = 2;
 inline constexpr std::uint32_t kNewMinimumLength = 4;               // encoder: shortest match at a new distance
@@ -49,7 +50,7 @@ inline constexpr std::uint32_t kCache0 = kWholeLength0 + kLengthCodes;
 inline constexpr std::uint32_t kCacheSize = 256;
 inline constexpr std::uint32_t kGreenOnly0 = kCache0 + kCacheSize;   // green: green-only match lengths
 inline constexpr std::uint32_t kGreenSymbols = kGreenOnly0 + kLengthCodes;   // 572
-inline constexpr std::uint32_t kPlaneLength0 = 256;                 // red, blue, alpha: plane match lengths
+inline constexpr std::uint32_t kPlaneLength0 = 256;                 // blue, red, alpha: plane match lengths
 inline constexpr std::uint32_t kEscapeMaximum = 2;                  // encoder: symbols used at most this often are escaped
 
 // Dequantized frequency of q = i + 1 (max(1, round(2^(i/2)))).
@@ -111,7 +112,7 @@ inline constexpr std::array<std::uint32_t, 256> kCrcTable = make_crc_table();
 
 // Raw bits of an escaped symbol in context `context`.
 [[nodiscard]] inline std::uint32_t raw_bits(std::uint32_t context) {
-    if (context < kRed0) { return 10; }
+    if (context < kBlue0) { return 10; }
     if (context == kDistanceContext) { return 6; }
     return 9;
 }

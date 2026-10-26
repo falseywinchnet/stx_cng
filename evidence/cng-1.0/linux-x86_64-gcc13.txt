@@ -1,0 +1,32 @@
+host: Linux 6.8.0-138-generic x86_64; g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0; cmake version 3.28.3
+cpu:  AMD Ryzen Threadripper 7960X 24-Cores
+release build: 0
+[  8%] Building C object CMakeFiles/stx_cng_zstd.dir/zstd/zstd-1.5.7/lib/common/error_private.c.o
+    Start 3: stx_cng_malformed
+3/3 Test #3: stx_cng_malformed ................   Passed    1.95 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   7.05 sec
+stx_cng round trip: 132 image cases, damage, errors and collections pass
+stx_cng conformance: 20 vectors decode exactly; 20 re-encoded byte for byte
+stx_cng malformed-input sweep: 5 files damaged and crafted; no violation
+	linux-vdso.so.1 (0x00007ffdf194e000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fc3b86db000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fc3b85f2000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fc3b85c4000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fc3b83b2000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fc3b8a57000)
+
+Total Test time (real) =   4.73 sec
+installed consumer: 0
+sanitizer build: 0
+[  8%] Building C object CMakeFiles/stx_cng_zstd.dir/zstd/zstd-1.5.7/lib/common/error_private.c.o
+    Start 2: stx_cng_conformance
+2/3 Test #2: stx_cng_conformance ..............   Passed    9.10 sec
+    Start 3: stx_cng_malformed
+3/3 Test #3: stx_cng_malformed ................   Passed   35.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) = 152.79 sec

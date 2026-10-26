@@ -3,7 +3,7 @@
 **Format version:** 1 · **File extension:** `.cng` · **Status:** frozen
 
 This document specifies CNG (Computational Network Graphics) image files, format version 1. A CNG file holds one
-lossless RGB8 or RGBA8 image. It is cut into independently coded segments of 128 × 32 pixels, carries a coarse
+lossless 8-bit BGR or BGRA image. It is cut into independently coded segments of 128 × 32 pixels, carries a coarse
 mosaic of the image, and stores its header, directory, tables and mosaic twice, so that damage to part of a file
 costs only the segments it touches.
 
@@ -27,8 +27,9 @@ Collections of images are a separate container, specified in [COLLECTIONS.md](CO
 
 ## 2. Image model
 
-An image has a width and a height of at least 1 and either 3 channels (R, G, B) or 4 (R, G, B, A). Samples are
-8-bit. The total sample count, width × height × channels, is at most 2³¹. Samples are reconstructed exactly,
+An image has a width and a height of at least 1 and either 3 channels or 4. Samples are 8-bit and stored in the
+order blue, green, red (B, G, R) or blue, green, red, alpha (B, G, R, A), interleaved per pixel; a decoder delivers
+them in that order. The total sample count, width × height × channels, is at most 2³¹. Samples are reconstructed exactly,
 including the colour channels of pixels whose alpha is 0. The format carries no colour space, gamma, profile,
 metadata or animation: the samples are the image.
 
@@ -145,7 +146,7 @@ the decoded symbol. An escaped value that is not a valid symbol for its use make
 
 ## 6. Segment payloads and rANS streams
 
-A tile with C channels has C rANS streams, one per plane, in the order green, red, blue, alpha. Its payload is the
+A tile with C channels has C rANS streams, one per plane, in the order green, blue, red, alpha. Its payload is the
 byte lengths of the first C − 1 streams as unsigned LEB128 (little-endian base-128, at most five bytes each), then
 the C streams back to back; the last stream takes the remaining bytes. Lengths that exceed the payload make the
 segment invalid.
@@ -169,8 +170,8 @@ reads them.
 
 A tile of width w, height h and C channels is decoded pixel by pixel in raster order. For each pixel, index
 `i = y × w + x` within the tile, the decoder determines a residual `r_c` for every plane c and the sample
-`s_c = (p_c + r_c) mod 256`, where `p_c` is the plane's prediction. Planes are numbered 0 red, 1 green, 2 blue,
-3 alpha, and processed in the order green, red, blue, alpha.
+`s_c = (p_c + r_c) mod 256`, where `p_c` is the plane's prediction. Planes are numbered in sample order: 0 blue, 1 green,
+2 red, 3 alpha. They are processed in the order green, blue, red, alpha.
 
 ### 7.1 Prediction
 
@@ -185,11 +186,11 @@ The prediction is the median edge detector: with `hi = max(L, U)` and `lo = min(
 
 ### 7.2 Energies and classes
 
-After a pixel is reconstructed, its residuals give three energies: `e_g = |r_1|`, `e_r = max(|r_1|, |r_0|)`,
-`e_b = max(|r_1|, |r_2|)`. For an energy plane `e`, the activity of a pixel is the sum of the energies of six
+After a pixel is reconstructed, its residuals give three energies: `e_g = |r_1|`, `e_b = max(|r_1|, |r_0|)`,
+`e_r = max(|r_1|, |r_2|)`. For an energy plane `e`, the activity of a pixel is the sum of the energies of six
 earlier pixels of the tile: left, two left, above, two above, above-left and above-right, each 0 when outside the
 tile. Its class is the number of the thresholds 0, 3, 12 and 48 that the activity exceeds: 0 to 4. The green class
-`k_g` uses `e_g`, the red class `k_r` uses `e_r`, the blue class `k_b` uses `e_b`.
+`k_g` uses `e_g`, the blue class `k_b` uses `e_b`, the red class `k_r` uses `e_r`.
 
 ### 7.3 The cache
 
@@ -201,8 +202,8 @@ none. Every reconstructed pixel, of any kind, then records its own index under i
 | Context | Use |
 | ---: | --- |
 | 0–4 | Green symbol: `k_g` |
-| 5–19 | Red symbol: `5 + 3 k_r + bucket` |
-| 20–34 | Blue symbol: `20 + 3 k_b + bucket` |
+| 5–19 | Blue symbol: `5 + 3 k_b + bucket` |
+| 20–34 | Red symbol: `20 + 3 k_r + bucket` |
 | 35, 36 | Alpha symbol: 35 when the alpha samples L, U and UL (section 7.1 rules) are equal, else 36 |
 | 37 | Distance symbol |
 
@@ -219,15 +220,15 @@ Green symbols, 572:
 | 286–541 | Cache hit, green residual `unzigzag(s − 286)` |
 | 542–571 | Green match, length code `s − 542` |
 
-Red, blue and alpha symbols, 286:
+Blue, red and alpha symbols, 286:
 
 | Symbols | Meaning |
 | --- | --- |
 | 0–255 | Literal: `v = unzigzag(s)` |
 | 256–285 | Plane match, length code `s − 256` |
 
-A red literal's residual is `wrap(v + r_1)` when `k_r ≥ 3`, else `v`; a blue literal's is `wrap(v + r_1)` when
-`k_b ≥ 3`, else `v`; an alpha literal's is `v`. Here `r_1` is the pixel's green residual.
+A blue literal's residual is `wrap(v + r_1)` when `k_b ≥ 3`, else `v`; a red literal's is `wrap(v + r_1)` when
+`k_r ≥ 3`, else `v`; an alpha literal's is `v`. Here `r_1` is the pixel's green residual.
 
 ### 7.6 Lengths and distances
 
@@ -265,7 +266,7 @@ Each plane has a match counter, and the tile has a whole-pixel counter, all 0 at
      its residual is `wrap(sample − p_c)`; go to step 4;
    - a green match reads its length L and distance `d_1`, sets green's match counter to `L − 1`, and green's
      residual is green's residual at `i − d_1`.
-3. **Red**, then **blue**, then **alpha** (4-channel images): if the plane's match counter is positive, the
+3. **Blue**, then **red**, then **alpha** (4-channel images): if the plane's match counter is positive, the
    residual is the plane's residual at `i − d_c` and the counter decreases by 1; otherwise read a symbol from the
    plane's stream: a literal gives the residual (section 7.5); a plane match reads its length L and distance `d_c`,
    sets the counter to `L − 1`, and the residual is the plane's residual at `i − d_c`.

@@ -1,5 +1,5 @@
-// Conformance vectors (tests/vectors/): every file must decode exactly to its samples, at one and four threads, and
-// its mosaic must be the block means of those samples. Encoding the samples must give a file that decodes to them;
+// Conformance vectors (tests/vectors/): every <name>.cng must decode exactly to <name>.raw, its B, G, R(, A) samples,
+// at one and four threads, and its mosaic must be the block means of those samples. Encoding the samples must give a file that decodes to them;
 // when the linked libzstd is the version that wrote the vectors (named in LIST), it must give the vector byte for byte.
 #include "stx_cng/codec.hpp"
 #include "test_support.hpp"
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     while (list >> name >> width >> height >> channels) {
         const stx_cng::Dimensions d{.height = height, .width = width, .channels = channels};
         const std::vector<std::uint8_t> file = read_file(folder / (name + ".cng"));
-        const std::vector<std::uint8_t> raw = read_file(folder / (name + ".rgb"));
+        const std::vector<std::uint8_t> raw = read_file(folder / (name + ".raw"));   // B, G, R(, A) samples
         stx_cng::Dimensions actual;
         require(stx_cng::decode(file, actual) == raw, name.c_str());
         stx_cng::DecodeOptions four;

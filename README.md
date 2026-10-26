@@ -2,7 +2,8 @@
 
 ### Computational Network Graphics
 
-CNG is a lossless image format for RGB and RGBA images. A CNG file is cut into independent segments of 128 × 32
+CNG is a lossless image format for 8-bit colour images with or without alpha, stored in blue, green, red, alpha
+(BGRA) order. A CNG file is cut into independent segments of 128 × 32
 pixels that decode in any order and in parallel, carries a mosaic of the image that displays before any segment,
 and stores everything a reader needs to find the segments twice, so damage costs only the pixels it touches.
 On photographs and screen content CNG files are smaller than the best PNG.
@@ -17,7 +18,7 @@ C++ compiler.
 
 | | |
 | --- | --- |
-| Samples | RGB8 and RGBA8, every sample reconstructed exactly, including the colour beneath alpha 0 |
+| Samples | BGR8 and BGRA8, every sample reconstructed exactly, including the colour beneath alpha 0 |
 | Dimensions | Any width and height, up to 2³¹ samples |
 | Segments | 128 × 32 pixels, each coded on its own and checked by its own CRC32 |
 | Parallelism | Segments decode in any order on any number of threads; the encoder is parallel too |
@@ -36,12 +37,12 @@ Complete files, all framing and both index copies counted, against OptiPNG at it
 | --- | ---: | ---: |
 | Photographs (24) | 0.78 | 24 of 24 |
 | Screen captures (14) | 0.76 | 13 of 14 |
-| Smooth graphics (10) | 0.97 | 7 of 10 |
-| Mixed photographic and graphic content (13) | 0.90 | 7 of 13 |
+| Smooth graphics (10) | 0.97 | 6 of 10 |
+| Mixed photographic and graphic content (13) | 0.90 | 6 of 13 |
 | Noise (23) | 1.06 | 1 of 23 |
 | 128 px emoji (96) | 1.22 | 5 of 96 |
 | Small periodic tile patterns (56) | 2.08 | 0 of 56 |
-| All (236) | 0.82 | 57 of 236 |
+| All (236) | 0.82 | 55 of 236 |
 
 CNG is smaller wherever an image has photographic or rendered content. It is larger on small palette-like images
 such as emoji, where the per-image tables and the stored-twice index are a large part of a few-kilobyte file, and
@@ -55,10 +56,10 @@ decode; libpng and zlib encode).
 
 | | CNG / PNG level 9 |
 | --- | ---: |
-| Decode, one thread | 3.1 |
+| Decode, one thread | 3.2 |
 | Decode, four threads | 1.3 |
-| Encode, one thread | 5.9 |
-| Encode, four threads | 2.0 |
+| Encode, one thread | 6.0 |
+| Encode, four threads | 2.1 |
 
 Segments are independent, so decoding divides across threads. The encoder plans every segment with a cost-aware
 parse and takes longer than PNG level 9; it also divides across threads and writes the same file for every count.
@@ -66,8 +67,8 @@ parse and takes longer than PNG level 9; it also divides across threads and writ
 ## How an image is coded
 
 Each segment is coded as an image of its own. Every pixel is predicted from its left, upper and upper-left
-neighbours by the median edge detector, and the residuals of the green, red and blue planes are coded in contexts
-chosen by the local activity of each plane; red and blue are coded relative to green where the activity is high.
+neighbours by the median edge detector, and the residuals of the green, blue and red planes are coded in contexts
+chosen by the local activity of each plane; blue and red are coded relative to green where the activity is high.
 A pixel can instead repeat an earlier pixel's residuals, every plane's or one plane's, over a run, or repeat the
 colour of the last pixel with the same green value. Every plane has its own rANS stream with static tables shared
 by the whole image, so the planes of a pixel decode side by side.
@@ -97,7 +98,8 @@ stx_cng::Dimensions decoded_dimensions;
 std::vector<std::uint8_t> decoded = stx_cng::decode(file, decoded_dimensions, {.threads = 0});
 ```
 
-Samples are interleaved rows without padding; the library performs no colour conversion and no premultiplication.
+Samples are interleaved BGR or BGRA rows without padding, the order CNG stores, so a BGRA pixel buffer is encoded
+and decoded in place; the library performs no colour conversion and no premultiplication.
 `read_dimensions` inspects a file without decoding it, `decode_into` decodes into caller storage, `decode_mosaic`
 returns the mosaic alone, and `decode_salvage` decodes a damaged file as far as it goes and reports which segments
 were lost. [Library](docs/API.md) describes every call.

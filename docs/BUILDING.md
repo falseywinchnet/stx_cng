@@ -55,9 +55,20 @@ For manual linking, link `libstx_cng` and the C++ runtime (and the platform thre
 
 | Test | What it establishes |
 | --- | --- |
-| `stx_cng_roundtrip` | 132 images of twelve size classes from 1 × 1 to 300 × 200 and across segment edges, RGB and RGBA, six patterns: every encode and decode call, one, four and all threads, identical files from one and four encoder threads, the mosaic, salvage of an intact and of a damaged file, every error reason, and both collection forms |
+| `stx_cng_roundtrip` | 132 images of twelve size classes from 1 × 1 to 300 × 200 and across segment edges, BGR and BGRA, six patterns: every encode and decode call, one, four and all threads, identical files from one and four encoder threads, the mosaic, salvage of an intact and of a damaged file, every error reason, and both collection forms |
 | `stx_cng_conformance` | Every file in `tests/vectors` decodes exactly at one and four threads, its mosaic is the block means of its samples, and encoding its samples writes it byte for byte |
 | `stx_cng_malformed` | Every truncation and every flipped byte of small files, sampled ones of larger files, random bursts, and crafted files whose checksums all match (random segment payloads, random table bodies in valid Zstandard frames, random mosaics, random dimensions, every quantized frequency above 25), plus damaged collections. Each input must be rejected or, where the original was kept, decode to it exactly |
 
 `-DSTX_CNG_SANITIZE=ON` builds the library, Zstandard and the tests with the address and undefined-behaviour
 sanitizers; any report fails the test. The release runs the whole suite in this configuration.
+
+## Verified platforms
+
+| Platform | Compiler | Release tests | Sanitizer tests | Encoder bytes |
+| --- | --- | --- | --- | --- |
+| macOS 26 arm64 (Apple M4) | Apple clang | pass | pass | identical to the vectors |
+| Linux x86-64 (Ubuntu 24.04, AMD Ryzen Threadripper 7960X) | GCC 13.3 | pass | pass | identical to the vectors |
+
+The vectors were written on macOS; both platforms re-encode every vector byte for byte. MSVC is not yet verified.
+The Linux record is [`evidence/cng-1.0/linux-x86_64-gcc13.txt`](../evidence/cng-1.0/linux-x86_64-gcc13.txt).
+

@@ -14,7 +14,8 @@ Failures throw `stx_cng::Error`, a `std::runtime_error` whose `reason()` names t
 stx_cng::Dimensions dimensions{.height = 480, .width = 640, .channels = 4};
 ```
 
-Samples are interleaved RGB8 (3 channels) or RGBA8 (4 channels) bytes, rows top to bottom without padding:
+Samples are interleaved BGR8 (3 channels: blue, green, red) or BGRA8 (4 channels: blue, green, red, alpha) bytes,
+rows top to bottom without padding:
 `height × width × channels` bytes. The codec preserves bytes exactly. It performs no colour conversion and no
 premultiplication, and keeps the colour of pixels whose alpha is 0. Width and height are at least 1 and the sample
 count is at most 2³¹ (`stx_cng::maximum_samples`).

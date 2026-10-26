@@ -26,7 +26,7 @@ constexpr double kInfinity = std::numeric_limits<double>::infinity();
 constexpr std::uint32_t kChain = 16;                               // match candidates per 4-gram chain
 constexpr std::uint32_t kSufficient = 64;                          // a match this long ends the search at a position
 constexpr std::array<std::uint32_t, 9> kTrialLengths = {2, 4, 6, 8, 12, 16, 24, 32, 48};
-constexpr std::array<std::uint32_t, 4> kPlaneOrder = {1, 0, 2, 3};   // stream order in a payload: green, red, blue, alpha
+constexpr std::array<std::uint32_t, 4> kPlaneOrder = {1, 0, 2, 3};   // stream order in a payload: green, blue, red, alpha
 constexpr std::uint32_t kMaxChannels = 4;
 
 // ------------------------------------------------------------------ tiles
@@ -448,7 +448,7 @@ void length_ops(std::vector<Op>& ops, std::uint32_t context, std::uint32_t base,
 }
 
 // ------------------------------------------------------------------ the greedy first pass (initial code lengths)
-// The shared-class view of the first pass: one class per pixel from max(|r|, |g|, |b|), contexts and literals as the
+// The shared-class view of the first pass: one class per pixel from max(|b|, |g|, |r|), contexts and literals as the
 // plane contexts with that class, a 256-slot colour cache hashed by colour.
 void greedy_counts(const Tile& tile, Counts& counts, Residuals& r, Chains& chains) {
     const std::uint32_t w = tile.width, h = tile.height, C = tile.channels, n = tile.pixels();
@@ -514,12 +514,12 @@ void greedy_counts(const Tile& tile, Counts& counts, Residuals& r, Chains& chain
         else {
             const std::uint32_t k = K[i];
             const std::int32_t g = r.plane[1][i];
-            std::int32_t red = r.plane[0][i], blue = r.plane[2][i];
-            if (static_cast<std::int32_t>(k) >= kGate) { red = wrap(red - g); blue = wrap(blue - g); }
+            std::int32_t blue = r.plane[0][i], red = r.plane[2][i];
+            if (static_cast<std::int32_t>(k) >= kGate) { blue = wrap(blue - g); red = wrap(red - g); }
             const std::uint32_t gb = green_bucket(g);
             counts.add(k, zig(g));
-            counts.add(kRed0 + 3 * k + gb, zig(red));
             counts.add(kBlue0 + 3 * k + gb, zig(blue));
+            counts.add(kRed0 + 3 * k + gb, zig(red));
             if (C == 4) { counts.add(kAlpha0 + (r.quiet[i] != 0 ? 0 : 1), zig(r.plane[3][i])); }
         }
         chains.insert(P, n, i);
@@ -528,7 +528,7 @@ void greedy_counts(const Tile& tile, Counts& counts, Residuals& r, Chains& chain
 }
 
 // ------------------------------------------------------------------ the plane view, plan and emission
-// Per-plane classes (green from |g|, red from max(|g|, |r|), blue from max(|g|, |b|)), contexts, literals, sequences
+// Per-plane classes (green from |g|, blue from max(|g|, |b|), red from max(|g|, |r|)), contexts, literals, sequences
 // for matching, and the green-keyed cache: per pixel, zigzag(green residual) when the last earlier pixel with its green
 // sample has its whole colour, else -1.
 struct View {
@@ -544,15 +544,15 @@ void view_of(const Tile& tile, Residuals& r, View& v) {
     const std::uint32_t w = tile.width, h = tile.height, C = tile.channels, n = tile.pixels();
     v.width = w; v.height = h; v.channels = C; v.pixels = n;
     residuals_of(tile, r);
-    std::vector<std::int32_t> eg(n), er(n), eb(n);
+    std::vector<std::int32_t> eg(n), eb(n), er(n);
     for (std::uint32_t i = 0; i < n; ++i) {
         const std::int32_t ag = std::abs(r.plane[1][i]);
         eg[i] = ag;
-        er[i] = std::max(ag, std::abs(r.plane[0][i]));
-        eb[i] = std::max(ag, std::abs(r.plane[2][i]));
+        eb[i] = std::max(ag, std::abs(r.plane[0][i]));
+        er[i] = std::max(ag, std::abs(r.plane[2][i]));
     }
-    std::vector<std::uint8_t> kg, kr, kb;
-    classes_of(eg, w, h, kg); classes_of(er, w, h, kr); classes_of(eb, w, h, kb);
+    std::vector<std::uint8_t> kg, kb, kr;
+    classes_of(eg, w, h, kg); classes_of(eb, w, h, kb); classes_of(er, w, h, kr);
     for (std::uint32_t c = 0; c < C; ++c) {
         v.context[c].resize(n); v.literal[c].resize(n); v.plane[c].resize(n);
         for (std::uint32_t i = 0; i < n; ++i) { v.plane[c][i] = static_cast<std::uint32_t>(r.plane[c][i] + 128); }
@@ -560,13 +560,13 @@ void view_of(const Tile& tile, Residuals& r, View& v) {
     v.packed.resize(n);
     for (std::uint32_t i = 0; i < n; ++i) {
         const std::int32_t g = r.plane[1][i];
-        std::int32_t red = r.plane[0][i], blue = r.plane[2][i];
-        if (kr[i] >= kGate) { red = wrap(red - g); }
+        std::int32_t blue = r.plane[0][i], red = r.plane[2][i];
         if (kb[i] >= kGate) { blue = wrap(blue - g); }
+        if (kr[i] >= kGate) { red = wrap(red - g); }
         const std::uint32_t gb = green_bucket(g);
         v.context[1][i] = kg[i]; v.literal[1][i] = static_cast<std::uint16_t>(zig(g));
-        v.context[0][i] = static_cast<std::uint8_t>(kRed0 + 3 * kr[i] + gb); v.literal[0][i] = static_cast<std::uint16_t>(zig(red));
-        v.context[2][i] = static_cast<std::uint8_t>(kBlue0 + 3 * kb[i] + gb); v.literal[2][i] = static_cast<std::uint16_t>(zig(blue));
+        v.context[0][i] = static_cast<std::uint8_t>(kBlue0 + 3 * kb[i] + gb); v.literal[0][i] = static_cast<std::uint16_t>(zig(blue));
+        v.context[2][i] = static_cast<std::uint8_t>(kRed0 + 3 * kr[i] + gb); v.literal[2][i] = static_cast<std::uint16_t>(zig(red));
         if (C == 4) { v.context[3][i] = static_cast<std::uint8_t>(kAlpha0 + (r.quiet[i] != 0 ? 0 : 1)); v.literal[3][i] = static_cast<std::uint16_t>(zig(r.plane[3][i])); }
         v.packed[i] = packed_key(r, C, i);
     }
@@ -634,7 +634,7 @@ void plan_of(const View& v, const CodeLengths& costs, PlanWorkspace& ws, Plan& p
     }
 }
 
-// The operations of every plane stream of a tile, in plane index order (red, green, blue, alpha).
+// The operations of every plane stream of a tile, in plane index order (blue, green, red, alpha).
 void emit_streams(const View& v, const Plan& plan, std::array<std::vector<Op>, kMaxChannels>& streams, std::vector<std::uint8_t>& covered) {
     const std::uint32_t n = v.pixels, w = v.width, C = v.channels;
     const std::array<std::uint32_t, kSpecials> special = specials_of(w);
@@ -760,7 +760,7 @@ void append_leb128(std::vector<std::uint8_t>& out, std::uint64_t value) {
     }
 }
 
-// A tile payload: the lengths of the first C - 1 plane streams as LEB128, then green, red, blue, alpha.
+// A tile payload: the lengths of the first C - 1 plane streams as LEB128, then green, blue, red, alpha.
 struct PackWorkspace {
     std::vector<Op> escaped;
     std::array<std::vector<std::uint8_t>, kMaxChannels> coded;

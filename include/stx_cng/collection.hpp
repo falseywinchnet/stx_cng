@@ -1,7 +1,7 @@
 // CNG collections: a set of 1 to 4,096 images stored in one of two explicitly chosen forms.
 //   packed     every member is a complete standalone CNG file in its own chunk, decoded on its own;
 //   composite  one complete CNG file holds a canvas with the members stacked vertically, decoded in full, then sliced.
-// Members keep their dimensions and channel counts; a composite canvas is RGB when every member is RGB, otherwise RGBA.
+// Members keep their dimensions and channel counts; a composite canvas is BGR when every member is BGR, otherwise BGRA.
 // Failures throw stx_cng::Error with Reason::collection (or the reason of the member image that failed).
 #pragma once
 #include "codec.hpp"

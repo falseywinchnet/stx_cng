@@ -250,7 +250,7 @@ constexpr std::uint32_t kMaxChannels = 4;
     }
 }
 
-// The streams of a tile payload: the lengths of the first C - 1 streams as LEB128, then green, red, blue, alpha.
+// The streams of a tile payload: the lengths of the first C - 1 streams as LEB128, then green, blue, red, alpha.
 [[nodiscard]] bool split_streams(std::span<const std::uint8_t> payload, std::uint32_t C, std::array<std::span<const std::uint8_t>, kMaxChannels>& streams) {
     const std::array<std::uint32_t, kMaxChannels> order = {1, 0, 2, 3};
     std::array<std::uint64_t, kMaxChannels> lengths = {0, 0, 0, 0};
@@ -269,7 +269,7 @@ constexpr std::uint32_t kMaxChannels = 4;
     return true;
 }
 
-// Activity classes. A pixel's three energies (green |g|, red max(|g|, |r|), blue max(|g|, |b|)), each at most 255, are
+// Activity classes. A pixel's three energies (green |g|, blue max(|g|, |b|), red max(|g|, |r|)), each at most 255, are
 // packed into one 64-bit word, sixteen bits each. Six of them sum to at most 1530, so the fields add without carries
 // and one word addition sums all three planes; a 2048-entry table maps a field's sum to its class.
 constexpr std::uint32_t kField = 16;
@@ -284,7 +284,7 @@ constexpr std::array<std::uint8_t, kClassTable> make_classes() {
 constexpr std::array<std::uint8_t, kClassTable> kClassOf = make_classes();
 
 
-// The green bucket of the red and blue contexts, indexed by green residual + 128: 0 for zero, 1 for |g| <= 2, else 2.
+// The green bucket of the blue and red contexts, indexed by green residual + 128: 0 for zero, 1 for |g| <= 2, else 2.
 constexpr std::array<std::uint8_t, 256> make_green_buckets() {
     std::array<std::uint8_t, 256> table{};
     for (std::int32_t g = -128; g < 128; ++g) { table[static_cast<std::size_t>(g + 128)] = static_cast<std::uint8_t>(g == 0 ? 0 : ((g >= -2 && g <= 2) ? 1 : 2)); }
@@ -297,13 +297,14 @@ constexpr std::array<std::uint8_t, 256> kGreenBucket = make_green_buckets();
     return static_cast<std::int8_t>(static_cast<std::uint8_t>(packed >> (8 * c)));
 }
 
-[[nodiscard]] std::uint64_t energy_word(std::int32_t g, std::int32_t r, std::int32_t b) {
+// The packed energies of a pixel from its green, blue (plane 0) and red (plane 2) residuals.
+[[nodiscard]] std::uint64_t energy_word(std::int32_t g, std::int32_t b, std::int32_t r) {
     const std::uint64_t gm = static_cast<std::uint64_t>(g >= 0 ? g : -g);
-    const std::uint64_t rm = static_cast<std::uint64_t>(r >= 0 ? r : -r);
     const std::uint64_t bm = static_cast<std::uint64_t>(b >= 0 ? b : -b);
-    const std::uint64_t er = rm > gm ? rm : gm;
+    const std::uint64_t rm = static_cast<std::uint64_t>(r >= 0 ? r : -r);
     const std::uint64_t eb = bm > gm ? bm : gm;
-    return gm | (er << kField) | (eb << (2 * kField));
+    const std::uint64_t er = rm > gm ? rm : gm;
+    return gm | (eb << kField) | (er << (2 * kField));
 }
 
 // The decoders of a tile's plane streams, one per plane; a missing alpha plane gets a decoder over an empty stream that
@@ -366,7 +367,7 @@ struct TileState {
         return false;
     }
 
-    // A red, blue or alpha symbol from that plane's stream: a literal or the start of a match of that plane alone.
+    // A blue, red or alpha symbol from that plane's stream: a literal or the start of a match of that plane alone.
     [[nodiscard]] bool plane_symbol(std::uint32_t c, std::uint32_t context, std::uint32_t i, std::int32_t k, std::int32_t g, std::int32_t& out) {
         TileDecoder& decoder = decoders[c];
         std::uint32_t v = decoder.symbol(context);
@@ -448,12 +449,12 @@ struct TileState {
         if (left[0] != 0) { res[0] = lane(residual[i - distance[0]], 0); --left[0]; }
         else {
             const std::int32_t k = kClassOf[(activity >> kField) & kFieldMask];
-            if (!plane_symbol(0, kRed0 + 3 * static_cast<std::uint32_t>(k) + bucket, i, k, g, res[0])) { return false; }
+            if (!plane_symbol(0, kBlue0 + 3 * static_cast<std::uint32_t>(k) + bucket, i, k, g, res[0])) { return false; }
         }
         if (left[2] != 0) { res[2] = lane(residual[i - distance[2]], 2); --left[2]; }
         else {
             const std::int32_t k = kClassOf[(activity >> (2 * kField)) & kFieldMask];
-            if (!plane_symbol(2, kBlue0 + 3 * static_cast<std::uint32_t>(k) + bucket, i, k, g, res[2])) { return false; }
+            if (!plane_symbol(2, kRed0 + 3 * static_cast<std::uint32_t>(k) + bucket, i, k, g, res[2])) { return false; }
         }
         if constexpr (Count == 4) {
             if (left[3] != 0) { res[3] = lane(residual[i - distance[3]], 3); --left[3]; }

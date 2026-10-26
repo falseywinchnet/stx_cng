@@ -15,7 +15,7 @@ There is no automatic choice between the forms and no shared dictionary.
 
 Members are stacked vertically in directory order at x = 0. The canvas width is the largest member width and its
 height the sum of the member heights; pixels to the right of a narrower member are 0. No member is resized. The
-canvas is RGB when every member is RGB, otherwise RGBA, and RGB members then take alpha 255. Extraction restores
+canvas is BGR when every member is BGR, otherwise BGRA, and BGR members then take alpha 255. Extraction restores
 each member's own channel count and every sample, including the colour beneath alpha 0.
 
 ## Bounds
